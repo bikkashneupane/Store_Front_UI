@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Disclosure,
   DisclosureButton,
@@ -16,7 +17,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { setUser } from "../../../redux/slice/UserSlice";
+import { setUser } from "../../redux/slice/UserSlice";
 
 const navigation = [
   { name: "Home", to: "/", current: true },
@@ -42,8 +43,8 @@ const Header = () => {
 
   return (
     <Disclosure as="nav" className="bg-purple-800 dark:bg-gray-800">
-      <div className="mx-auto max-w-[1440px] px-2 sm:px-6 lg:px-8 ">
-        <div className="relative flex items-center justify-between min-h-[100px]">
+      <div className="mx-auto max-w-[1440px] px-2 sm:px-6 lg:px-8">
+        <div className="relative flex items-center justify-between pt-4 min-h-[100px]">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* Mobile menu button*/}
             <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -59,20 +60,22 @@ const Header = () => {
               />
             </DisclosureButton>
           </div>
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div className="flex flex-1 items-center justify-center sm:justify-start">
             <Link
               to={"/"}
-              className="flex flex-shrink-0 items-center text-white font-semibold text-xl"
+              className="flex items-center text-white font-semibold text-xl"
             >
               {/* <img
-                alt="Your Company"
-                src="https://banner2.cleanpng.com/20180802/tlv/kisspng-logo-emblem-festina-brand-watch-festina-logo-svg-vector-amp-png-transparent-ve-5b63418829d864.0411573315332314961714.jpg"
-                className="h-8 w-auto"
+                alt="Vikiasmy"
+                src={watch_logo}
+                className="h-[100px] w-[100px]  text-red-500"
               /> */}
-              Company Logo
+              Vikiasmy
             </Link>
+
+            {/* Navigations */}
             <div className="hidden sm:block sm:flex-1 sm:justify-center">
-              <div className="flex space-x-4 justify-center">
+              <div className="flex   ps-2 lg:space-x-4 justify-center">
                 {navigation.map((item) => {
                   const isCurrent = location.pathname === item.to;
                   return (
@@ -95,6 +98,7 @@ const Header = () => {
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-1 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            {/* Notification */}
             <button
               type="button"
               className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -104,6 +108,7 @@ const Header = () => {
               <BellIcon aria-hidden="true" className="h-6 w-6" />
             </button>
 
+            {/* Cart */}
             <button
               type="button"
               className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -113,7 +118,7 @@ const Header = () => {
               <ShoppingCartIcon aria-hidden="true" className="h-6 w-6" />
 
               {itemCount > 0 && (
-                <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-600 border-2 border-white rounded-full">
+                <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-700 border-2 border-white rounded-full">
                   {itemCount}
                 </span>
               )}
