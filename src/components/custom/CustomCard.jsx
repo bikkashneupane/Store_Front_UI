@@ -1,27 +1,31 @@
 import React from "react";
-import cusImg from "../../assets/images/pocket-watch.avif";
+import { Link } from "react-router-dom";
+
+const testImg =
+  "https://cdn.shopify.com/s/files/1/0550/0272/6575/products/XB.3749-S90-1080x1080px-_2019_720x__19866.1614562524.1280.1280_600x.png?v=1617950149";
 
 export const CustomCard = () => {
   return (
-    <div className="hover:-translate-y-2 hover:duration-200   bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 max-h-min">
-      <a href="#">
-        <img className="rounded-t-lg " src={cusImg} alt="...img" />
-      </a>
+    <div className="bg-white border-gray-100 max-h-min">
+      <div className="bg-gray-200 overflow-hidden group">
+        <Link to="/product/1234" className="relative flex justify-center">
+          <div className="absolute bottom-0 w-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+            <button className="w-full py-4 bg-white text-gray-500 tracking-widest hover:bg-gray-800 hover:text-gray-200 transition duration-300">
+              ADD TO CART
+            </button>
+          </div>
+          <img className="object-cover" src={testImg} alt="Product" />
+        </Link>
+      </div>
       <div className="p-5">
-        <h4 className="mb-2 font-bold tracking-tight text-gray-900 dark:text-white">
+        <h1 className="tracking-widest text-gray-600">Brand Name</h1>
+        <h4 className="mb-2 font-semibold tracking-tight text-gray-700">
           Lorem ipsum dolor sit amet
         </h4>
-        <div className="flex gap-4">
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            5 Stars
-          </p>
-          <small className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            Author: Bikash Neupane
-          </small>
+        <div className="pt-1 text-md flex gap-3">
+          <span className="line-through text-gray-500">$200.00 AUD</span>
+          <span className="text-gray-800">$180.00 AUD</span>
         </div>
-        <button className="shadow-lg rounded-lg bg-purple-800 px-4 py-1 text-white">
-          Add to Cart
-        </button>
       </div>
     </div>
   );

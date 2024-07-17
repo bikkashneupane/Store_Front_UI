@@ -8,6 +8,10 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import ErrorElement from "./components/layout/ErrorElement";
+import ProductLanding from "./pages/ProductLanding";
+import Categories from "./pages/Categories";
+import Products from "./pages/Products";
+import Cart from "./pages/Cart";
 
 const appRouter = createBrowserRouter([
   {
@@ -18,6 +22,18 @@ const appRouter = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/categories",
+        element: <Categories />,
+      },
+      {
+        path: "/products",
+        element: <Products />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
       {
         path: "/about",
@@ -35,6 +51,10 @@ const appRouter = createBrowserRouter([
         path: "/signup",
         element: <Signup />,
       },
+      {
+        path: "/product/:_id",
+        element: <ProductLanding />,
+      },
     ],
   },
 ]);
@@ -43,9 +63,10 @@ function DefaultLayout() {
   return (
     <>
       <Header />
-      <main className="mx-auto min-h-[80vh]">
+      {/* change the pt to 150 when top nav is used */}
+      <div className="mx-auto min-h-[75vh] pt-[100px]">
         <Outlet />
-      </main>
+      </div>
       <Footer />
     </>
   );
