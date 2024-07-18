@@ -64,7 +64,7 @@ function DefaultLayout() {
     <>
       <Header />
       {/* change the pt to 150 when top nav is used */}
-      <div className="mx-auto min-h-[75vh] pt-[100px]">
+      <div className="mx-auto min-h-[75vh] pt-[100px] bg-gray-100">
         <Outlet />
       </div>
       <Footer />

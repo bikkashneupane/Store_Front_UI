@@ -6,7 +6,7 @@ const testImg =
 
 export const CustomCard = () => {
   return (
-    <div className="bg-white border-gray-100 max-h-min">
+    <div className="max-h-min">
       <div className="bg-gray-200 overflow-hidden group">
         <Link to="/product/1234" className="relative flex justify-center">
           <div className="absolute bottom-0 w-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">

@@ -44,7 +44,7 @@ const Signup = () => {
           </h2>
         </div>
 
-        <div className="mt-2  sm:mx-auto sm:w-full sm:max-w-sm p-4 md:min-w-[500px]">
+        <div className="mt-2 sm:mx-auto w-full p-4 md:max-w-md flex justify-center">
           <form className="space-y-3 w-full md:min-w-[500px]">
             {inputs.map((item, i) => (
               <CustomForm key={i} {...item} />
@@ -55,7 +55,7 @@ const Signup = () => {
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-purple-600 mt-3 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
               >
-                Sign up
+                Register Account
               </button>
             </div>
           </form>

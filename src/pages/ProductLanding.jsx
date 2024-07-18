@@ -7,7 +7,7 @@ const ProductLanding = () => {
 
   return (
     <div className="">
-      <div className="max-w-[1440px] mx-auto">
+      <div className="max-w-[1200px] mx-auto">
         <div className="py-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2">
             <div className="px-4 md:px-20 flex justify-center">

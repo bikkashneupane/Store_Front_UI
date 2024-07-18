@@ -8,7 +8,7 @@ export const HomeCard = () => {
   return (
     <div
       className="relative bg-gray-800 overflow-hidden group "
-      style={{ height: "550px" }}
+      // style={{ height: "550px" }}
     >
       <Link
         to="/product/1234"

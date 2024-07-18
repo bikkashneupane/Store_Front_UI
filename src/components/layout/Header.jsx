@@ -115,18 +115,8 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Notifications/ Cart/ Profile */}
+            {/* Wish List/ Cart/ Profile */}
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-1 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              {/* Wish List */}
-              <button
-                type="button"
-                className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white "
-              >
-                <span className="absolute -inset-1.5" />
-                <span className="sr-only">Wish List</span>
-                <HeartIcon aria-hidden="true" className="h-6 w-6" />
-              </button>
-
               {/* Cart */}
               <Link
                 to={"/cart"}
