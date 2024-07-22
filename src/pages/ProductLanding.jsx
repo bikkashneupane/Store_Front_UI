@@ -7,14 +7,13 @@ const ProductLanding = () => {
 
   return (
     <div className="">
-      <div className="max-w-[1200px] mx-auto">
+      <div className="mx-auto max-w-[1280px]">
         <div className="py-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            <div className="px-4 md:px-20 flex justify-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 px-4 lg:px-20">
+            <div className="flex justify-center">
               <img
                 src="https://watchdirect.com.au/cdn/shop/files/WAT_241996_S1-tif_433x650.jpg?v=1713864579"
                 alt=""
-                className=""
                 id="image"
               />
             </div>

@@ -24,84 +24,86 @@ const Home = () => {
     <div>
       <CustomCarousel images={images} />
 
-      <div className="mx-auto max-w-[1420px] sm:px-6 lg:px-8 py-6">
-        {/* Category */}
-        <div className="flex justify-center">
-          <div className="flex flex-wrap gap-8">
-            <div className="flex-grow w-full md:w-1/2 lg:w-1/4">
-              <HomeCard />
-            </div>
-            <div className="flex-grow w-full md:w-1/2 lg:w-1/4">
-              <HomeCard />
-            </div>
-            <div className="flex-grow w-full md:w-1/2 lg:w-1/4">
-              <HomeCard />
-            </div>
-            <div className="flex-grow w-full md:w-1/2 lg:w-1/4">
-              <HomeCard />
-            </div>
-          </div>
-        </div>
-
-        {/* POPULAR */}
-        <div className="my-6">
-          <h2 className="px-4 pt-4 text-2xl font-semibold text-center tracking-widest">
-            MOST POPULAR
-          </h2>
-          <div className="relative flex items-center">
-            <div className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full">
-              {cards.map((card, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4"
-                >
-                  {card}
-                </div>
-              ))}
+      <div className="mx-auto max-w-[1280px] px-2 sm:px-6 lg:px-8">
+        <div className="py-8">
+          {/* Category */}
+          <div className="flex justify-center">
+            <div className="flex flex-wrap gap-8">
+              <div className="flex-grow w-full md:w-1/2 lg:w-1/4 px-4">
+                <HomeCard />
+              </div>
+              <div className="flex-grow w-full md:w-1/2 lg:w-1/4 px-4">
+                <HomeCard />
+              </div>
+              <div className="flex-grow w-full md:w-1/2 lg:w-1/4 px-4">
+                <HomeCard />
+              </div>
+              <div className="flex-grow w-full md:w-1/2 lg:w-1/4 px-4">
+                <HomeCard />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Female */}
-        <div className="my-6">
-          <h2 className="px-4 pt-4 text-2xl tracking-widest text-center">
-            NEW ARRIVALS AND FAVOURITES
-          </h2>
-          <h2 className="px-4 pt-4 text-2xl font-semibold text-center tracking-widest">
-            FEMALE
-          </h2>
-          <div className="relative flex items-center">
-            <div className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full">
-              {cards.map((card, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4"
-                >
-                  {card}
-                </div>
-              ))}
+          {/* POPULAR */}
+          <div className="my-6">
+            <h2 className="px-4 pt-4 text-2xl font-semibold text-center tracking-widest">
+              MOST POPULAR
+            </h2>
+            <div className="relative flex items-center">
+              <div className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full">
+                {cards.map((card, index) => (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4"
+                  >
+                    {card}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Mens */}
-        <div className="my-6">
-          <h2 className="px-4 pt-4 text-2xl tracking-widest text-center">
-            NEW ARRIVALS AND FAVOURITES
-          </h2>
-          <h2 className="px-4 pt-4 text-2xl font-semibold text-center tracking-widest">
-            MEN
-          </h2>
-          <div className="relative flex items-center">
-            <div className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full">
-              {cards.map((card, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4"
-                >
-                  {card}
-                </div>
-              ))}
+          {/* Female */}
+          <div className="my-6">
+            <h2 className="px-4 pt-4 text-2xl tracking-widest text-center">
+              NEW ARRIVALS AND FAVOURITES
+            </h2>
+            <h2 className="px-4 pt-4 text-2xl font-semibold text-center tracking-widest">
+              FEMALE
+            </h2>
+            <div className="relative flex items-center">
+              <div className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full">
+                {cards.map((card, index) => (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4"
+                  >
+                    {card}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Mens */}
+          <div className="my-6">
+            <h2 className="px-4 pt-4 text-2xl tracking-widest text-center">
+              NEW ARRIVALS AND FAVOURITES
+            </h2>
+            <h2 className="px-4 pt-4 text-2xl font-semibold text-center tracking-widest">
+              MEN
+            </h2>
+            <div className="relative flex items-center">
+              <div className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full">
+                {cards.map((card, index) => (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4"
+                  >
+                    {card}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

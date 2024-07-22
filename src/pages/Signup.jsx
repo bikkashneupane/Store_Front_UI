@@ -1,5 +1,6 @@
-import React from "react";
 import { CustomForm } from "../components/custom/CustomForm";
+import { Link } from "react-router-dom";
+import bg_url from "../assets/images/login-signup-wallpaper.jpg";
 
 const Signup = () => {
   const inputs = [
@@ -34,13 +35,16 @@ const Signup = () => {
       required: true,
     },
   ];
+
   return (
-    <>
-      <div className="flex min-h-full flex-col justify-center px-6 lg:px-8 mt-10">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="relative" style={{ backgroundImage: `url(${bg_url})` }}>
+      <div className="absolute bg-black bg-opacity-40 w-full h-full"></div>
+
+      <div className="relative flex min-h-screen flex-col px-6 lg:px-8 items-center">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-20 md:mt-32">
           {/* <img className="mx-auto w-44" src="../src/assets/vikiasmy.png" /> */}
-          <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-600">
-            Register your account
+          <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
+            Register
           </h2>
         </div>
 
@@ -50,18 +54,24 @@ const Signup = () => {
               <CustomForm key={i} {...item} />
             ))}
 
-            <div>
+            <div className="">
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-purple-600 mt-3 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
               >
-                Register Account
+                Register
               </button>
+            </div>
+            <div className="flex justify-end gap-2">
+              <span className="text-white">Already have an account?</span>
+              <Link to={"/login"} className="font-bold text-purple-500">
+                Login Now
+              </Link>
             </div>
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

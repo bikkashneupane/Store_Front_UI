@@ -10,9 +10,9 @@ const CustomCarousel = ({ images = [] }) => {
     setCurrent((prev) => (prev === length - 1 ? 0 : prev + 1));
   };
 
-  const prevSlide = () => {
-    setCurrent((prev) => (prev === 0 ? length - 1 : prev - 1));
-  };
+  // const prevSlide = () => {
+  //   setCurrent((prev) => (prev === 0 ? length - 1 : prev - 1));
+  // };
 
   const startAutoSlide = () => {
     timeoutRef.current = setTimeout(nextSlide, 4000);

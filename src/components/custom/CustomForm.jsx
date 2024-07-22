@@ -6,7 +6,7 @@ export const CustomForm = ({ label, inputRef, as, ...rest }) => {
   return (
     <div>
       {label && (
-        <label className="block text-sm font-medium leading-6 text-gray-500">
+        <label className="block text-sm font-medium leading-6 text-gray-400">
           {label}
         </label>
       )}
