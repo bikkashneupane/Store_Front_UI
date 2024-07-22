@@ -30,7 +30,7 @@ const CustomCarousel = ({ images = [] }) => {
   return (
     <div className="relative w-full overflow-hidden">
       <div
-        className="relative flex w-full h-80 md:h-[500px] transition-transform duration-300 ease-in-out"
+        className="relative flex w-full h-[60vh] transition-transform duration-300 ease-in-out"
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {images.map((image, index) => (
@@ -57,26 +57,12 @@ const CustomCarousel = ({ images = [] }) => {
           </div>
         ))}
       </div>
-      {/* 
-      <button
-        onClick={prevSlide}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/30 dark:bg-gray-800/30 text-white rounded-full p-2"
-      >
-        &#10094;
-      </button>
-
-      <button
-        onClick={nextSlide}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/30 dark:bg-gray-800/30 text-white rounded-full p-2"
-      >
-        &#10095;
-      </button> */}
 
       <div className="absolute bottom-4 right-1/2 transform translate-x-1/2 flex space-x-2">
         {images.map((_, index) => (
           <button
             key={index}
-            className={`w-3 h-3 rounded-full ${
+            className={`w-2 h-2 rounded-full ${
               index === current ? "bg-white" : "bg-gray-400"
             }`}
             onClick={() => setCurrent(index)}

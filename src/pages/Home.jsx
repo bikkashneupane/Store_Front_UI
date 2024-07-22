@@ -2,11 +2,21 @@ import CustomCarousel from "../components/custom/CustomCarousel";
 import pocket_watch from "../assets/images/pocket-watch.avif";
 import analog_watch from "../assets/images/analog-watch.jpg";
 import wrist_watch from "../assets/images/wrist-watch.avif";
+import carousel_1 from "../assets/images/carousel_1.webp";
+import carousel_2 from "../assets/images/carousel_2.jpg";
+import carousel_3 from "../assets/images/carousel_3.jpg";
 import { CustomCard } from "../components/custom/CustomCard";
 import { HomeCard } from "../components/custom/HomeCard";
 
 const Home = () => {
-  const images = [pocket_watch, analog_watch, wrist_watch];
+  const images = [
+    wrist_watch,
+    carousel_1,
+    analog_watch,
+    carousel_2,
+    pocket_watch,
+    carousel_3,
+  ];
 
   const cards = Array(10).fill(<CustomCard />); // Array of CustomCard components
 
@@ -14,9 +24,9 @@ const Home = () => {
     <div>
       <CustomCarousel images={images} />
 
-      <div className="mx-auto max-w-[1200px] px-2 sm:px-6 lg:px-8 py-6">
+      <div className="mx-auto max-w-[1420px] sm:px-6 lg:px-8 py-6">
         {/* Category */}
-        <div className="flex justify-center px-4">
+        <div className="flex justify-center">
           <div className="flex flex-wrap gap-8">
             <div className="flex-grow w-full md:w-1/2 lg:w-1/4">
               <HomeCard />

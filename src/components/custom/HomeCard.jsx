@@ -7,7 +7,7 @@ const testImg =
 export const HomeCard = () => {
   return (
     <div
-      className="relative bg-gray-800 overflow-hidden group "
+      className="relative bg-gray-800 overflow-hidden group shadow-2xl"
       // style={{ height: "550px" }}
     >
       <Link

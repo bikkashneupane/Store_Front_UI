@@ -48,7 +48,7 @@ const Header = () => {
   ];
 
   return (
-    <div className="fixed top-0 w-full z-50">
+    <div className="fixed top-0 w-full z-50 shadow-lg">
       {/* <div className="bg-gray-300 sm:block hidden">
         <div className="mx-auto max-w-[1440px] px-2 sm:px-6 lg:px-8 flex justify-between items-center min-h-[50px]">
           <span>Quality Guaranteed</span>
@@ -62,7 +62,7 @@ const Header = () => {
 
       <Disclosure as="nav" className="bg-gray-800">
         <div className="mx-auto max-w-[1440px] px-2 sm:px-6 lg:px-8">
-          <div className="relative flex items-center justify-between min-h-[100px]">
+          <div className="relative flex items-center justify-between h-[80px]">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
               <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                 <span className="absolute -inset-0.5" />
@@ -170,7 +170,7 @@ const Header = () => {
                     </MenuItem>
                     <MenuItem>
                       <div
-                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 cursor-pointer"
                         onClick={handleOnLogout}
                       >
                         Logout
