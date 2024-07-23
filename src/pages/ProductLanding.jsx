@@ -7,7 +7,7 @@ const ProductLanding = () => {
 
   return (
     <div className="">
-      <div className="mx-auto max-w-[1280px]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="py-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 px-4 lg:px-20">
             <div className="flex justify-center">
@@ -15,6 +15,7 @@ const ProductLanding = () => {
                 src="https://watchdirect.com.au/cdn/shop/files/WAT_241996_S1-tif_433x650.jpg?v=1713864579"
                 alt=""
                 id="image"
+                className=""
               />
             </div>
 
@@ -59,7 +60,7 @@ const ProductLanding = () => {
       </div>
 
       <div className=" bg-gray-800 text-white mb-10 ">
-        <div className="max-w-[1440px] mx-auto min-h-[70px] flex justify-center items-center gap-20">
+        <div className="max-w-[1280px] mx-auto min-h-[70px] flex justify-center items-center gap-20">
           <a href="#image">
             <span>OVERVIEW</span>
           </a>
@@ -67,7 +68,7 @@ const ProductLanding = () => {
           <span>REVIEW</span>
         </div>
       </div>
-      <div className="min-h-[900px]"></div>
+      <div className="min-h-[800px]"></div>
     </div>
   );
 };

@@ -24,7 +24,7 @@ const Home = () => {
     <div>
       <CustomCarousel images={images} />
 
-      <div className="mx-auto max-w-[1280px] px-2 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="py-8">
           {/* Category */}
           <div className="flex justify-center">

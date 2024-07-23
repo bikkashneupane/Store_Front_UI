@@ -12,6 +12,7 @@ import ProductLanding from "./pages/ProductLanding";
 import Categories from "./pages/Categories";
 import Products from "./pages/Products";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 const appRouter = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
       },
       {
         path: "/about",
@@ -61,13 +66,14 @@ const appRouter = createBrowserRouter([
 
 function DefaultLayout() {
   return (
-    <>
+    <div className="bg-gray-50">
       <Header />
-      <div className=" min-h-[75vh] pt-[80px]">
+      {/* pt-[80px] */}
+      <div className="min-h-[75vh] ">
         <Outlet />
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

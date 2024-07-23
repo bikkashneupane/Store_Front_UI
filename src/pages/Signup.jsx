@@ -44,7 +44,7 @@ const Signup = () => {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-20 md:mt-32">
           {/* <img className="mx-auto w-44" src="../src/assets/vikiasmy.png" /> */}
           <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
-            Register
+            Join the Community!
           </h2>
         </div>
 
