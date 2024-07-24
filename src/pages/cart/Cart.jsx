@@ -32,6 +32,8 @@ const Cart = () => {
   return (
     <div className="mt-10">
       <div className="mx-auto max-w-7xl py-10 px-4 sm:px-6 lg:px-8 bg-white">
+        <h1 className="mb-2 text-2xl font-bold text-center">Cart</h1>
+        <hr />
         <div className="flow-root">
           <ul role="list" className="-my-6 divide-y divide-gray-200">
             {products.map((product) => (
@@ -68,7 +70,7 @@ const Cart = () => {
                     <div className="flex">
                       <button
                         type="button"
-                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                        className="font-medium text-teal-600 hover:text-teal-500"
                       >
                         Remove
                       </button>
@@ -100,8 +102,8 @@ const Cart = () => {
             <p>
               or{" "}
               <Link
-                to={"/"}
-                className="font-medium text-indigo-600 hover:text-indigo-500"
+                to={"/products"}
+                className="font-medium text-teal-600 hover:text-teal-500"
               >
                 Continue Shopping
               </Link>

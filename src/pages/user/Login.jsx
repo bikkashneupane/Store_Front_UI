@@ -1,6 +1,6 @@
-import { CustomForm } from "../components/custom/CustomForm";
+import { CustomForm } from "./../../components/custom/CustomForm";
 import { Link } from "react-router-dom";
-import bg_url from "../assets/images/login-signup-wallpaper.jpg";
+import bg_url from "./../../assets/images/login-signup-wallpaper.jpg";
 
 const Login = () => {
   const inputs = [

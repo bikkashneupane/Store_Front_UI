@@ -2,17 +2,18 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+import Signup from "./pages/user/Signup";
+import Login from "./pages/user/Login";
+import Home from "./pages/home/Home";
+import About from "./pages/about/About";
+import Contact from "./pages/contact/Contact";
 import ErrorElement from "./components/layout/ErrorElement";
-import ProductLanding from "./pages/ProductLanding";
-import Categories from "./pages/Categories";
-import Products from "./pages/Products";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
+import ProductLanding from "./pages/product/ProductLanding";
+import Products from "./pages/product/Products";
+import Cart from "./pages/cart/Cart";
+import Checkout from "./pages/cart/Checkout";
+import Payment from "./pages/payment/Payment";
+import Profile from "./pages/user/Profile";
 
 const appRouter = createBrowserRouter([
   {
@@ -25,10 +26,6 @@ const appRouter = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/categories",
-        element: <Categories />,
-      },
-      {
         path: "/products",
         element: <Products />,
       },
@@ -39,6 +36,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/checkout",
         element: <Checkout />,
+      },
+      {
+        path: "/payment",
+        element: <Payment />,
       },
       {
         path: "/about",
@@ -60,13 +61,17 @@ const appRouter = createBrowserRouter([
         path: "/product/:_id",
         element: <ProductLanding />,
       },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
     ],
   },
 ]);
 
 function DefaultLayout() {
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-100">
       <Header />
       {/* pt-[80px] */}
       <div className="min-h-[75vh] ">
