@@ -5,12 +5,13 @@ import {
   FunnelIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
-import Pagination from "./components/Pagination";
-import ProductList from "./components/ProductList";
-import DesktopFilter from "./components/DesktopFilter";
-import MobileFilter from "./components/MobileFilter";
+
 import { filters, sortOptions } from "../../assets/constants/constants";
 import { useSelector } from "react-redux";
+import MobileFilter from "../../components/product/MobileFilter";
+import DesktopFilter from "../../components/product/DesktopFilter";
+import ProductList from "../../components/product/ProductList";
+import Pagination from "../../components/product/Pagination";
 
 const classNames = (...classes) => {
   return classes.filter(Boolean).join(" ");
@@ -18,7 +19,9 @@ const classNames = (...classes) => {
 
 const Products = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const { products, filteredProducts } = useSelector((state) => state.products);
+  const { products, filteredProducts = [] } = useSelector(
+    (state) => state.products
+  );
 
   return (
     <div className="">

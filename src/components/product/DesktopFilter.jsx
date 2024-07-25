@@ -5,11 +5,36 @@ import {
 } from "@headlessui/react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilteredProducts } from "../../../redux/slice/ProductSlice";
+import { setFilteredProducts } from "../../redux/slice/ProductSlice";
+import { useState } from "react";
 
 const DesktopFilter = ({ filters }) => {
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.products);
+  const { products, filteredProducts = [] } = useSelector(
+    (state) => state.products
+  );
+
+  const handleOnFilterChange = (e) => {
+    const { name, value, checked } = e.target;
+    console.log(name, value, checked);
+
+    if (checked) {
+      const check = filteredProducts?.some((item) => item[name] === value);
+      if (!check) {
+        const updatedFilterProducts = [
+          ...filteredProducts,
+          ...products.filter((item) => item[name] === value),
+        ];
+
+        dispatch(setFilteredProducts(updatedFilterProducts));
+      }
+    } else {
+      const updatedFilterProducts = filteredProducts?.filter(
+        (item) => item[name] !== value
+      );
+      dispatch(setFilteredProducts(updatedFilterProducts));
+    }
+  };
 
   return (
     <form className="hidden lg:block">
@@ -43,18 +68,10 @@ const DesktopFilter = ({ filters }) => {
                     defaultValue={option.value}
                     defaultChecked={option.checked}
                     id={`filter-${section.id}-${index}`}
-                    name={`${section.id}[]`}
+                    name={`${section.id}`}
                     type="checkbox"
                     className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
-                    onClick={() => {
-                      return dispatch(
-                        setFilteredProducts(
-                          products.filter((item) =>
-                            item?.hasOwnProperty(option.value)
-                          )
-                        )
-                      );
-                    }}
+                    onChange={handleOnFilterChange}
                   />
                   <label
                     htmlFor={`filter-${section.id}-${index}`}

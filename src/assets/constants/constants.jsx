@@ -18,11 +18,11 @@ export const shipping_truck = (
 );
 
 export const sortOptions = [
-  { name: "Most Popular", href: `/product/1234`, current: true },
-  { name: "Best Rating", href: `/product/1234`, current: false },
-  { name: "Newest", href: `/product/1234`, current: false },
-  { name: "Price: Low to High", href: `/product/1234`, current: false },
-  { name: "Price: High to Low", href: `/product/1234`, current: false },
+  { name: "Most Popular", href: `/#`, current: false },
+  { name: "Best Rating", href: `/#`, current: false },
+  { name: "Newest", href: `/#`, current: false },
+  { name: "Price: Low to High", href: `/#`, current: false },
+  { name: "Price: High to Low", href: `/#`, current: false },
 ];
 
 export const filters = [
@@ -30,11 +30,17 @@ export const filters = [
     id: "category",
     name: "Category",
     options: [
-      { value: "newArrivals", label: "New Arrivals", checked: false },
-      { value: "salesPrice", label: "Sale", checked: false },
-      { value: "premium", label: "Premium", checked: true },
-      { value: "smartWatch", label: "Smart Watch", checked: false },
+      { value: "watches", label: "Watches", checked: false },
       { value: "accessories", label: "Accessories", checked: false },
+    ],
+  },
+  {
+    id: "gender",
+    name: "Gender",
+    options: [
+      { value: "men", label: "Men", checked: false },
+      { value: "women", label: "Women", checked: false },
+      { value: "unisex", label: "Unisex", checked: false },
     ],
   },
   {
