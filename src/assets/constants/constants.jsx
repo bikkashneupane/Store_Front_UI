@@ -16,3 +16,35 @@ export const shipping_truck = (
     ></path>
   </svg>
 );
+
+export const sortOptions = [
+  { name: "Most Popular", href: `/product/1234`, current: true },
+  { name: "Best Rating", href: `/product/1234`, current: false },
+  { name: "Newest", href: `/product/1234`, current: false },
+  { name: "Price: Low to High", href: `/product/1234`, current: false },
+  { name: "Price: High to Low", href: `/product/1234`, current: false },
+];
+
+export const filters = [
+  {
+    id: "category",
+    name: "Category",
+    options: [
+      { value: "newArrivals", label: "New Arrivals", checked: false },
+      { value: "salesPrice", label: "Sale", checked: false },
+      { value: "premium", label: "Premium", checked: true },
+      { value: "smartWatch", label: "Smart Watch", checked: false },
+      { value: "accessories", label: "Accessories", checked: false },
+    ],
+  },
+  {
+    id: "brand",
+    name: "Brand",
+    options: [
+      { value: "seiko", label: "Seiko", checked: false },
+      { value: "apple", label: "Apple", checked: false },
+      { value: "swiss", label: "Swiss", checked: false },
+      { value: "casio", label: "Casio", checked: false },
+    ],
+  },
+];
