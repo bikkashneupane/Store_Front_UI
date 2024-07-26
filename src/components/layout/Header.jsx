@@ -15,8 +15,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { setUser } from "../../redux/slice/UserSlice";
 import watch_logo from "../../assets/images/watch_logo.png";
+import { setUser } from "../../features/user/UserSlice";
 
 const customClassNames = (...classes) => {
   return classes.filter(Boolean).join(" ");

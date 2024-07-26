@@ -1,12 +1,37 @@
 import { CustomForm } from "./../../components/custom/CustomForm";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import bg_url from "./../../assets/images/login-signup-wallpaper.jpg";
+import { useForm } from "../../hooks/useForm";
+import { toast } from "react-toastify";
+import { signupUserAction } from "../../features/user/userAction";
 
 const Signup = () => {
+  const { form, handleOnChange } = useForm([]);
+  const navigate = useNavigate();
+
+  const handleOnSignup = async (e) => {
+    e.preventDefault();
+    const { confirmPassword, ...rest } = form;
+    if (confirmPassword !== rest.password) {
+      return toast.error("Password Must Match");
+    }
+
+    const status = signupUserAction(rest);
+    if (status === "success") {
+      navigate("/");
+    }
+  };
+
   const inputs = [
     {
-      label: "Full Name",
-      name: "fullName",
+      label: "First Name",
+      name: "firstName",
+      type: "text",
+      required: true,
+    },
+    {
+      label: "Last Name",
+      name: "lastName",
       type: "text",
       required: true,
     },
@@ -49,9 +74,12 @@ const Signup = () => {
         </div>
 
         <div className="mt-2 sm:mx-auto w-full p-4 md:max-w-md flex justify-center">
-          <form className="space-y-3 w-full md:min-w-[500px]">
+          <form
+            className="space-y-3 w-full md:min-w-[500px]"
+            onSubmit={handleOnSignup}
+          >
             {inputs.map((item, i) => (
-              <CustomForm key={i} {...item} />
+              <CustomForm key={i} {...item} onChange={handleOnChange} />
             ))}
 
             <div className="">

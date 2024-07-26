@@ -8,11 +8,16 @@ const initialState = {
       href: `/product/1234`,
       imageSrc:
         "https://watchdirect.com.au/cdn/shop/products/3502-XS-S90_1500x__30256.1591331942.1280.1280_550x.png?v=1617938256",
-      price: "$400",
-      salesPrice: "$200",
+      price: 400,
       category: "watches",
       brand: "seiko",
       gender: "unisex",
+      sales: {
+        isSale: true,
+        salesPrice: 200,
+        salesStart: "2020/04/20",
+        salesEnd: "2024/05/30",
+      },
     },
     {
       id: 5,
@@ -25,6 +30,12 @@ const initialState = {
       brand: "apple",
       category: "watches",
       gender: "men",
+      sales: {
+        isSale: false,
+        salesPrice: null,
+        salesStart: null,
+        salesEnd: null,
+      },
     },
     {
       id: 7,
@@ -37,6 +48,12 @@ const initialState = {
       brand: "casio",
       category: "accessories",
       gender: "women",
+      sales: {
+        isSale: false,
+        salesPrice: null,
+        salesStart: null,
+        salesEnd: null,
+      },
     },
   ],
   filteredProducts: [],

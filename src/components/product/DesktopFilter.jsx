@@ -5,8 +5,7 @@ import {
 } from "@headlessui/react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilteredProducts } from "../../redux/slice/ProductSlice";
-import { useState } from "react";
+import { setFilteredProducts } from "../../features/product/ProductSlice";
 
 const DesktopFilter = ({ filters }) => {
   const dispatch = useDispatch();

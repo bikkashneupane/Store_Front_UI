@@ -1,5 +1,8 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import Signup from "./pages/user/Signup";
@@ -86,6 +89,7 @@ function App() {
   return (
     <>
       <RouterProvider router={appRouter} />
+      <ToastContainer />
     </>
   );
 }
