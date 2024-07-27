@@ -1,0 +1,13 @@
+/* styles.css or another CSS file */
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite; /* Adjust the duration to make it slower */
+}

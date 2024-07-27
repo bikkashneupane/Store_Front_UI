@@ -1,7 +1,38 @@
-import { signupUserAxios } from "./userAxios";
+import {
+  fetchUserAxios,
+  loginUserAxios,
+  signupUserAxios,
+  verifyAccountAxios,
+} from "./userAxios";
+import { setUser } from "./UserSlice";
+
+// fetch user
+export const fetchUserAction = (navigate) => async (dispatch) => {
+  const { status, user } = await fetchUserAxios();
+  if (status === "success") {
+    dispatch(setUser(user));
+    navigate("/");
+  }
+};
 
 // signup user
 export const signupUserAction = async (obj) => {
-  const { status, message } = await signupUserAxios(obj);
+  const { status } = await signupUserAxios(obj);
   return status;
+};
+
+// verify account
+export const verifyAccountAction = (obj) => {
+  return verifyAccountAxios(obj);
+};
+
+// verify account
+export const loginUserAction = (obj, navigate) => async (dispatch) => {
+  const { status, tokens } = await loginUserAxios(obj);
+
+  if (status === "success") {
+    localStorage.setItem("refreshJWT", tokens.refreshJWT);
+    sessionStorage.setItem("accessJWT", tokens.accessJWT);
+    dispatch(fetchUserAction(navigate));
+  }
 };

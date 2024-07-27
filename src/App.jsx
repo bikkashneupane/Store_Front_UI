@@ -1,6 +1,7 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
+import "swiper/swiper-bundle.css";
 import { ToastContainer } from "react-toastify";
 
 import Footer from "./components/layout/Footer";
@@ -17,6 +18,10 @@ import Cart from "./pages/cart/Cart";
 import Checkout from "./pages/cart/Checkout";
 import Payment from "./pages/payment/Payment";
 import Profile from "./pages/user/Profile";
+import VerifyAccount from "./pages/user/VerifyAccount";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchProductsAction } from "./features/product/productAction";
 
 const appRouter = createBrowserRouter([
   {
@@ -31,6 +36,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/products",
         element: <Products />,
+      },
+      {
+        path: "/product/:_id",
+        element: <ProductLanding />,
       },
       {
         path: "/cart",
@@ -61,12 +70,12 @@ const appRouter = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: "/product/:_id",
-        element: <ProductLanding />,
-      },
-      {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/verify-account",
+        element: <VerifyAccount />,
       },
     ],
   },
@@ -74,18 +83,23 @@ const appRouter = createBrowserRouter([
 
 function DefaultLayout() {
   return (
-    <div className="bg-gray-100">
+    <>
       <Header />
       {/* pt-[80px] */}
       <div className="min-h-[75vh] ">
         <Outlet />
       </div>
       <Footer />
-    </div>
+    </>
   );
 }
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProductsAction());
+  }, [dispatch]);
   return (
     <>
       <RouterProvider router={appRouter} />

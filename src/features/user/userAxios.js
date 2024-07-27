@@ -8,15 +8,17 @@ export const signupUserAxios = (obj) => {
     url: USERS_EP + "/signup",
     method: "POST",
     data: obj,
+    isToast: true,
   });
 };
 
-// fetch user profile post
-export const verifyEmailAxios = (obj) => {
+// verify account axios
+export const verifyAccountAxios = (obj) => {
   return axiosProcessor({
-    url: USERS_EP + "/verify-email",
+    url: USERS_EP + "/verify-account",
     method: "POST",
     data: obj,
+    isToast: true,
   });
 };
 
@@ -26,11 +28,12 @@ export const loginUserAxios = (obj) => {
     url: USERS_EP + "/login",
     method: "POST",
     data: obj,
+    isToast: true,
   });
 };
 
 // fetch user profile get
-export const fetchUserProfileAxios = () => {
+export const fetchUserAxios = () => {
   return axiosProcessor({
     url: USERS_EP + "/profile",
     method: "GET",

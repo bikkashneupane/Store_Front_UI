@@ -1,20 +1,44 @@
 import { CustomForm } from "./../../components/custom/CustomForm";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import bg_url from "./../../assets/images/login-signup-wallpaper.jpg";
+import { useRef } from "react";
+import { loginUserAction } from "../../features/user/userAction";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleOnLogin = async (e) => {
+    e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    if (!email || !password) {
+      return toast.error("Email and Password must be provided.");
+    }
+    dispatch(loginUserAction({ email, password }, navigate));
+  };
+
   const inputs = [
     {
       label: "Email",
       name: "email",
       type: "email",
       required: true,
+      inputRef: emailRef,
     },
     {
       label: "Password",
       name: "password",
       type: "password",
       required: true,
+      inputRef: passwordRef,
     },
   ];
 
@@ -31,7 +55,10 @@ const Login = () => {
         </div>
 
         <div className="mt-2 sm:mx-auto w-full p-4 md:max-w-md flex justify-center">
-          <form className="space-y-3 w-full md:min-w-[500px]">
+          <form
+            className="space-y-3 w-full md:min-w-[500px]"
+            onSubmit={handleOnLogin}
+          >
             {inputs.map((item, i) => (
               <CustomForm key={i} {...item} />
             ))}

@@ -29,6 +29,8 @@ const Header = () => {
 
   const handleOnLogout = () => {
     dispatch(setUser({}));
+    localStorage.removeItem("refreshJWT");
+    sessionStorage.removeItem("accessJWT");
   };
 
   const itemCount = 3; // Example item count
@@ -102,7 +104,7 @@ const Header = () => {
               <Link
                 to={"/cart"}
                 type="button"
-                className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white "
+                className="relative rounded-full bg-gray-800 p-1 text-gray-200 hover:text-white "
               >
                 <span className="absolute -inset-1.5" />
                 <span className="sr-only">View Cart</span>
@@ -122,11 +124,18 @@ const Header = () => {
                     <MenuButton className="relative flex rounded-full bg-gray-800 text-sm ">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
-                      <img
-                        alt=""
-                        src="https://media.licdn.com/dms/image/D5603AQHqt_A9Xl1K9A/profile-displayphoto-shrink_800_800/0/1719015240386?e=1726099200&v=beta&t=o26enXIeOf2keAOUIPOAfdb80iJqK2HfLJZnqWr11jA"
-                        className="h-8 w-8 rounded-full"
-                      />
+                      {user?.profileImage ? (
+                        <img
+                          alt=""
+                          src={user?.profileImage}
+                          className="h-8 w-8 rounded-full"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full border text-gray-200 flex justify-center items-center font-semibold">
+                          {user?.firstName?.charAt(0)?.toUpperCase()}
+                          {user?.lastName?.charAt(0)?.toUpperCase()}
+                        </div>
+                      )}
                     </MenuButton>
                   </div>
                   <MenuItems
@@ -138,7 +147,7 @@ const Header = () => {
                         to={"/profile"}
                         className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
                       >
-                        Your Profile
+                        Profile
                       </Link>
                     </MenuItem>
                     <MenuItem>
