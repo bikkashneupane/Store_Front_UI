@@ -26,14 +26,13 @@ const Header = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
+  const { cart } = useSelector((state) => state.cart);
 
   const handleOnLogout = () => {
     dispatch(setUser({}));
     localStorage.removeItem("refreshJWT");
     sessionStorage.removeItem("accessJWT");
   };
-
-  const itemCount = 3; // Example item count
 
   const navigation = [
     { name: "Browse", to: "/products", current: false },
@@ -110,9 +109,9 @@ const Header = () => {
                 <span className="sr-only">View Cart</span>
                 <ShoppingBagIcon aria-hidden="true" className="h-6 w-6 p-0.5" />
 
-                {itemCount > 0 && (
+                {cart?.length > 0 && (
                   <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-700 border-2 border-white rounded-full">
-                    {itemCount}
+                    {cart?.reduce((acc, curr) => acc + curr.quantity, 0)}
                   </span>
                 )}
               </Link>

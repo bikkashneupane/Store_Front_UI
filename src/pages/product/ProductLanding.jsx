@@ -1,7 +1,8 @@
 import { StarIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { addToCartAction } from "../../features/cart/cartAction";
 
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
@@ -14,6 +15,8 @@ const ProductLanding = () => {
   const [itemCount, setItemCount] = useState(0);
 
   const { _id } = useParams();
+  const dispatch = useDispatch();
+  const { cart } = useSelector((state) => state.cart);
   const { products } = useSelector((state) => state.products);
   const selectedProduct = products?.find((item) => item._id === _id);
 
@@ -24,8 +27,10 @@ const ProductLanding = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(itemCount, _id);
+
+    dispatch(addToCartAction({ ...selectedProduct, quantity: itemCount }));
   };
+
   return (
     <div className="">
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -112,11 +117,18 @@ const ProductLanding = () => {
                 <div className="flex gap-4 items-center">
                   <span
                     className="px-4 py-2 border font-extrabold"
-                    onClick={() => setItemCount(itemCount - 1)}
+                    onClick={() => {
+                      if (itemCount > 0) {
+                        setItemCount(itemCount - 1);
+                      }
+                    }}
                   >
                     -
                   </span>
-                  <span className="font-bold text-lg">{itemCount}</span>
+                  <span className="font-bold text-lg">
+                    {cart?.find((item) => item._id === _id)?.quantity ??
+                      itemCount}
+                  </span>
                   <span
                     className="px-4 py-2 border font-extrabold"
                     onClick={() => setItemCount(itemCount + 1)}
@@ -127,7 +139,7 @@ const ProductLanding = () => {
                 <button
                   type="submit"
                   className="flex w-full items-center justify-center rounded-md border border-transparent bg-teal-600 px-8 py-3 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
-                  disabled={!itemCount ? true : false}
+                  disabled={itemCount < 1}
                 >
                   Add to bag
                 </button>
