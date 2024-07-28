@@ -1,8 +1,8 @@
 const Contact = () => {
   return (
-    <div className="min-h-screen bg-light dark:bg-dark text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen bg-light dark:bg-dark text-gray-700 dark:text-gray-300">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-10">
-        <h1 className="text-3xl font-bold mb-6 text-center tracking-widest font-mono">
+        <h1 className="text-3xl font-bold mb-6 text-center tracking-widest font-mono dark:text-gray-200">
           CONTACT
         </h1>
         <section className="mb-10">

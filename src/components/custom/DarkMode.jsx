@@ -20,7 +20,7 @@ const DarkMode = () => {
 
   return (
     <div
-      className="dark:bg-gray-800 p-1 text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white rounded-full cursor-pointer"
+      className="dark:bg-gray-800 p-1 text-gray-600 dark:text-gray-200 hover:text-black dark:hover:text-white rounded-full cursor-pointer"
       onClick={() => setDark(!dark)}
     >
       {dark ? (

@@ -23,6 +23,32 @@ const Products = () => {
     (state) => state.products
   );
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 3;
+  const totalPages = Math.ceil(products?.length / productsPerPage);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const pageProducts = filteredProducts.length
+    ? filteredProducts
+    : products.slice(startIndex, endIndex);
+
   return (
     <div className="bg-light dark:bg-dark min-h-screen">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -102,7 +128,7 @@ const Products = () => {
                 <div className="lg:col-span-3">
                   <ProductList
                     products={
-                      filteredProducts.length ? filteredProducts : products
+                      filteredProducts.length ? filteredProducts : pageProducts
                     }
                   />
                 </div>
@@ -110,7 +136,17 @@ const Products = () => {
             </section>
 
             {/* Pagination */}
-            <Pagination products={products} />
+            <Pagination
+              productLength={products?.length}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              productsPerPage={productsPerPage}
+              handlePreviousPage={handlePreviousPage}
+              handleNextPage={handleNextPage}
+              handlePageClick={handlePageClick}
+              startIndex={startIndex}
+              endIndex={endIndex}
+            />
           </main>
         </div>
       </div>

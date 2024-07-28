@@ -98,7 +98,7 @@ const Header = () => {
             </div>
 
             {/* Dark Mode/ Wish List/ Cart/ Profile */}
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-1 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-3 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               {/* Dark Mode */}
               <DarkMode />
 

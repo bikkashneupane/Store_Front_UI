@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
 
 const ProductList = ({ products }) => {
+  if (products?.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-full text-red-500">
+        No Products Found
+      </div>
+    );
+  }
   return (
     <div className="bg-light dark:bg-dark">
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
