@@ -43,30 +43,29 @@ const Login = () => {
   ];
 
   return (
-    <div className="relative" style={{ backgroundImage: `url(${bg_url})` }}>
-      <div className="absolute bg-black bg-opacity-40 w-full h-full"></div>
+    <div
+      className="relative"
+      //  style={{ backgroundImage: `url(${bg_url})` }}
+    >
+      {/* <div className="absolute bg-black bg-opacity-40 w-full h-full"></div> */}
 
       <div className="relative flex min-h-screen flex-col px-6 lg:px-8 items-center">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-20 md:mt-32">
-          {/* <img className="mx-auto w-44" src="../src/assets/vikiasmy.png" /> */}
-          <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-20 md:mt-16">
+          <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight dark:text-white">
             Login
           </h2>
         </div>
 
-        <div className="mt-2 sm:mx-auto w-full p-4 md:max-w-md flex justify-center">
-          <form
-            className="space-y-3 w-full md:min-w-[500px]"
-            onSubmit={handleOnLogin}
-          >
+        <div className="mt-2 sm:mx-auto md:min-w-[550px] p-10 md:max-w-md flex justify-center rounded-lg shadow-lg border border-gray-300">
+          <form className="space-y-3 w-full " onSubmit={handleOnLogin}>
             {inputs.map((item, i) => (
               <CustomForm key={i} {...item} />
             ))}
 
-            <div className="">
+            <div className="pt-6">
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-purple-600 mt-3 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
+                className="flex w-full justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
               >
                 Login
               </button>

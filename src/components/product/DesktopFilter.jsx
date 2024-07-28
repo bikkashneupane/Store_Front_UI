@@ -41,11 +41,13 @@ const DesktopFilter = ({ filters }) => {
         <Disclosure
           key={section.id}
           as="div"
-          className="border-b border-gray-200 py-6"
+          className="border-b border-gray-200 dark:border-gray-700 py-6"
         >
           <h3 className="-my-3 flow-root">
-            <DisclosureButton className="group flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-              <span className="font-medium text-gray-900">{section.name}</span>
+            <DisclosureButton className="group flex w-full items-center justify-between bg-light dark:bg-dark py-3 text-sm text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
+              <span className="font-medium text-gray-900 dark:text-gray-300">
+                {section.name}
+              </span>
               <span className="ml-6 flex items-center">
                 <PlusIcon
                   aria-hidden="true"
@@ -69,12 +71,12 @@ const DesktopFilter = ({ filters }) => {
                     id={`filter-${section.id}-${index}`}
                     name={`${section.id}`}
                     type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+                    className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-teal-400"
                     onChange={handleOnFilterChange}
                   />
                   <label
                     htmlFor={`filter-${section.id}-${index}`}
-                    className="ml-3 text-sm text-gray-600"
+                    className="ml-3 text-sm text-gray-600 dark:text-gray-400"
                   >
                     {option.label}
                   </label>
@@ -87,4 +89,5 @@ const DesktopFilter = ({ filters }) => {
     </form>
   );
 };
+
 export default DesktopFilter;

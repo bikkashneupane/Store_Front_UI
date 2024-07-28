@@ -23,14 +23,16 @@ const MobileFilter = ({ mobileFiltersOpen, setMobileFiltersOpen, filters }) => {
       <div className="fixed inset-0 z-40 flex">
         <DialogPanel
           transition
-          className="relative ml-auto flex h-full w-full max-w-xs transform flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
+          className="relative ml-auto flex h-full w-full max-w-xs transform flex-col overflow-y-auto bg-white dark:bg-gray-800 py-4 pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
         >
           <div className="flex items-center justify-between px-4">
-            <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+            <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+              Filters
+            </h2>
             <button
               type="button"
               onClick={() => setMobileFiltersOpen(false)}
-              className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
+              className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white dark:bg-gray-800 p-2 text-gray-400 dark:text-gray-300"
             >
               <span className="sr-only">Close menu</span>
               <XMarkIcon aria-hidden="true" className="h-6 w-6" />
@@ -38,18 +40,18 @@ const MobileFilter = ({ mobileFiltersOpen, setMobileFiltersOpen, filters }) => {
           </div>
 
           {/* Filters */}
-          <form className="mt-4 border-t border-gray-200">
+          <form className="mt-4 border-t border-gray-200 dark:border-gray-700">
             <h3 className="sr-only">Categories</h3>
 
             {filters.map((section) => (
               <Disclosure
                 key={section.id}
                 as="div"
-                className="border-t border-gray-200 px-4 py-6"
+                className="border-t border-gray-200 dark:border-gray-700 px-4 py-6"
               >
                 <h3 className="-mx-2 -my-3 flow-root">
-                  <DisclosureButton className="group flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                    <span className="font-medium text-gray-900">
+                  <DisclosureButton className="group flex w-full items-center justify-between bg-white dark:bg-gray-800 px-2 py-3 text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-200">
+                    <span className="font-medium text-gray-900 dark:text-gray-100">
                       {section.name}
                     </span>
                     <span className="ml-6 flex items-center">
@@ -74,11 +76,11 @@ const MobileFilter = ({ mobileFiltersOpen, setMobileFiltersOpen, filters }) => {
                           id={`filter-mobile-${section.id}-${index}`}
                           name={`${section.id}[]`}
                           type="checkbox"
-                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500"
                         />
                         <label
                           htmlFor={`filter-mobile-${section.id}-${index}`}
-                          className="ml-3 min-w-0 flex-1 text-gray-500"
+                          className="ml-3 min-w-0 flex-1 text-gray-500 dark:text-gray-300"
                         >
                           {option.label}
                         </label>

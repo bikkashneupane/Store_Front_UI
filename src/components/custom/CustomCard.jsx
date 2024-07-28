@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const testImg =
@@ -6,11 +5,11 @@ const testImg =
 
 export const CustomCard = () => {
   return (
-    <div className="max-h-min">
-      <div className="bg-gray-200 overflow-hidden group">
+    <div className="max-h-min shadow-lg">
+      <div className="bg-gray-100 dark:bg-gray-800 overflow-hidden group rounded-t-md">
         <Link to="/product/1234" className="relative flex justify-center">
           <div className="absolute bottom-0 w-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
-            <button className="w-full py-4 bg-white text-gray-500 tracking-widest hover:bg-gray-800 hover:text-gray-200 transition duration-300">
+            <button className="w-full py-4 bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 tracking-widest hover:bg-purple-900 hover:text-white dark:hover:bg-yellow-600 transition duration-300 font-semibold">
               ADD TO CART
             </button>
           </div>
@@ -18,13 +17,17 @@ export const CustomCard = () => {
         </Link>
       </div>
       <div className="p-5">
-        <h1 className="tracking-widest text-gray-600">Brand Name</h1>
-        <h4 className="mb-2 font-semibold tracking-tight text-gray-700">
+        <h1 className="tracking-widest text-gray-600 dark:text-gray-300">
+          Brand Name
+        </h1>
+        <h4 className="mb-2 font-semibold tracking-tight text-gray-700 dark:text-gray-200">
           Lorem ipsum dolor sit amet
         </h4>
         <div className="pt-1 text-md flex gap-3">
-          <span className="line-through text-gray-500">$200.00 AUD</span>
-          <span className="text-gray-800">$180.00 AUD</span>
+          <span className="line-through text-gray-500 dark:text-gray-400">
+            $200.00 AUD
+          </span>
+          <span className="text-gray-800 dark:text-gray-100">$180.00 AUD</span>
         </div>
       </div>
     </div>

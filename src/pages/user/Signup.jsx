@@ -62,22 +62,22 @@ const Signup = () => {
   ];
 
   return (
-    <div className="relative" style={{ backgroundImage: `url(${bg_url})` }}>
-      <div className="absolute bg-black bg-opacity-40 w-full h-full"></div>
+    <div
+      className="relative"
+      // style={{ backgroundImage: `url(${bg_url})` }}
+    >
+      {/* <div className="absolute bg-black bg-opacity-40 w-full h-full"></div> */}
 
       <div className="relative flex min-h-screen flex-col px-6 lg:px-8 items-center">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-20 md:mt-32">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-20 md:mt-16">
           {/* <img className="mx-auto w-44" src="../src/assets/vikiasmy.png" /> */}
-          <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
+          <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight dark:text-white mb-4">
             Join the Community!
           </h2>
         </div>
 
-        <div className="mt-2 sm:mx-auto w-full p-4 md:max-w-md flex justify-center">
-          <form
-            className="space-y-3 w-full md:min-w-[500px]"
-            onSubmit={handleOnSignup}
-          >
+        <div className="mt-2 sm:mx-auto md:min-w-[550px] p-10 md:max-w-md flex justify-center border rounded-lg shadow-lg">
+          <form className="space-y-3 w-full " onSubmit={handleOnSignup}>
             {inputs.map((item, i) => (
               <CustomForm key={i} {...item} onChange={handleOnChange} />
             ))}
@@ -91,7 +91,7 @@ const Signup = () => {
               </button>
             </div>
             <div className="flex justify-end gap-2">
-              <span className="text-white">Already have an account?</span>
+              <span className="dark:text-white">Already have an account?</span>
               <Link to={"/login"} className="font-bold text-purple-500">
                 Login Now
               </Link>

@@ -24,9 +24,9 @@ const Products = () => {
   );
 
   return (
-    <div className="">
+    <div className="bg-light dark:bg-dark min-h-screen">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className=" my-10 bg-white shadow-lg rounded-md">
+        <div className="my-10 bg-white dark:bg-gray-900 shadow-lg rounded-md dark:border dark:border-gray-600">
           {/* Mobile filter dialog */}
           <MobileFilter
             mobileFiltersOpen={mobileFiltersOpen}
@@ -35,24 +35,26 @@ const Products = () => {
           />
 
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10">
-              <h1 className="text-2xl font-bold text-gray-900">Browse Store</h1>
+            <div className="flex items-baseline justify-between border-b border-gray-200 dark:border-gray-700 pb-6 pt-10">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-300">
+                Browse Store
+              </h1>
 
               <div className="flex items-center">
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
-                    <MenuButton className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                    <MenuButton className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100">
                       Sort
                       <ChevronDownIcon
                         aria-hidden="true"
-                        className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                        className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400"
                       />
                     </MenuButton>
                   </div>
 
                   <MenuItems
                     transition
-                    className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                    className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                   >
                     <div className="py-1">
                       {sortOptions.map((option) => (
@@ -61,9 +63,9 @@ const Products = () => {
                             href={option.href}
                             className={classNames(
                               option.current
-                                ? "font-medium text-gray-900"
-                                : "text-gray-500",
-                              "block px-4 py-2 text-sm data-[focus]:bg-gray-100"
+                                ? "font-medium text-gray-900 dark:text-gray-100"
+                                : "text-gray-500 dark:text-gray-300",
+                              "block px-4 py-2 text-sm data-[focus]:bg-gray-100 dark:data-[focus]:bg-gray-700"
                             )}
                           >
                             {option.name}
@@ -76,7 +78,7 @@ const Products = () => {
 
                 <button
                   type="button"
-                  className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
+                  className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 sm:ml-7"
                 >
                   <span className="sr-only">View grid</span>
                   <Squares2X2Icon aria-hidden="true" className="h-5 w-5" />
@@ -84,7 +86,7 @@ const Products = () => {
                 <button
                   type="button"
                   onClick={() => setMobileFiltersOpen(true)}
-                  className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
+                  className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 sm:ml-6 lg:hidden"
                 >
                   <span className="sr-only">Filters</span>
                   <FunnelIcon aria-hidden="true" className="h-5 w-5" />

@@ -6,10 +6,10 @@ const ErrorElement = () => {
   return (
     <div>
       <Header />
-      <div className="min-h-[80vh] pt-[80px] flex justify-center items-center bg-teal-500">
-        <h2 className="text-2xl font-bold tracking-widest text-red-500">
+      <div className="min-h-screen">
+        <div className="mx-auto max-w-7xl min-h-[50vh] justify-center flex items-center text-2xl font-bold text-purple-500">
           404 Path Not Found
-        </h2>
+        </div>
       </div>
       <Footer />
     </div>
