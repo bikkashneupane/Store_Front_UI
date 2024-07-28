@@ -17,7 +17,7 @@ const ProductList = ({ products }) => {
               key={item?._id}
               className="group relative p-2 pb-4 rounded-md shadow-lg dark:bg-gray-900"
             >
-              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md dark:bg-gray-800 lg:aspect-none lg:h-80">
+              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md dark:bg-white lg:aspect-none lg:h-80">
                 <img
                   alt=""
                   src={item?.thumbnail}

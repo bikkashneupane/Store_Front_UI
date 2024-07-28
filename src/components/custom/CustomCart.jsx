@@ -2,12 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { removeFromCart, updateCart } from "../../features/cart/cartSlice";
 
-const CustomCart = () => {
+const CustomCart = ({ buttonTitle, buttonLink }) => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
 
   const handleQuantityChange = (e, product) => {
-    const newQuantity = Number(e.target.value);
+    const newQuantity = parseInt(e.target.value);
     dispatch(updateCart({ ...product, quantity: newQuantity }));
   };
 
@@ -15,7 +15,7 @@ const CustomCart = () => {
     dispatch(removeFromCart(product));
   };
   return (
-    <div className="mx-auto max-w-2xl pt-4 pb-10 sm:px-6 lg:px-10 lg:pt-10 lg:pb-20 border-2 rounded-lg shadow-2xl border-gray-400 dark:border-gray-400">
+    <div className="mx-auto max-w-2xl pt-4 pb-10 sm:px-6 lg:px-10 lg:pt-10 lg:pb-20 dark:border-2 rounded-lg shadow-lg dark:border-gray-400">
       <h1 className="text-3xl font-semibold mb-6 dark:text-gray-100 text-center">
         CART
       </h1>
@@ -27,7 +27,7 @@ const CustomCart = () => {
               key={product._id}
               className="border-b border-gray-600 dark:border-gray-400 pb-4 mb-4"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex items-end justify-between">
                 <div className="flex items-center">
                   <img
                     src={product.thumbnail}
@@ -39,7 +39,7 @@ const CustomCart = () => {
                       {product.title}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400">
-                      Price: ${product.price}
+                      Price: ${product.price * product.quantity}
                     </p>
                     <div className="flex items-center mt-2">
                       <label
@@ -61,7 +61,7 @@ const CustomCart = () => {
                 </div>
                 <button
                   onClick={() => handleRemoveFromCart(product)}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-white hover:text-red-70 bg-red-500 px-4 py-2 text-sm rounded-md"
                 >
                   Remove
                 </button>
@@ -98,10 +98,10 @@ const CustomCart = () => {
           </span>
         </div>
         <Link
-          to="/checkout"
+          to={buttonLink}
           className="mt-4 block w-full text-center py-2 bg-purple-600 text-white rounded-md shadow hover:bg-purple-500"
         >
-          Proceed to Checkout
+          {buttonTitle}
         </Link>
       </div>
     </div>

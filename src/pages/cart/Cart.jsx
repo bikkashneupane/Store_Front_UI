@@ -17,7 +17,7 @@ const Cart = () => {
         </div>
       ) : (
         <div className="mt-20">
-          <CustomCart />
+          <CustomCart buttonTitle="Checkout" buttonLink={"/checkout"} />
         </div>
       )}
     </div>

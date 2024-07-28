@@ -37,6 +37,7 @@ const Header = () => {
 
   const navigation = [
     { name: "Browse", to: "/products", current: false },
+    { name: "Categories", to: "/categories", current: false },
     { name: "About", to: "/about", current: false },
     { name: "Contact", to: "/contact", current: false },
     { name: "Cart", to: "/cart", current: false, mobile: true },
@@ -72,7 +73,7 @@ const Header = () => {
                   src={watch_logo}
                   className="h-[30px] w-[30px]"
                 />
-                <h1>Vikiasmy's</h1>
+                <h1>vikiasmy's</h1>
               </Link>
 
               {/* Navigations */}
@@ -98,27 +99,8 @@ const Header = () => {
             </div>
 
             {/* Dark Mode/ Wish List/ Cart/ Profile */}
+
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-3 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              {/* Dark Mode */}
-              <DarkMode />
-
-              {/* Cart */}
-              <Link
-                to={"/cart"}
-                type="button"
-                className="hidden md:inline relative dark:bg-gray-800 p-1 text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white rounded-full cursor-pointer"
-              >
-                <span className="absolute -inset-1.5" />
-                <span className="sr-only">View Cart</span>
-                <ShoppingBagIcon aria-hidden="true" className="h-7 w-7 p-0.5" />
-
-                {cart?.length > 0 && (
-                  <span className="absolute top-1 right-1 transform translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-700 border-2 border-white rounded-full">
-                    {cart?.reduce((acc, curr) => acc + curr.quantity, 0)}
-                  </span>
-                )}
-              </Link>
-
               {/* Profile dropdown */}
               <div className="hidden md:inline">
                 {user?.email ? (
@@ -128,11 +110,16 @@ const Header = () => {
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
                         {user?.profileImage ? (
-                          <img
-                            alt=""
-                            src={user?.profileImage}
-                            className="h-7 w-7 p-0.5 rounded-full"
-                          />
+                          <div className="flex gap-1 items-center">
+                            <span className="font-semibold text-base dark:text-white">
+                              {user?.firstName}
+                            </span>
+                            <img
+                              alt=""
+                              src={user?.profileImage}
+                              className="h-7 w-7 p-0.5 rounded-full"
+                            />
+                          </div>
                         ) : (
                           <div className="w-7 h-7 p-0.5 rounded-full border text-gray-200 flex justify-center items-center font-semibold">
                             {user?.firstName?.charAt(0)?.toUpperCase()}
@@ -184,6 +171,26 @@ const Header = () => {
                   </Link>
                 )}
               </div>
+
+              {/* Dark Mode */}
+              <DarkMode />
+
+              {/* Cart */}
+              <Link
+                to={"/cart"}
+                type="button"
+                className="hidden md:inline relative dark:bg-gray-800 p-1 text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white rounded-full cursor-pointer"
+              >
+                <span className="absolute -inset-1.5" />
+                <span className="sr-only">View Cart</span>
+                <ShoppingBagIcon aria-hidden="true" className="h-7 w-7 p-0.5" />
+
+                {cart?.length > 0 && (
+                  <span className="absolute top-1 right-1 transform translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-700 border-2 border-white rounded-full">
+                    {cart?.reduce((acc, curr) => acc + curr.quantity, 0)}
+                  </span>
+                )}
+              </Link>
             </div>
           </div>
         </div>

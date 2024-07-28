@@ -19,9 +19,11 @@ import Checkout from "./pages/cart/Checkout";
 import Payment from "./pages/payment/Payment";
 import Profile from "./pages/user/Profile";
 import VerifyAccount from "./pages/user/VerifyAccount";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchProductsAction } from "./features/product/productAction";
+
+import watch_logo from "./assets/images/watch_logo.png";
 
 const appRouter = createBrowserRouter([
   {
@@ -81,7 +83,26 @@ const appRouter = createBrowserRouter([
   },
 ]);
 
+function LoadingScreen() {
+  return (
+    <div className="mt-32 flex items-center flex-col z-50">
+      <img src={watch_logo} alt="" className="h-40 w-40" />
+      <span className="text-2xl font-bold">Welcome to Vikiasmy's</span>
+    </div>
+  );
+}
+
 function DefaultLayout() {
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
   return (
     <>
       <Header />

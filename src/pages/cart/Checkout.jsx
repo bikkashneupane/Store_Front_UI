@@ -215,7 +215,7 @@ const Checkout = () => {
 
             <div className="lg:col-span-2">
               {/* Integrate Cart component here */}
-              <CustomCart />
+              <CustomCart buttonTitle="Order Now" buttonLink={"/payment"} />
             </div>
           </div>
         )}

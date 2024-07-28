@@ -24,7 +24,7 @@ const Products = () => {
   );
 
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 3;
+  const productsPerPage = 6;
   const totalPages = Math.ceil(products?.length / productsPerPage);
 
   const handlePreviousPage = () => {
