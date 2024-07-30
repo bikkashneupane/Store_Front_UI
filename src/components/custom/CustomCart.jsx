@@ -15,7 +15,7 @@ const CustomCart = ({ buttonTitle, buttonLink }) => {
     dispatch(removeFromCart(product));
   };
   return (
-    <div className="mx-auto max-w-2xl pt-4 pb-10 sm:px-6 lg:px-10 lg:pt-10 lg:pb-20 dark:border-2 rounded-lg shadow-lg dark:border-gray-400">
+    <div className="mx-auto max-w-2xl pt-4 pb-10 sm:px-6 lg:px-10 lg:pt-10 lg:pb-20 border border-black rounded-lg shadow-lg dark:border-gray-400">
       <h1 className="text-3xl font-semibold mb-6 dark:text-gray-100 text-center">
         CART
       </h1>

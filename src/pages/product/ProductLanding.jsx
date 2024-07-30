@@ -62,7 +62,7 @@ const ProductLanding = () => {
                 ))}
               </div>
               {/* Main image */}
-              <div className="md:px-4 w-full lg:w-auto md:ml-4">
+              <div className="md:px-4 w-full lg:w-auto md:ml-4 border-2 border-gray-300 rounded-md shaadow-lg dark:border-0">
                 <img
                   alt={selectedProduct?.title}
                   src={currentImage}

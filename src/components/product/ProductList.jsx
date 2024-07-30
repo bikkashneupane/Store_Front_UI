@@ -29,7 +29,7 @@ const ProductList = ({ products }) => {
                   <h3 className="text-sm text-gray-700 dark:text-gray-300">
                     <Link to={`/product/${item?._id}`}>
                       <span aria-hidden="true" className="absolute inset-0" />
-                      {item?.title}
+                      {item?.name}
                     </Link>
                   </h3>
                   <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
