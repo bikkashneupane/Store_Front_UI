@@ -24,6 +24,10 @@ import { useDispatch } from "react-redux";
 import { fetchProductsAction } from "./features/product/productAction";
 
 import watch_logo from "./assets/images/watch_logo.png";
+import {
+  fetchCategoriesAction,
+  fetchSubCategoriesAction,
+} from "./features/category/categoryAction";
 
 const appRouter = createBrowserRouter([
   {
@@ -120,6 +124,8 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchProductsAction());
+    dispatch(fetchCategoriesAction());
+    dispatch(fetchSubCategoriesAction());
   }, [dispatch]);
   return (
     <>

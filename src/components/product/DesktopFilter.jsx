@@ -7,46 +7,51 @@ import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilteredProducts } from "../../features/product/ProductSlice";
 
-const DesktopFilter = ({ filters }) => {
+const DesktopFilter = () => {
   const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.categories);
   const { products, filteredProducts = [] } = useSelector(
     (state) => state.products
   );
 
-  const handleOnFilterChange = (e) => {
+  const handleOnCategoryFilter = (e) => {
     const { name, value, checked } = e.target;
     console.log(name, value, checked);
+    let updatedFilteredProducts = [];
 
     if (checked) {
-      const check = filteredProducts?.some((item) => item[name] === value);
-      if (!check) {
-        const updatedFilterProducts = [
-          ...filteredProducts,
-          ...products.filter((item) => item[name] === value),
-        ];
-
-        dispatch(setFilteredProducts(updatedFilterProducts));
-      }
-    } else {
-      const updatedFilterProducts = filteredProducts?.filter(
-        (item) => item[name] !== value
+      console.log(checked);
+      const check = filteredProducts?.some(
+        (item) => item?.categoryId === value
       );
-      dispatch(setFilteredProducts(updatedFilterProducts));
+
+      updatedFilteredProducts = check
+        ? filteredProducts?.filter((item) => item?.categoryId !== value)
+        : [
+            ...filteredProducts,
+            products?.filter((product) => product?.categoryId === value),
+          ];
+    } else {
+      updatedFilteredProducts = filteredProducts?.filter(
+        (item) => item?.categoryId !== value
+      );
     }
+
+    console.log(updatedFilteredProducts[0]);
+    dispatch(setFilteredProducts(updatedFilteredProducts[0]));
   };
 
   return (
     <form className="hidden lg:block">
-      {filters?.map((section) => (
+      <div className="">
         <Disclosure
-          key={section.id}
           as="div"
           className="border-b border-gray-200 dark:border-gray-700 py-6"
         >
           <h3 className="-my-3 flow-root">
             <DisclosureButton className="group flex w-full items-center justify-between bg-light dark:bg-dark py-3 text-sm text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
               <span className="font-medium text-gray-900 dark:text-gray-300">
-                {section.name}
+                Categories
               </span>
               <span className="ml-6 flex items-center">
                 <PlusIcon
@@ -61,31 +66,35 @@ const DesktopFilter = ({ filters }) => {
             </DisclosureButton>
           </h3>
 
+          {/* {categories?.map((cat) => ( */}
           <DisclosurePanel className="pt-6">
             <div className="space-y-4">
-              {section.options.map((option, index) => (
-                <div key={option.value} className="flex items-center">
+              {categories?.map((item) => (
+                <div key={item._id} className="flex items-center">
                   <input
-                    defaultValue={option.value}
-                    defaultChecked={option.checked}
-                    id={`filter-${section.id}-${index}`}
-                    name={`${section.id}`}
+                    defaultValue={item?._id}
+                    defaultChecked={item?.checked}
+                    id={item?._id}
+                    name={item?.slug}
                     type="checkbox"
                     className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-teal-400"
-                    onChange={handleOnFilterChange}
+                    onChange={handleOnCategoryFilter}
                   />
                   <label
-                    htmlFor={`filter-${section.id}-${index}`}
+                    htmlFor={item?._id}
                     className="ml-3 text-sm text-gray-600 dark:text-gray-400"
                   >
-                    {option.label}
+                    {item?.title}
                   </label>
                 </div>
               ))}
             </div>
           </DisclosurePanel>
+          {/* ))} */}
         </Disclosure>
-      ))}
+      </div>
+
+      {/* map subcategories depending on category selection */}
     </form>
   );
 };

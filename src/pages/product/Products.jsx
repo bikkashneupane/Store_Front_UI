@@ -47,7 +47,7 @@ const Products = () => {
   const endIndex = startIndex + productsPerPage;
   const pageProducts = filteredProducts.length
     ? filteredProducts
-    : products.slice(startIndex, endIndex);
+    : products?.slice(startIndex, endIndex);
 
   return (
     <div className="bg-light dark:bg-dark min-h-screen">
@@ -122,13 +122,15 @@ const Products = () => {
             <section className="pb-24 pt-6">
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 {/* Filters */}
-                <DesktopFilter filters={filters} />
+                <DesktopFilter />
 
                 {/* Product grid */}
                 <div className="lg:col-span-3">
                   <ProductList
                     products={
-                      filteredProducts.length ? filteredProducts : pageProducts
+                      filteredProducts?.length > 0
+                        ? filteredProducts
+                        : pageProducts
                     }
                   />
                 </div>
