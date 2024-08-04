@@ -6,19 +6,25 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 
-import { filters, sortOptions } from "../../assets/constants/constants";
-import { useSelector } from "react-redux";
+import { sortOptions } from "../../assets/constants/constants";
+import { useDispatch, useSelector } from "react-redux";
 import MobileFilter from "../../components/product/MobileFilter";
 import DesktopFilter from "../../components/product/DesktopFilter";
 import ProductList from "../../components/product/ProductList";
 import Pagination from "../../components/product/Pagination";
+import {
+  setFilteredProducts,
+  setFilteredProductsWithSubCat,
+} from "../../features/product/ProductSlice";
 
 const classNames = (...classes) => {
   return classes.filter(Boolean).join(" ");
 };
 
 const Products = () => {
+  const dispatch = useDispatch();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
   const {
     products,
     filteredProducts = [],
@@ -27,7 +33,13 @@ const Products = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
-  const totalPages = Math.ceil(products?.length / productsPerPage);
+  const totalPages = Math.ceil(
+    filteredProductsWithSubCat.length > 0
+      ? filteredProductsWithSubCat.length
+      : filteredProducts.length > 0
+      ? filteredProducts?.length
+      : products.length / productsPerPage
+  );
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -54,9 +66,61 @@ const Products = () => {
   const pageProducts =
     filteredProductsWithSubCat.length > 0
       ? filteredProductsWithSubCat
-      : filteredProducts.length
+      : filteredProducts.length > 0
       ? filteredProducts
       : products?.slice(startIndex, endIndex);
+
+  // Filter Product with category logic
+  const handleOnCategoryFilter = (e) => {
+    const { value, checked } = e.target;
+    let updatedFilteredProducts = [...filteredProducts];
+
+    if (checked) {
+      const newProducts = products.filter(
+        (product) => product.categoryId === value
+      );
+      updatedFilteredProducts = [...updatedFilteredProducts, ...newProducts];
+    } else {
+      updatedFilteredProducts = updatedFilteredProducts.filter(
+        (product) => product.categoryId !== value
+      );
+      dispatch(setFilteredProductsWithSubCat([]));
+    }
+    dispatch(setFilteredProducts(updatedFilteredProducts));
+  };
+
+  // Filter Product with sub-category logic
+  const handleSubCatFilter = (e) => {
+    const { name, value, checked } = e.target;
+    console.log(name, value, checked);
+    let updatedFilteredProductsWithSubCat = [...filteredProductsWithSubCat];
+
+    // 1. one filter, show only that filter from filteredProducts
+    // 2. two or more filters, show all products with any of the 2 filters matching in filteredproducts
+
+    if (checked) {
+      // Add the new filter if it doesn't already exist
+      if (
+        !updatedFilteredProductsWithSubCat.some((item) => item[name] === value)
+      ) {
+        // Filter products based on the subcategory
+        const filtered = filteredProducts?.filter(
+          (product) => product[name] === value
+        );
+        updatedFilteredProductsWithSubCat = [
+          ...updatedFilteredProductsWithSubCat,
+          ...filtered,
+        ];
+      }
+    } else {
+      // Remove the filter if it exists
+      updatedFilteredProductsWithSubCat =
+        updatedFilteredProductsWithSubCat.filter(
+          (product) => product[name] !== value
+        );
+    }
+    dispatch(setFilteredProductsWithSubCat(updatedFilteredProductsWithSubCat));
+  };
 
   return (
     <div className="bg-light dark:bg-dark min-h-screen">
@@ -66,7 +130,8 @@ const Products = () => {
           <MobileFilter
             mobileFiltersOpen={mobileFiltersOpen}
             setMobileFiltersOpen={setMobileFiltersOpen}
-            filters={filters}
+            handleOnCategoryFilter={handleOnCategoryFilter}
+            handleSubCatFilter={handleSubCatFilter}
           />
 
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -131,7 +196,10 @@ const Products = () => {
             <section className="pb-24 pt-6">
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 {/* Filters */}
-                <DesktopFilter />
+                <DesktopFilter
+                  handleOnCategoryFilter={handleOnCategoryFilter}
+                  handleSubCatFilter={handleSubCatFilter}
+                />
 
                 {/* Product grid */}
                 <div className="lg:col-span-3">
@@ -150,7 +218,13 @@ const Products = () => {
 
             {/* Pagination */}
             <Pagination
-              productLength={products?.length}
+              productLength={
+                filteredProductsWithSubCat?.length > 0
+                  ? filteredProductsWithSubCat?.length
+                  : filteredProducts?.length > 0
+                  ? filteredProducts?.length
+                  : products?.length
+              }
               currentPage={currentPage}
               totalPages={totalPages}
               productsPerPage={productsPerPage}

@@ -2,7 +2,10 @@ import { StarIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { addToCartAction } from "../../features/cart/cartAction";
+import {
+  addToCartAction,
+  updateCartAction,
+} from "../../features/cart/cartAction";
 
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
@@ -23,11 +26,19 @@ const ProductLanding = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     setCurrentImage(selectedProduct?.thumbnail);
-  }, [selectedProduct?.thumbnail]);
+
+    // Set itemCount based on the cart item if it exists
+    const cartItem = cart?.find((item) => item._id === _id);
+    setItemCount(cartItem?.quantity || 0);
+  }, [selectedProduct?.thumbnail, cart, _id]);
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    dispatch(addToCartAction({ ...selectedProduct, quantity: itemCount }));
+    if (cart?.find((item) => item._id === _id)) {
+      dispatch(updateCartAction({ ...selectedProduct, quantity: itemCount }));
+    } else {
+      dispatch(addToCartAction({ ...selectedProduct, quantity: itemCount }));
+    }
   };
 
   return (
@@ -163,10 +174,7 @@ const ProductLanding = () => {
                   >
                     -
                   </button>
-                  <span className="font-bold text-lg">
-                    {cart?.find((item) => item._id === _id)?.quantity ??
-                      itemCount}
-                  </span>
+                  <span className="font-bold text-lg">{itemCount}</span>
                   <button
                     type="button"
                     className="px-3 py-1 border font-extrabold"

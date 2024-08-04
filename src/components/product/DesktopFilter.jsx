@@ -4,71 +4,13 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setFilteredProducts,
-  setFilteredProductsWithSubCat,
-} from "../../features/product/ProductSlice";
+import { useSelector } from "react-redux";
 
-const DesktopFilter = () => {
-  const dispatch = useDispatch();
+const DesktopFilter = ({ handleOnCategoryFilter, handleSubCatFilter }) => {
   const { categories, subCategories } = useSelector(
     (state) => state.categories
   );
-  const {
-    products,
-    filteredProducts = [],
-    filteredProductsWithSubCat = [],
-  } = useSelector((state) => state.products);
-
-  const handleOnCategoryFilter = (e) => {
-    const { value, checked } = e.target;
-    let updatedFilteredProducts = [...filteredProducts];
-
-    if (checked) {
-      const newProducts = products.filter(
-        (product) => product.categoryId === value
-      );
-      updatedFilteredProducts = [...updatedFilteredProducts, ...newProducts];
-    } else {
-      updatedFilteredProducts = updatedFilteredProducts.filter(
-        (product) => product.categoryId !== value
-      );
-    }
-    dispatch(setFilteredProducts(updatedFilteredProducts));
-  };
-
-  const handleSubCatFilter = (e) => {
-    const { name, value, checked } = e.target;
-    console.log(name, value, checked);
-    let updatedFilteredProductsWithSubCat = [...filteredProductsWithSubCat];
-
-    // 1. one filter, show only that filter from filteredProducts
-    // 2. two or more filters, show all products with any of the 2 filters matching in filteredproducts
-
-    if (checked) {
-      // Add the new filter if it doesn't already exist
-      if (
-        !updatedFilteredProductsWithSubCat.some((item) => item[name] === value)
-      ) {
-        // Filter products based on the subcategory
-        const filtered = filteredProducts?.filter(
-          (product) => product[name] === value
-        );
-        updatedFilteredProductsWithSubCat = [
-          ...updatedFilteredProductsWithSubCat,
-          ...filtered,
-        ];
-      }
-    } else {
-      // Remove the filter if it exists
-      updatedFilteredProductsWithSubCat =
-        updatedFilteredProductsWithSubCat.filter(
-          (product) => product[name] !== value
-        );
-    }
-    dispatch(setFilteredProductsWithSubCat(updatedFilteredProductsWithSubCat));
-  };
+  const { filteredProducts = [] } = useSelector((state) => state.products);
 
   return (
     <div className="hidden lg:block">
@@ -77,6 +19,7 @@ const DesktopFilter = () => {
       <Disclosure
         as="div"
         className="border-b border-gray-200 dark:border-gray-700 py-6"
+        defaultOpen
       >
         <h3 className="-my-3 flow-root">
           <DisclosureButton className="group flex w-full items-center justify-between bg-light dark:bg-dark py-3 text-sm text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
@@ -85,7 +28,7 @@ const DesktopFilter = () => {
             </span>
             <span className="ml-6 flex items-center">
               <PlusIcon
-                aria-hidden="true"
+                aria-hidden="false"
                 className="h-5 w-5 group-data-[open]:hidden"
               />
               <MinusIcon
@@ -139,6 +82,7 @@ const DesktopFilter = () => {
           <Disclosure
             as="div"
             className="border-b border-gray-200 dark:border-gray-700 py-6"
+            defaultOpen
           >
             <h3 className="-my-3 flow-root">
               <DisclosureButton className="group flex w-full items-center justify-between bg-light dark:bg-dark py-3 text-sm text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
@@ -194,6 +138,7 @@ const DesktopFilter = () => {
           <Disclosure
             as="div"
             className="border-b border-gray-200 dark:border-gray-700 py-6"
+            defaultOpen
           >
             <h3 className="-my-3 flow-root">
               <DisclosureButton className="group flex w-full items-center justify-between bg-light dark:bg-dark py-3 text-sm text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
@@ -249,6 +194,7 @@ const DesktopFilter = () => {
           <Disclosure
             as="div"
             className="border-b border-gray-200 dark:border-gray-700 py-6"
+            defaultOpen
           >
             <h3 className="-my-3 flow-root">
               <DisclosureButton className="group flex w-full items-center justify-between bg-light dark:bg-dark py-3 text-sm text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
@@ -284,7 +230,6 @@ const DesktopFilter = () => {
                         defaultChecked={item?.checked}
                         id={item + "-" + index}
                         name="gender"
-                        value={item}
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-teal-400"
                         onChange={handleSubCatFilter}

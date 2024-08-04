@@ -185,11 +185,9 @@ const Header = () => {
                 <span className="sr-only">View Cart</span>
                 <ShoppingBagIcon aria-hidden="true" className="h-7 w-7 p-0.5" />
 
-                {cart?.length > 0 && (
-                  <span className="absolute top-1 right-1 transform translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-700 border-2 border-white rounded-full">
-                    {cart?.reduce((acc, curr) => acc + curr.quantity, 0)}
-                  </span>
-                )}
+                <span className="absolute top-1 right-1 transform translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-700 border-2 border-white rounded-full">
+                  {cart?.reduce((acc, curr) => acc + curr.quantity, 0) || 0}
+                </span>
               </Link>
             </div>
           </div>

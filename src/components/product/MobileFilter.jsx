@@ -7,12 +7,23 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { MinusIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
 
-const MobileFilter = ({ mobileFiltersOpen, setMobileFiltersOpen, filters }) => {
+const MobileFilter = ({
+  mobileFiltersOpen = false, // Ensure default boolean value
+  setMobileFiltersOpen,
+  handleOnCategoryFilter,
+  handleSubCatFilter,
+}) => {
+  const { categories, subCategories } = useSelector(
+    (state) => state.categories
+  );
+  const { filteredProducts = [] } = useSelector((state) => state.products);
+
   return (
     <Dialog
-      open={mobileFiltersOpen}
-      onClose={setMobileFiltersOpen}
+      open={mobileFiltersOpen} // Ensure this is a boolean
+      onClose={() => setMobileFiltersOpen(false)}
       className="relative z-40 lg:hidden"
     >
       <DialogBackdrop
@@ -39,20 +50,72 @@ const MobileFilter = ({ mobileFiltersOpen, setMobileFiltersOpen, filters }) => {
             </button>
           </div>
 
-          {/* Filters */}
           <form className="mt-4 border-t border-gray-200 dark:border-gray-700">
-            <h3 className="sr-only">Categories</h3>
+            {/* Categories */}
+            <Disclosure
+              as="div"
+              className="border-t border-gray-200 dark:border-gray-700 px-4 py-6"
+            >
+              <h3 className="-mx-2 -my-3 flow-root">
+                <DisclosureButton className="group flex w-full items-center justify-between bg-white dark:bg-gray-800 px-2 py-3 text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-200">
+                  <span className="font-medium text-gray-900 dark:text-gray-100">
+                    Categories
+                  </span>
+                  <span className="ml-6 flex items-center">
+                    <PlusIcon
+                      aria-hidden="true"
+                      className="h-5 w-5 group-data-[open]:hidden"
+                    />
+                    <MinusIcon
+                      aria-hidden="true"
+                      className="h-5 w-5 [.group:not([data-open])_&]:hidden"
+                    />
+                  </span>
+                </DisclosureButton>
+              </h3>
+              <DisclosurePanel className="pt-6">
+                <div className="space-y-6">
+                  {categories?.map((item) => (
+                    <div
+                      key={item._id}
+                      className={
+                        filteredProducts?.length > 0
+                          ? filteredProducts[0]?.categoryId === item?._id
+                            ? "flex items-center"
+                            : "hidden"
+                          : "flex items-center"
+                      }
+                    >
+                      <input
+                        defaultValue={item._id}
+                        id={item._id}
+                        name={item.slug}
+                        type="checkbox"
+                        className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-teal-600 focus:ring-teal-500 dark:bg-gray-800 dark:focus:ring-teal-400"
+                        onChange={handleOnCategoryFilter}
+                      />
+                      <label
+                        htmlFor={item._id}
+                        className="ml-3 text-sm text-gray-600 dark:text-gray-400"
+                      >
+                        {item.title}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </DisclosurePanel>
+            </Disclosure>
 
-            {filters.map((section) => (
+            {/* Brands */}
+            {filteredProducts?.length > 0 && (
               <Disclosure
-                key={section.id}
                 as="div"
                 className="border-t border-gray-200 dark:border-gray-700 px-4 py-6"
               >
                 <h3 className="-mx-2 -my-3 flow-root">
                   <DisclosureButton className="group flex w-full items-center justify-between bg-white dark:bg-gray-800 px-2 py-3 text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-200">
                     <span className="font-medium text-gray-900 dark:text-gray-100">
-                      {section.name}
+                      Brand
                     </span>
                     <span className="ml-6 flex items-center">
                       <PlusIcon
@@ -68,28 +131,143 @@ const MobileFilter = ({ mobileFiltersOpen, setMobileFiltersOpen, filters }) => {
                 </h3>
                 <DisclosurePanel className="pt-6">
                   <div className="space-y-6">
-                    {section.options.map((option, index) => (
-                      <div key={option.value} className="flex items-center">
-                        <input
-                          defaultValue={option.value}
-                          defaultChecked={option.checked}
-                          id={`filter-mobile-${section.id}-${index}`}
-                          name={`${section.id}[]`}
-                          type="checkbox"
-                          className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500"
-                        />
-                        <label
-                          htmlFor={`filter-mobile-${section.id}-${index}`}
-                          className="ml-3 min-w-0 flex-1 text-gray-500 dark:text-gray-300"
-                        >
-                          {option.label}
-                        </label>
-                      </div>
-                    ))}
+                    {subCategories
+                      ?.find(
+                        (subCat) =>
+                          subCat.parentCategoryId ===
+                          filteredProducts[0]?.categoryId
+                      )
+                      ?.brand?.map((item) => (
+                        <div key={item._id} className="flex items-center">
+                          <input
+                            defaultValue={item._id}
+                            id={item._id}
+                            name="brandId"
+                            type="checkbox"
+                            className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-teal-600 focus:ring-teal-500 dark:bg-gray-800 dark:focus:ring-teal-400"
+                            onChange={handleSubCatFilter}
+                          />
+                          <label
+                            htmlFor={item._id}
+                            className="ml-3 text-sm text-gray-600 dark:text-gray-400"
+                          >
+                            {item.name}
+                          </label>
+                        </div>
+                      ))}
                   </div>
                 </DisclosurePanel>
               </Disclosure>
-            ))}
+            )}
+
+            {/* Material */}
+            {filteredProducts?.length > 0 && (
+              <Disclosure
+                as="div"
+                className="border-t border-gray-200 dark:border-gray-700 px-4 py-6"
+              >
+                <h3 className="-mx-2 -my-3 flow-root">
+                  <DisclosureButton className="group flex w-full items-center justify-between bg-white dark:bg-gray-800 px-2 py-3 text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-200">
+                    <span className="font-medium text-gray-900 dark:text-gray-100">
+                      Material Type
+                    </span>
+                    <span className="ml-6 flex items-center">
+                      <PlusIcon
+                        aria-hidden="true"
+                        className="h-5 w-5 group-data-[open]:hidden"
+                      />
+                      <MinusIcon
+                        aria-hidden="true"
+                        className="h-5 w-5 [.group:not([data-open])_&]:hidden"
+                      />
+                    </span>
+                  </DisclosureButton>
+                </h3>
+                <DisclosurePanel className="pt-6">
+                  <div className="space-y-6">
+                    {subCategories
+                      ?.find(
+                        (subCat) =>
+                          subCat.parentCategoryId ===
+                          filteredProducts[0]?.categoryId
+                      )
+                      ?.material?.map((item) => (
+                        <div key={item._id} className="flex items-center">
+                          <input
+                            defaultValue={item._id}
+                            id={item._id}
+                            name="materialId"
+                            type="checkbox"
+                            className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-teal-600 focus:ring-teal-500 dark:bg-gray-800 dark:focus:ring-teal-400"
+                            onChange={handleSubCatFilter}
+                          />
+                          <label
+                            htmlFor={item._id}
+                            className="ml-3 text-sm text-gray-600 dark:text-gray-400"
+                          >
+                            {item.name}
+                          </label>
+                        </div>
+                      ))}
+                  </div>
+                </DisclosurePanel>
+              </Disclosure>
+            )}
+
+            {/* Gender */}
+            {filteredProducts?.length > 0 && (
+              <Disclosure
+                as="div"
+                className="border-t border-gray-200 dark:border-gray-700 px-4 py-6"
+              >
+                <h3 className="-mx-2 -my-3 flow-root">
+                  <DisclosureButton className="group flex w-full items-center justify-between bg-white dark:bg-gray-800 px-2 py-3 text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-200">
+                    <span className="font-medium text-gray-900 dark:text-gray-100">
+                      Gender
+                    </span>
+                    <span className="ml-6 flex items-center">
+                      <PlusIcon
+                        aria-hidden="true"
+                        className="h-5 w-5 group-data-[open]:hidden"
+                      />
+                      <MinusIcon
+                        aria-hidden="true"
+                        className="h-5 w-5 [.group:not([data-open])_&]:hidden"
+                      />
+                    </span>
+                  </DisclosureButton>
+                </h3>
+                <DisclosurePanel className="pt-6">
+                  <div className="space-y-6">
+                    {subCategories
+                      ?.find(
+                        (subCat) =>
+                          subCat.parentCategoryId ===
+                          filteredProducts[0]?.categoryId
+                      )
+                      ?.gender?.map((item) => (
+                        <div key={item} className="flex items-center">
+                          <input
+                            defaultValue={item}
+                            id={item}
+                            name="gender"
+                            value={item}
+                            type="checkbox"
+                            className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-teal-600 focus:ring-teal-500 dark:bg-gray-800 dark:focus:ring-teal-400"
+                            onChange={handleSubCatFilter}
+                          />
+                          <label
+                            htmlFor={item}
+                            className="ml-3 text-sm text-gray-600 dark:text-gray-400"
+                          >
+                            {item}
+                          </label>
+                        </div>
+                      ))}
+                  </div>
+                </DisclosurePanel>
+              </Disclosure>
+            )}
           </form>
         </DialogPanel>
       </div>

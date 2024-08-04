@@ -20,39 +20,39 @@ const CustomCart = ({ buttonTitle, buttonLink }) => {
         CART
       </h1>
       <hr className="border-gray-600 dark:border-gray-400" />
-      <div className="">
+      <div className="px-4">
         <ul className="space-y-4 mt-4">
           {cart.map((product) => (
             <li
-              key={product._id}
+              key={product?._id}
               className="border-b border-gray-600 dark:border-gray-400 pb-4 mb-4"
             >
               <div className="flex items-end justify-between">
                 <div className="flex items-center">
                   <img
-                    src={product.thumbnail}
-                    alt={product.title}
+                    src={product?.thumbnail}
+                    alt={product?.title}
                     className="h-20 w-20 object-cover rounded-md mr-4"
                   />
                   <div>
                     <h3 className="font-semibold dark:text-gray-100">
-                      {product.title}
+                      {product?.title}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400">
-                      Price: ${product.price * product.quantity}
+                      Price: ${product?.price * product?.quantity || 0}
                     </p>
                     <div className="flex items-center mt-2">
                       <label
-                        htmlFor={`quantity-${product._id}`}
+                        htmlFor={`quantity-${product?._id}`}
                         className="mr-2 dark:text-gray-100"
                       >
                         Qty:
                       </label>
                       <input
                         type="number"
-                        id={`quantity-${product._id}`}
+                        id={`quantity-${product?._id}`}
                         min="1"
-                        value={product.quantity}
+                        value={product?.quantity}
                         onChange={(e) => handleQuantityChange(e, product)}
                         className="w-16 p-1 border rounded-md dark:bg-gray-700 dark:text-gray-100 text-center"
                       />
@@ -71,18 +71,18 @@ const CustomCart = ({ buttonTitle, buttonLink }) => {
         </ul>
       </div>
 
-      <div className="mt-6 pt-4 border-t border-gray-600 dark:border-gray-400">
+      <div className="mt-6 pt-4 px-4 border-t border-gray-600 dark:border-gray-400">
         <h2 className="text-xl font-semibold mb-4 dark:text-gray-100">
           Order Summary
         </h2>
         <ul className="space-y-2">
           {cart.map((product) => (
-            <li key={product._id} className="flex justify-between">
+            <li key={product?._id} className="flex justify-between">
               <span className="dark:text-gray-100">
-                {product.title} x {product.quantity}
+                {product?.title} x {product?.quantity}
               </span>
               <span className="dark:text-gray-100">
-                ${product.price * product.quantity}
+                ${product?.price * product?.quantity || 0}
               </span>
             </li>
           ))}
@@ -92,9 +92,9 @@ const CustomCart = ({ buttonTitle, buttonLink }) => {
           <span className="font-semibold dark:text-gray-100">
             $
             {cart.reduce(
-              (total, product) => total + product.price * product.quantity,
+              (total, product) => total + product?.price * product?.quantity,
               0
-            )}
+            ) || 0}
           </span>
         </div>
         <Link
