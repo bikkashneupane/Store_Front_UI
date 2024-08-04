@@ -19,9 +19,11 @@ const classNames = (...classes) => {
 
 const Products = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const { products, filteredProducts = [] } = useSelector(
-    (state) => state.products
-  );
+  const {
+    products,
+    filteredProducts = [],
+    filteredProductsWithSubCat = [],
+  } = useSelector((state) => state.products);
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
@@ -45,9 +47,16 @@ const Products = () => {
 
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
-  const pageProducts = filteredProducts.length
-    ? filteredProducts
-    : products?.slice(startIndex, endIndex);
+  // const pageProducts = filteredProducts.length
+  //   ? filteredProducts
+  //   : products?.slice(startIndex, endIndex);
+
+  const pageProducts =
+    filteredProductsWithSubCat.length > 0
+      ? filteredProductsWithSubCat
+      : filteredProducts.length
+      ? filteredProducts
+      : products?.slice(startIndex, endIndex);
 
   return (
     <div className="bg-light dark:bg-dark min-h-screen">
@@ -128,7 +137,9 @@ const Products = () => {
                 <div className="lg:col-span-3">
                   <ProductList
                     products={
-                      filteredProducts?.length > 0
+                      filteredProductsWithSubCat?.length > 0
+                        ? filteredProductsWithSubCat
+                        : filteredProducts?.length > 0
                         ? filteredProducts
                         : pageProducts
                     }

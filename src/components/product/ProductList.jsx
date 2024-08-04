@@ -1,6 +1,9 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const ProductList = ({ products }) => {
+  const { subCategories } = useSelector((state) => state.categories);
+
   if (products?.length === 0) {
     return (
       <div className="flex justify-center items-center h-full text-red-500">
@@ -33,7 +36,14 @@ const ProductList = ({ products }) => {
                     </Link>
                   </h3>
                   <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    {item?.brand}
+                    {
+                      subCategories
+                        ?.find(
+                          (subCat) =>
+                            subCat?.parentCategoryId === item?.categoryId
+                        )
+                        ?.brand?.find((itm) => itm?._id === item?.brandId)?.name
+                    }
                   </p>
                 </div>
                 {item?.sales?.isSales ? (
