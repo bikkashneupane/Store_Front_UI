@@ -56,7 +56,7 @@ const Login = () => {
           </h2>
         </div>
 
-        <div className="mt-2 sm:mx-auto md:min-w-[550px] p-10 md:max-w-md flex justify-center rounded-lg shadow-lg border border-gray-300">
+        <div className="mt-2 sm:mx-auto md:min-w-[550px] p-10 md:max-w-md flex justify-center rounded-lg shadow-lg border-gray-300">
           <form className="space-y-3 w-full " onSubmit={handleOnLogin}>
             {inputs.map((item, i) => (
               <CustomForm key={i} {...item} />

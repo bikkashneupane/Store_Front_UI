@@ -7,6 +7,7 @@ import carousel_2 from "./../../assets/images/carousel_2.jpg";
 import carousel_3 from "./../../assets/images/carousel_3.jpg";
 import { CustomCard } from "../../components/custom/CustomCard";
 import { HomeCard } from "../../components/custom/HomeCard";
+import { motion } from "framer-motion";
 
 const Home = () => {
   const images = [

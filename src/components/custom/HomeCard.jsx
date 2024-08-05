@@ -5,12 +5,12 @@ const testImg =
 
 export const HomeCard = () => {
   return (
-    <div className="relative bg-gray-800 dark:bg-gray-800 overflow-hidden group shadow-2xl">
+    <div className="relative bg-gray-800 dark:bg-white overflow-hidden group shadow-2xl">
       <Link
         to="/product/1234"
         className="relative w-full h-full flex justify-center"
       >
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 bg-black opacity-50 dark:opacity-0"></div>
 
         <div className="absolute bottom-6 w-full p-2 flex flex-col justify-center items-center gap-8 z-10">
           <h1 className="text-gray-200 dark:text-gray-400 text-3xl tracking-widest">

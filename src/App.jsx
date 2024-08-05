@@ -3,6 +3,7 @@ import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import "swiper/swiper-bundle.css";
 import { ToastContainer } from "react-toastify";
+import { motion } from "framer-motion";
 
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
@@ -89,9 +90,23 @@ const appRouter = createBrowserRouter([
 
 function LoadingScreen() {
   return (
-    <div className="mt-32 flex items-center flex-col z-50">
-      <img src={watch_logo} alt="" className="h-40 w-40" />
-      <span className="text-2xl font-bold">Welcome to Vikiasmy's</span>
+    <div className="min-h-screen flex items-center justify-center lg:mt-32 lg:justify-start flex-col z-50">
+      <motion.div
+        initial={{ opacity: 0, scale: 1 }}
+        animate={{
+          opacity: [0, 1, 1, 1, 0], // Fade in and out
+          scale: [1, 1.2, 1.2, 1, 1], // Zoom in and out
+        }}
+        transition={{
+          duration: 5, // Duration of the animation
+          ease: "easeInOut",
+          repeat: Infinity, // Repeat the animation infinitely
+        }}
+        className="flex justify-center items-center"
+      >
+        <img src={watch_logo} alt="Watch Logo" className="h-40 w-40" />
+      </motion.div>
+      <span className="text-2xl font-bold mt-16">Welcome to Vikiasmy's</span>
     </div>
   );
 }

@@ -72,11 +72,14 @@ const Signup = () => {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-20 md:mt-16">
           {/* <img className="mx-auto w-44" src="../src/assets/vikiasmy.png" /> */}
           <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight dark:text-white mb-4">
-            Join the Community!
+            Join Now!
           </h2>
+          <p className=" mb-4 text-center text-sm">
+            Please fill the information below
+          </p>
         </div>
 
-        <div className="mt-2 sm:mx-auto md:min-w-[550px] p-10 md:max-w-md flex justify-center border rounded-lg shadow-lg">
+        <div className="mt-2 sm:mx-auto md:min-w-[550px] p-10 md:max-w-md flex justify-center rounded-lg shadow-lg">
           <form className="space-y-3 w-full " onSubmit={handleOnSignup}>
             {inputs.map((item, i) => (
               <CustomForm key={i} {...item} onChange={handleOnChange} />

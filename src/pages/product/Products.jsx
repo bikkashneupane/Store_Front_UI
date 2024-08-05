@@ -125,7 +125,7 @@ const Products = () => {
   return (
     <div className="bg-light dark:bg-dark min-h-screen">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="my-10 bg-white dark:bg-gray-900 shadow-lg rounded-md dark:border dark:border-gray-600">
+        <div className="my-10 bg-white dark:bg-gray-900 shadow-lg rounded-md">
           {/* Mobile filter dialog */}
           <MobileFilter
             mobileFiltersOpen={mobileFiltersOpen}

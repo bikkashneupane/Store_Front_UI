@@ -18,12 +18,14 @@ import { Link, useLocation } from "react-router-dom";
 import watch_logo from "../../assets/images/watch_logo.png";
 import { setUser } from "../../features/user/UserSlice";
 import DarkMode from "../custom/DarkMode";
+import { useState } from "react";
 
 const customClassNames = (...classes) => {
   return classes.filter(Boolean).join(" ");
 };
 
 const Header = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
@@ -45,12 +47,18 @@ const Header = () => {
   ];
 
   return (
-    <div className="w-full z-50 shadow-lg">
-      <Disclosure as="nav" className="bg-light dark:bg-gray-900">
+    <div className="w-full z-500 shadow-lg">
+      <Disclosure
+        as="nav"
+        className=" dark:bg-gray-900 dark:border-b dark:border-b-gray-700"
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative flex items-center justify-between min-h-[120px]">
+          <div className="relative flex items-center justify-between py-6">
             <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
-              <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+              <DisclosureButton
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              >
                 <span className="absolute -inset-0.5" />
                 <span className="sr-only">Open main menu</span>
                 <Bars3Icon
@@ -193,7 +201,9 @@ const Header = () => {
           </div>
         </div>
 
-        <DisclosurePanel className="md:hidden">
+        <DisclosurePanel
+          className={`md:hidden ${mobileOpen ? "block border-t" : "hidden"}`}
+        >
           <div className="space-y-1 px-2 pb-3 pt-2">
             {navigation.map((item) => (
               <Link key={item.name} to={item?.to}>
