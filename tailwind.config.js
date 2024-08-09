@@ -7,6 +7,7 @@ export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      fontFamily: { sans: ["Helvetica", "Arial", "sans-serif"] },
       gridTemplateRows: {
         "[auto,auto,1fr]": "auto auto 1fr",
       },

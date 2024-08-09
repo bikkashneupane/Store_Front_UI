@@ -1,29 +1,35 @@
 import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocalStorage } from "react-use";
+import { setDarkMode } from "../../redux/darkModeSlice";
 
 const DarkMode = () => {
-  const [dark, setDark] = useState(false);
-  const [value, setValue] = useLocalStorage("dark-mode", false);
+  const dispatch = useDispatch();
+  const { isDarkMode } = useSelector((state) => state.darkMode);
+  const [value, setValue] = useLocalStorage("dark_mode", isDarkMode);
 
   useEffect(() => {
-    value && setDark(value);
-  }, [value]);
+    if (value) {
+      dispatch(setDarkMode(value));
+    }
+  }, [value, dispatch]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const root = window.document.documentElement;
-      dark ? root.classList.add("dark") : root.classList.remove("dark");
+      isDarkMode ? root.classList.add("dark") : root.classList.remove("dark");
     }
-    setValue(dark);
-  }, [dark, setValue]);
+    setValue(isDarkMode);
+    dispatch(setDarkMode(isDarkMode));
+  }, [setValue, dispatch, isDarkMode]);
 
   return (
     <div
       className="dark:bg-gray-800 p-1 text-gray-600 dark:text-gray-200 hover:text-black dark:hover:text-white rounded-full cursor-pointer"
-      onClick={() => setDark(!dark)}
+      onClick={() => dispatch(setDarkMode(!isDarkMode))}
     >
-      {dark ? (
+      {isDarkMode ? (
         <SunIcon aria-hidden="true" className="h-7 w-7 p-0.5" />
       ) : (
         <MoonIcon aria-hidden="true" className="h-7 w-7 p-0.5" />

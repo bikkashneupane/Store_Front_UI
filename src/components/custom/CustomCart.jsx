@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { removeFromCart, updateCart } from "../../features/cart/cartSlice";
 
-const CustomCart = ({ buttonTitle, buttonLink }) => {
+const CustomCart = () => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
 
@@ -15,28 +14,28 @@ const CustomCart = ({ buttonTitle, buttonLink }) => {
     dispatch(removeFromCart(product));
   };
   return (
-    <div className="mx-auto max-w-2xl pt-4 pb-10 sm:px-6 lg:px-10 lg:pt-10 lg:pb-20 border border-black rounded-lg shadow-lg dark:border-gray-400">
-      <h1 className="text-3xl font-semibold mb-6 dark:text-gray-100 text-center">
+    <>
+      <h1 className="text-2xl font-bold mb-5 dark:text-gray-100 text-center">
         CART
       </h1>
-      <hr className="border-gray-600 dark:border-gray-400" />
-      <div className="px-4">
+      <hr className="border-gray-300 dark:border-gray-400" />
+      <div>
         <ul className="space-y-4 mt-4">
-          {cart.map((product) => (
+          {cart?.map((product) => (
             <li
               key={product?._id}
-              className="border-b border-gray-600 dark:border-gray-400 pb-4 mb-4"
+              className="border-b border-gray-300 dark:border-gray-400 pb-4 mb-4"
             >
               <div className="flex items-end justify-between">
                 <div className="flex items-center">
                   <img
                     src={product?.thumbnail}
-                    alt={product?.title}
+                    alt={product?.name}
                     className="h-20 w-20 object-cover rounded-md mr-4"
                   />
                   <div>
                     <h3 className="font-semibold dark:text-gray-100">
-                      {product?.title}
+                      {product?.name}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400">
                       Price: ${product?.price * product?.quantity || 0}
@@ -71,40 +70,37 @@ const CustomCart = ({ buttonTitle, buttonLink }) => {
         </ul>
       </div>
 
-      <div className="mt-6 pt-4 px-4 border-t border-gray-600 dark:border-gray-400">
-        <h2 className="text-xl font-semibold mb-4 dark:text-gray-100">
+      <div className="mt-16 pt-4">
+        <h2 className="text-xl font-semibold mb-4 dark:text-gray-100 text-center">
+          <hr className="mb-2 border-gray-300 dark:border-gray-400" />
           Order Summary
+          <hr className="mt-2 border-gray-300 dark:border-gray-400" />
         </h2>
         <ul className="space-y-2">
           {cart.map((product) => (
             <li key={product?._id} className="flex justify-between">
-              <span className="dark:text-gray-100">
-                {product?.title} x {product?.quantity}
+              <span className="font-semibold dark:text-gray-100">
+                {product?.quantity} x {product?.name}
               </span>
               <span className="dark:text-gray-100">
-                ${product?.price * product?.quantity || 0}
+                ${product?.price * product?.quantity || 0} AUD
               </span>
             </li>
           ))}
         </ul>
         <div className="flex justify-between mt-4">
           <span className="font-semibold dark:text-gray-100">Total</span>
-          <span className="font-semibold dark:text-gray-100">
+          <span className="dark:text-gray-100">
             $
             {cart.reduce(
               (total, product) => total + product?.price * product?.quantity,
               0
-            ) || 0}
+            ) || 0}{" "}
+            AUD
           </span>
         </div>
-        <Link
-          to={buttonLink}
-          className="mt-4 block w-full text-center py-2 bg-purple-600 text-white rounded-md shadow hover:bg-purple-500"
-        >
-          {buttonTitle}
-        </Link>
       </div>
-    </div>
+    </>
   );
 };
 

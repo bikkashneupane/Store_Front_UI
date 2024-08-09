@@ -45,6 +45,8 @@ export const axiosProcessor = async ({
     response = await pending;
     return response.data;
   } catch (error) {
+    // renew access token
+    // toastify
     console.log("Error from axios helper: ", error);
     return error?.response?.data;
   }

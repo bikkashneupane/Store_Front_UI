@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 const About = () => {
   return (
     <div className="min-h-screen bg-light dark:bg-dark text-gray-700 dark:text-gray-500">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-        <h1 className="text-4xl font-bold mb-6 dark:text-gray-300">About Us</h1>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 flex flex-col justify-center items-center mt-10">
+        <h1 className="text-3xl font-bold mb-6 dark:text-gray-300">About Us</h1>
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-4 dark:text-gray-300">
+          <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
             Quality Watches at Affordable Prices
           </h2>
           <p className="mb-4">
@@ -31,7 +31,7 @@ const About = () => {
           </p>
         </section>
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-4 dark:text-gray-300">
+          <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
             An Australian Retailer, Born from a Genuine Love for Watches
           </h2>
           <p className="mb-4">
@@ -49,7 +49,7 @@ const About = () => {
           </p>
         </section>
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-4 dark:text-gray-300">
+          <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
             Taking the Stress Out of Buying
           </h2>
           <p className="mb-4">
@@ -66,7 +66,7 @@ const About = () => {
           </p>
         </section>
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-4 dark:text-gray-300">
+          <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
             Our Commitment to You: Top Customer Service
           </h2>
           <p className="mb-4">
@@ -82,7 +82,7 @@ const About = () => {
           </p>
         </section>
         <section>
-          <h2 className="text-2xl font-semibold mb-4 dark:text-gray-300">
+          <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
             Meet the Team
           </h2>
           <p className="mb-4">

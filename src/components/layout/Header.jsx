@@ -50,7 +50,7 @@ const Header = () => {
     <div className="w-full z-500 shadow-lg">
       <Disclosure
         as="nav"
-        className=" dark:bg-gray-900 dark:border-b dark:border-b-gray-700"
+        className="dark:bg-gray-900 dark:border-b dark:border-b-gray-700"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between py-6">
@@ -74,7 +74,7 @@ const Header = () => {
             <div className="mx-auto flex flex-1 items-center justify-center md:justify-start">
               <Link
                 to={"/"}
-                className="flex items-center gap-1 text-gray-700 dark:text-gray-300 font-semibold text-xl"
+                className="flex items-center gap-1 text-gray-700 dark:text-gray-200 font-semibold text-xl"
               >
                 <img
                   alt="Vikiasmy"
@@ -107,14 +107,13 @@ const Header = () => {
             </div>
 
             {/* Dark Mode/ Wish List/ Cart/ Profile */}
-
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-3 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               {/* Profile dropdown */}
               <div className="hidden md:inline">
-                {user?.email ? (
+                {user?._id ? (
                   <Menu as="div" className="relative ml-3">
                     <div>
-                      <MenuButton className="relative flex rounded-full text-sm">
+                      <MenuButton className="relative flex rounded-full text-sm dark:bg-gray-800 p-1 text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white cursor-pointer">
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
                         {user?.profileImage ? (
@@ -125,11 +124,11 @@ const Header = () => {
                             <img
                               alt=""
                               src={user?.profileImage}
-                              className="h-7 w-7 p-0.5 rounded-full"
+                              className="h-7 w-7 p-0.5"
                             />
                           </div>
                         ) : (
-                          <div className="w-7 h-7 p-0.5 rounded-full border text-gray-200 flex justify-center items-center font-semibold">
+                          <div className="w-7 h-7 p-0.5 rounded-full border border-gray-700 dark:border-none dark:text-gray-200 flex justify-center items-center font-semibold">
                             {user?.firstName?.charAt(0)?.toUpperCase()}
                             {user?.lastName?.charAt(0)?.toUpperCase()}
                           </div>
@@ -179,10 +178,8 @@ const Header = () => {
                   </Link>
                 )}
               </div>
-
               {/* Dark Mode */}
               <DarkMode />
-
               {/* Cart */}
               <Link
                 to={"/cart"}

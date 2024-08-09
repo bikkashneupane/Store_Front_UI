@@ -1,10 +1,8 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import "swiper/swiper-bundle.css";
 import { ToastContainer } from "react-toastify";
 import { motion } from "framer-motion";
-
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import Signup from "./pages/user/Signup";
@@ -16,19 +14,19 @@ import ErrorElement from "./components/layout/ErrorElement";
 import ProductLanding from "./pages/product/ProductLanding";
 import Products from "./pages/product/Products";
 import Cart from "./pages/cart/Cart";
-import Checkout from "./pages/cart/Checkout";
 import Payment from "./pages/payment/Payment";
 import Profile from "./pages/user/Profile";
 import VerifyAccount from "./pages/user/VerifyAccount";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchProductsAction } from "./features/product/productAction";
-
 import watch_logo from "./assets/images/watch_logo.png";
 import {
   fetchCategoriesAction,
   fetchSubCategoriesAction,
 } from "./features/category/categoryAction";
+import "./App.css";
+import Checkout from "./pages/checkout/Checkout";
 
 const appRouter = createBrowserRouter([
   {
@@ -90,9 +88,9 @@ const appRouter = createBrowserRouter([
 
 function LoadingScreen() {
   return (
-    <div className="min-h-screen flex items-center justify-center lg:mt-32 lg:justify-start flex-col z-50">
+    <div className="min-h-screen flex items-center justify-center lg:mt-52 lg:justify-start flex-col z-50">
       <motion.div
-        initial={{ opacity: 0, scale: 1 }}
+        initial={{ opacity: 0, scale: 0 }}
         animate={{
           opacity: [0, 1, 1, 1, 0], // Fade in and out
           scale: [1, 1.2, 1.2, 1, 1], // Zoom in and out
