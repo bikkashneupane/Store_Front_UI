@@ -30,6 +30,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
+  const { categories } = useSelector((state) => state.categories);
 
   const handleOnLogout = () => {
     dispatch(setUser({}));
@@ -39,7 +40,15 @@ const Header = () => {
 
   const navigation = [
     { name: "Browse", to: "/products", current: false },
-    { name: "Categories", to: "/categories", current: false },
+    {
+      name: "Categories",
+      to: "/categories",
+      current: false,
+      options: categories?.map((cat) => ({
+        name: cat?.title,
+        to: `/products?category=${cat?.title}&cat_id=${cat?._id}`,
+      })),
+    },
     { name: "About", to: "/about", current: false },
     { name: "Contact", to: "/contact", current: false },
     { name: "Cart", to: "/cart", current: false, mobile: true },
@@ -91,7 +100,28 @@ const Header = () => {
                     .filter((item) => !item.mobile)
                     .map((item) => {
                       const isCurrent = location.pathname === item.to;
-                      return (
+                      return item?.options ? (
+                        <Menu as="div" className="relative">
+                          <div className="text-gray-700 dark:text-gray-300 hover:bg-gray-600 hover:text-white block rounded-md px-3 py-2 font-bold cursor-pointer">
+                            <MenuButton>{item?.name}</MenuButton>
+                          </div>
+                          <MenuItems
+                            transition
+                            className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                          >
+                            {item?.options?.map((opt, i) => (
+                              <MenuItem key={`${opt?.name}-${i}`}>
+                                <Link
+                                  to={opt?.to}
+                                  className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 data-[focus]:bg-gray-100 dark:data-[focus]:bg-gray-700"
+                                >
+                                  {opt?.name}
+                                </Link>
+                              </MenuItem>
+                            ))}
+                          </MenuItems>
+                        </Menu>
+                      ) : (
                         <Link key={item.name} to={item?.to}>
                           <DisclosureButton
                             aria-current={isCurrent ? "page" : undefined}
@@ -198,6 +228,7 @@ const Header = () => {
           </div>
         </div>
 
+        {/* MObile Navigations */}
         <DisclosurePanel
           className={`md:hidden ${mobileOpen ? "block border-t" : "hidden"}`}
         >

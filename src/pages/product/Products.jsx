@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
   ChevronDownIcon,
@@ -16,20 +16,33 @@ import {
   setFilteredProducts,
   setFilteredProductsWithSubCat,
 } from "../../features/product/ProductSlice";
+import { useSearchParams } from "react-router-dom";
 
 const classNames = (...classes) => {
   return classes.filter(Boolean).join(" ");
 };
 
 const Products = () => {
-  const dispatch = useDispatch();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
+  const [query] = useSearchParams();
+  const categoryId = query.get("cat_id");
+
+  const dispatch = useDispatch();
   const {
     products,
     filteredProducts = [],
     filteredProductsWithSubCat = [],
   } = useSelector((state) => state.products);
+
+  useEffect(() => {
+    if (categoryId) {
+      const catProducts = products?.filter(
+        (product) => product?.categoryId === categoryId
+      );
+      dispatch(setFilteredProducts(catProducts));
+    }
+  }, [categoryId, dispatch, products]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
@@ -59,9 +72,6 @@ const Products = () => {
 
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
-  // const pageProducts = filteredProducts.length
-  //   ? filteredProducts
-  //   : products?.slice(startIndex, endIndex);
 
   const pageProducts =
     filteredProductsWithSubCat.length > 0
