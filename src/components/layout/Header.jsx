@@ -101,10 +101,11 @@ const Header = () => {
                     .map((item) => {
                       const isCurrent = location.pathname === item.to;
                       return item?.options ? (
-                        <Menu as="div" className="relative">
-                          <div className="text-gray-700 dark:text-gray-300 hover:bg-gray-600 hover:text-white block rounded-md px-3 py-2 font-bold cursor-pointer">
-                            <MenuButton>{item?.name}</MenuButton>
-                          </div>
+                        <Menu as="div" key={item?.name} className="relative">
+                          <MenuButton className="text-gray-700 dark:text-gray-300 hover:bg-gray-600 hover:text-white block rounded-md px-3 py-2 font-bold cursor-pointer">
+                            {item?.name}
+                          </MenuButton>
+
                           <MenuItems
                             transition
                             className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
@@ -113,7 +114,7 @@ const Header = () => {
                               <MenuItem key={`${opt?.name}-${i}`}>
                                 <Link
                                   to={opt?.to}
-                                  className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 data-[focus]:bg-gray-100 dark:data-[focus]:bg-gray-700"
+                                  className="block px-4 py-2 text-sm font-bold text-gray-700 dark:text-gray-200 data-[focus]:bg-gray-100 dark:data-[focus]:bg-gray-700"
                                 >
                                   {opt?.name}
                                 </Link>
@@ -122,7 +123,7 @@ const Header = () => {
                           </MenuItems>
                         </Menu>
                       ) : (
-                        <Link key={item.name} to={item?.to}>
+                        <Link key={item?.name} to={item?.to}>
                           <DisclosureButton
                             aria-current={isCurrent ? "page" : undefined}
                             className="text-gray-700 dark:text-gray-300 hover:bg-gray-600 hover:text-white block rounded-md px-3 py-2 font-bold"
@@ -208,8 +209,10 @@ const Header = () => {
                   </Link>
                 )}
               </div>
+
               {/* Dark Mode */}
               <DarkMode />
+
               {/* Cart */}
               <Link
                 to={"/cart"}
