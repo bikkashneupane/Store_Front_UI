@@ -11,9 +11,9 @@ export const fetchCategoriesAxios = () => {
 };
 
 // fetch active categories => get
-export const fetchSubCategoriesAxios = () => {
+export const fetchSubCatAxios = () => {
   return axiosProcessor({
-    url: CATEGORY_EP + "/sub-category",
+    url: CATEGORY_EP + "/sub-categories",
     method: "GET",
   });
 };

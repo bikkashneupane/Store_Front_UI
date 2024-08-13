@@ -1,5 +1,5 @@
-import { fetchCategoriesAxios, fetchSubCategoriesAxios } from "./categoryAxios";
-import { setCategories, setSubCategories } from "./categorySlice";
+import { fetchCategoriesAxios, fetchSubCatAxios } from "./categoryAxios";
+import { setBrands, setCategories, setMaterials } from "./categorySlice";
 
 // fetch all categories
 export const fetchCategoriesAction = () => async (dispatch) => {
@@ -9,10 +9,17 @@ export const fetchCategoriesAction = () => async (dispatch) => {
   }
 };
 
-// fetch all categories
-export const fetchSubCategoriesAction = () => async (dispatch) => {
-  const { status, categories } = await fetchSubCategoriesAxios();
+// fetch all subCategroies
+export const fetchSubCatAction = () => async (dispatch) => {
+  const { status, brands, materials } = await fetchSubCatAxios();
   if (status === "success") {
-    dispatch(setSubCategories(categories));
+    const sortedBrands = brands.sort((a, b) => a.name.localeCompare(b.name));
+
+    const sortedMaterials = materials.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+
+    dispatch(setBrands(sortedBrands));
+    dispatch(setMaterials(sortedMaterials));
   }
 };

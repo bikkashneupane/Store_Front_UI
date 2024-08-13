@@ -6,7 +6,6 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 
-import { sortOptions } from "../../assets/constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import MobileFilter from "../../components/product/MobileFilter";
 import DesktopFilter from "../../components/product/DesktopFilter";
@@ -17,12 +16,10 @@ import {
   setFilteredProductsWithSubCat,
 } from "../../features/product/ProductSlice";
 import { useSearchParams } from "react-router-dom";
-
-const classNames = (...classes) => {
-  return classes.filter(Boolean).join(" ");
-};
+import SortProduct from "../../components/product/SortProduct";
 
 const Products = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [productFound, setProductFound] = useState(true);
 
@@ -38,6 +35,7 @@ const Products = () => {
   } = useSelector((state) => state.products);
 
   useEffect(() => {
+    // category selected from navlink
     if (categoryId) {
       const catProducts = products?.filter(
         (product) => product?.categoryId === categoryId
@@ -52,41 +50,46 @@ const Products = () => {
     }
   }, [categoryId, dispatch, products]);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
+  // total products per page
+  const productsPerPage = 9;
+
+  // total pages -> for pagination
   const totalPages = Math.ceil(
-    filteredProductsWithSubCat.length > 0
-      ? filteredProductsWithSubCat.length
-      : filteredProducts.length > 0
-      ? filteredProducts?.length
+    filteredProducts?.length > 0
+      ? filteredProducts?.length / productsPerPage
       : products.length / productsPerPage
   );
 
+  // pagination -> product 1 to 100
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+
+  // current page products
+  const pageProducts =
+    filteredProductsWithSubCat?.length > 0
+      ? filteredProductsWithSubCat
+      : filteredProducts?.length > 0
+      ? filteredProducts
+      : products?.slice(startIndex, endIndex);
+
+  // move back to previous page
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
 
+  // move forward to next page
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
 
+  // show products of nth page
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
-  const startIndex = (currentPage - 1) * productsPerPage;
-  const endIndex = startIndex + productsPerPage;
-
-  const pageProducts =
-    filteredProductsWithSubCat.length > 0
-      ? filteredProductsWithSubCat
-      : filteredProducts.length > 0
-      ? filteredProducts
-      : products?.slice(startIndex, endIndex);
 
   // filter product with gender logic
   const handleGenderFilter = (e) => {
@@ -112,50 +115,44 @@ const Products = () => {
     let updatedFilteredProducts = [...filteredProducts];
 
     if (checked) {
-      const newProducts = products.filter(
+      const newProducts = products?.filter(
         (product) => product?.categoryId === value
       );
       updatedFilteredProducts = [...updatedFilteredProducts, ...newProducts];
     } else {
-      updatedFilteredProducts = updatedFilteredProducts.filter(
-        (product) => product.categoryId !== value
+      updatedFilteredProducts = updatedFilteredProducts?.filter(
+        (product) => product?.categoryId !== value
       );
-      dispatch(setFilteredProductsWithSubCat([]));
     }
+    // store in filteredProducts in redux
     dispatch(setFilteredProducts(updatedFilteredProducts));
   };
 
   // Filter Product with sub-category logic
   const handleSubCatFilter = (e) => {
     const { name, value, checked } = e.target;
-    console.log(name, value, checked);
-    let updatedFilteredProductsWithSubCat = [...filteredProductsWithSubCat];
 
-    // 1. one filter, show only that filter from filteredProducts
-    // 2. two or more filters, show all products with any of the 2 filters matching in filteredproducts
+    let updatedFilteredProducts = [...filteredProducts];
 
     if (checked) {
       // Add the new filter if it doesn't already exist
-      if (
-        !updatedFilteredProductsWithSubCat.some((item) => item[name] === value)
-      ) {
+      const isFilterPresent = updatedFilteredProducts?.some(
+        (item) => item[name] === value
+      );
+      if (!isFilterPresent) {
         // Filter products based on the subcategory
         const filtered = filteredProducts?.filter(
           (product) => product[name] === value
         );
-        updatedFilteredProductsWithSubCat = [
-          ...updatedFilteredProductsWithSubCat,
-          ...filtered,
-        ];
+        updatedFilteredProducts = [...updatedFilteredProducts, ...filtered];
       }
     } else {
       // Remove the filter if it exists
-      updatedFilteredProductsWithSubCat =
-        updatedFilteredProductsWithSubCat.filter(
-          (product) => product[name] !== value
-        );
+      updatedFilteredProducts = updatedFilteredProducts.filter(
+        (product) => product[name] !== value
+      );
     }
-    dispatch(setFilteredProductsWithSubCat(updatedFilteredProductsWithSubCat));
+    dispatch(setFilteredProductsWithSubCat(updatedFilteredProducts));
   };
 
   return (
@@ -166,7 +163,7 @@ const Products = () => {
             {category} updating soon... Please Come Back Later
           </div>
         ) : (
-          <div className="my-10 bg-white dark:bg-gray-900 shadow-lg rounded-md">
+          <div className="my-6 bg-white dark:bg-gray-900 shadow-lg rounded-md">
             {/* Mobile filter dialog */}
             <MobileFilter
               mobileFiltersOpen={mobileFiltersOpen}
@@ -181,41 +178,9 @@ const Products = () => {
                   Browse Store
                 </h1>
 
+                {/* Sort Products by price / best rated */}
                 <div className="flex items-center">
-                  <Menu as="div" className="relative inline-block text-left">
-                    <div>
-                      <MenuButton className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100">
-                        Sort
-                        <ChevronDownIcon
-                          aria-hidden="true"
-                          className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400"
-                        />
-                      </MenuButton>
-                    </div>
-
-                    <MenuItems
-                      transition
-                      className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                    >
-                      <div className="py-1">
-                        {sortOptions.map((option) => (
-                          <MenuItem key={option.name}>
-                            <a
-                              href={option.href}
-                              className={classNames(
-                                option.current
-                                  ? "font-medium text-gray-900 dark:text-gray-100"
-                                  : "text-gray-500 dark:text-gray-300",
-                                "block px-4 py-2 text-sm data-[focus]:bg-gray-100 dark:data-[focus]:bg-gray-700"
-                              )}
-                            >
-                              {option.name}
-                            </a>
-                          </MenuItem>
-                        ))}
-                      </div>
-                    </MenuItems>
-                  </Menu>
+                  <SortProduct />
 
                   <button
                     type="button"
@@ -234,6 +199,7 @@ const Products = () => {
                   </button>
                 </div>
               </div>
+
               <section className="pb-24 pt-6">
                 <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                   {/* Filters */}
@@ -247,9 +213,7 @@ const Products = () => {
                   <div className="lg:col-span-3">
                     <ProductList
                       products={
-                        filteredProductsWithSubCat?.length > 0
-                          ? filteredProductsWithSubCat
-                          : filteredProducts?.length > 0
+                        filteredProducts?.length > 0
                           ? filteredProducts
                           : pageProducts
                       }

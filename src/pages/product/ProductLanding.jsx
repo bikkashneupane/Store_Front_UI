@@ -7,7 +7,7 @@ import {
   updateCartAction,
 } from "../../features/cart/cartAction";
 
-const reviews = { href: "#", average: 4, totalCount: 117 };
+const reviews = { href: "#product-reviews", average: 4, totalCount: 117 };
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -42,13 +42,13 @@ const ProductLanding = () => {
   };
 
   return (
-    <div className="dark:bg-gray-900 text-gray-900 dark:text-white px-3">
+    <div className="dark:bg-gray-900 text-gray-900 dark:text-white">
       <div className="mx-auto mt-10 md:mt-20 max-w-7xl sm:px-6 lg:px-8">
         <div className="lg:flex lg:gap-x-8">
           {/* Image gallery */}
           <div className="lg:w-4/5 lg:flex lg:items-start lg:gap-x-4">
             {/* Image gallery for larger screens */}
-            <div className="hidden lg:flex lg:flex-col lg:gap-y-2 lg:mb-4 h-full lg:py-12">
+            <div className="hidden lg:flex lg:flex-col lg:gap-y-2 lg:mb-4 h-full ">
               {selectedProduct?.images.map((img, index) => (
                 <div
                   key={index}
@@ -64,7 +64,7 @@ const ProductLanding = () => {
                     className={
                       img === currentImage
                         ? "w-full h-full rounded-md cursor-pointer"
-                        : "w-full h-full rounded-md cursor-pointer hover:opacity-100 opacity-70"
+                        : "w-full h-full rounded-md cursor-pointer hover:opacity-100 opacity-30"
                     }
                     onClick={() => setCurrentImage(img)}
                   />
@@ -73,16 +73,16 @@ const ProductLanding = () => {
             </div>
 
             {/* Main image */}
-            <div className="md:px-4 w-full lg:w-auto md:ml-4 rounded-md shaadow-lg dark:border-0">
+            <div className="md:px-4 w-full lg:w-auto md:ml-4">
               <img
                 alt={selectedProduct?.title}
                 src={currentImage}
-                className="w-full lg:min-w-[580px] h-[520px] object-cover object-center rounded-lg"
+                className="w-full lg:min-w-[580px] h-[520px] object-cover object-center rounded-lg shadow-xl shadow-b dark:shadow-gray-400 shadow-gray-500"
               />
             </div>
 
             {/* Image gallery for smaller screens */}
-            <div className="flex lg:hidden space-x-2 mt-6 overflow-x-auto scrollbar-hidden ">
+            <div className="flex lg:hidden space-x-2 mt-6 overflow-x-auto scrollbar-hidden">
               {selectedProduct?.images.map((img, index) => (
                 <div
                   key={index}
@@ -108,7 +108,7 @@ const ProductLanding = () => {
           </div>
 
           {/* Product details */}
-          <div className="lg:w-1/2 lg:p-12 my-10 lg:my-0 dark:border-2 dark:border-gray-700 rounded-lg shadow-md p-4">
+          <div className="my-10 lg:my-0 p-4 lg:w-1/2 lg:p-12 lg:pb-4 dark:border-2 dark:border-gray-700 rounded-lg shadow-xl max-h-[520px] dark:shadow-gray-600 shadow-gray-500">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
               {selectedProduct?.title}
             </h1>
@@ -152,7 +152,7 @@ const ProductLanding = () => {
                 <p className="sr-only">{reviews.average} out of 5 stars</p>
                 <a
                   href={reviews.href}
-                  className="ml-3 text-sm font-medium text-purple-600 hover:text-purple-500 dark:text-purple-400 dark:hover:text-purple-300"
+                  className="ml-3 text-sm font-medium scroll-smooth text-purple-600 hover:text-purple-500 dark:text-purple-400 dark:hover:text-purple-300"
                 >
                   {reviews.totalCount} reviews
                 </a>
@@ -197,8 +197,65 @@ const ProductLanding = () => {
             <div className="mt-10">
               <h3 className="text-xl font-semibold">Description</h3>
               <p className="mt-2 text-base text-gray-900 dark:text-gray-300">
-                {selectedProduct?.description}
+                {selectedProduct?.description?.slice(0, 250)} ....
               </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Product Description and Review  */}
+      <div className="bg-black text-white py-4 flex justify-center gap-10 mt-16 cursor-pointer">
+        <a href="#porduct-description">Description</a>
+        <a href="#product-reviews">Reviews</a>
+      </div>
+
+      <div
+        className="my-4 mx-auto max-w-7xl sm:px-6 lg:px-8"
+        id="product-description"
+      >
+        {/* Description */}
+        <div className="py-4 mb-4">
+          <h1 className="text-2xl font-bold mb-8 italic tracking-wider font-mono underline">
+            Description
+          </h1>
+          <p>{selectedProduct?.description}</p>
+        </div>
+        {/* Review */}
+
+        <div className="mt-10 py-4">
+          <h1 className="text-xl font-bold mb-8 tracking-wider font-mono underline">
+            Reviews
+          </h1>
+          <div className="mt-8 flex flex-col gap-6" id="product-reviews">
+            <div className="flex gap-8">
+              <div className="w-8 h-8 border rounded-full flex items-center justify-center">
+                <span>BN</span>
+              </div>
+              <div>
+                <h1>Good Product</h1>
+                <h2>5 stars</h2>
+                <p>Amazing Product, A little Expensive though.</p>
+              </div>
+            </div>
+            <div className="flex gap-8">
+              <div className="w-8 h-8 border rounded-full flex items-center justify-center">
+                <span>BN</span>
+              </div>
+              <div>
+                <h1>Good Product</h1>
+                <h2>5 stars</h2>
+                <p>Amazing Product, A little Expensive though.</p>
+              </div>
+            </div>
+            <div className="flex gap-8">
+              <div className="w-8 h-8 border rounded-full flex items-center justify-center">
+                <span>BN</span>
+              </div>
+              <div>
+                <h1>Good Product</h1>
+                <h2>5 stars</h2>
+                <p>Amazing Product, A little Expensive though.</p>
+              </div>
             </div>
           </div>
         </div>

@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   categories: [],
-  subCategories: [],
+  brands: [],
+  materials: [],
 };
 
 //create slice
@@ -13,12 +14,15 @@ const slice = createSlice({
     setCategories: (state, action) => {
       state.categories = action.payload;
     },
-    setSubCategories: (state, action) => {
-      state.subCategories = action.payload;
+    setBrands: (state, action) => {
+      state.brands = action.payload;
+    },
+    setMaterials: (state, action) => {
+      state.materials = action.payload;
     },
   },
 });
 
 const { reducer, actions } = slice;
-export const { setCategories, setSubCategories } = actions;
+export const { setCategories, setBrands, setMaterials } = actions;
 export default reducer;

@@ -21,7 +21,7 @@ const CustomCarousel = ({ images = [] }) => {
   useEffect(() => {
     startAutoSlide();
     return () => clearTimeout(timeoutRef.current);
-  }, [current]);
+  }, []);
 
   if (!Array.isArray(images) || images.length <= 0) {
     return null;

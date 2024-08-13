@@ -56,7 +56,7 @@ const Header = () => {
   ];
 
   return (
-    <div className="w-full z-500 shadow-lg">
+    <div className="w-full shadow-lg">
       <Disclosure
         as="nav"
         className="dark:bg-gray-900 dark:border-b dark:border-b-gray-700"

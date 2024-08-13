@@ -38,7 +38,9 @@ const CustomCart = () => {
                       {product?.name}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400">
-                      Price: ${product?.price * product?.quantity || 0}
+                      Price: $
+                      {(product?.salesPrice || product?.price) *
+                        product?.quantity || 0}
                     </p>
                     <div className="flex items-center mt-2">
                       <label
@@ -83,7 +85,10 @@ const CustomCart = () => {
                 {product?.quantity} x {product?.name}
               </span>
               <span className="dark:text-gray-100">
-                ${product?.price * product?.quantity || 0} AUD
+                $
+                {(product?.salesPrice || product?.price) * product?.quantity ||
+                  0}{" "}
+                AUD
               </span>
             </li>
           ))}
@@ -93,7 +98,8 @@ const CustomCart = () => {
           <span className="dark:text-gray-100">
             $
             {cart.reduce(
-              (total, product) => total + product?.price * product?.quantity,
+              (acc, curr) =>
+                acc + (curr?.salesPrice || curr?.price) * curr?.quantity,
               0
             ) || 0}{" "}
             AUD

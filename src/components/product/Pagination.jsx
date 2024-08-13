@@ -63,7 +63,7 @@ const Pagination = (props) => {
                 className={`relative z-10 inline-flex items-center px-4 py-2 text-sm font-semibold ${
                   currentPage === index + 1
                     ? "bg-purple-600 dark:bg-purple-500 text-white"
-                    : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300"
+                    : "bg-white border dark:bg-gray-800 text-gray-700 dark:text-gray-300"
                 } focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600`}
               >
                 {index + 1}

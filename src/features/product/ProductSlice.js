@@ -14,6 +14,7 @@ const slice = createSlice({
     setProducts: (state, action) => {
       state.products = action.payload;
     },
+
     setFilteredProducts: (state, action) => {
       state.filteredProducts = action.payload;
     },

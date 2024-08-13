@@ -18,7 +18,7 @@ const Checkout = () => {
   const { user } = useSelector((state) => state.user);
   const { isDarkMode } = useSelector((state) => state.darkMode);
   const totalAmount = cart?.reduce((acc, curr) => {
-    return acc + curr?.quantity * (curr?.sales?.salesPrice || curr?.price);
+    return acc + curr?.quantity * (curr?.salesPrice || curr?.price);
   }, 0);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const Checkout = () => {
             _id: item?._id,
             name: item?.name,
             quantity: item?.quantity,
-            price: item?.sales?.salesPrice || item?.price,
+            price: item?.salesPrice || item?.price,
           })),
         });
         const { clientSecret } = data;

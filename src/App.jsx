@@ -23,7 +23,7 @@ import { fetchProductsAction } from "./features/product/productAction";
 import watch_logo from "./assets/images/watch_logo.png";
 import {
   fetchCategoriesAction,
-  fetchSubCategoriesAction,
+  fetchSubCatAction,
 } from "./features/category/categoryAction";
 import "./App.css";
 import Checkout from "./pages/checkout/Checkout";
@@ -121,14 +121,14 @@ function DefaultLayout() {
     return <LoadingScreen />;
   }
   return (
-    <>
+    <div>
       <Header />
       {/* pt-[80px] */}
-      <div className="min-h-[75vh] ">
+      <div className="min-h-[75vh]">
         <Outlet />
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 
@@ -138,7 +138,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchProductsAction());
     dispatch(fetchCategoriesAction());
-    dispatch(fetchSubCategoriesAction());
+    dispatch(fetchSubCatAction());
   }, [dispatch]);
   return (
     <>

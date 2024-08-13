@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const ProductList = ({ products }) => {
-  const { subCategories } = useSelector((state) => state.categories);
+  const { brands } = useSelector((state) => state.categories);
 
   if (products?.length === 0) {
     return (
@@ -32,24 +32,18 @@ const ProductList = ({ products }) => {
                   <h3 className="text-sm text-gray-700 dark:text-gray-300">
                     <Link to={`/product/${item?._id}`}>
                       <span aria-hidden="true" className="absolute inset-0" />
-                      {item?.name}
+                      {item?.name?.slice(0, 20)}
+                      {item?.name?.length > 20 && "..."}
                     </Link>
                   </h3>
                   <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    {
-                      subCategories
-                        ?.find(
-                          (subCat) =>
-                            subCat?.parentCategoryId === item?.categoryId
-                        )
-                        ?.brand?.find((itm) => itm?._id === item?.brandId)?.name
-                    }
+                    {brands?.find((brand) => brand._id === item?.brandId)?.name}
                   </p>
                 </div>
-                {item?.sales?.isSales ? (
+                {item?.salesPrice ? (
                   <div className="flex flex-col">
                     <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                      ${item?.sales?.salesPrice}
+                      ${item?.salesPrice}
                     </p>
                     <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 line-through">
                       ${item?.price}

@@ -18,11 +18,10 @@ export const shipping_truck = (
 );
 
 export const sortOptions = [
-  { name: "Most Popular", href: `/#`, current: false },
-  { name: "Best Rating", href: `/#`, current: false },
-  { name: "Newest", href: `/#`, current: false },
-  { name: "Price: Low to High", href: `/#`, current: false },
-  { name: "Price: High to Low", href: `/#`, current: false },
+  // { name: "Most Popular", current: false },
+  // { name: "Best Rating", current: false },
+  { name: "Price: Low to High", current: false },
+  { name: "Price: High to Low", current: false },
 ];
 
 export const filters = [
