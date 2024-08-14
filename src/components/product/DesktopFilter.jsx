@@ -14,7 +14,7 @@ const DesktopFilter = ({
   const { categories, brands, materials } = useSelector(
     (state) => state.categories
   );
-  const { filteredProducts = [] } = useSelector((state) => state.products);
+  const { filteredProducts } = useSelector((state) => state.products);
 
   return (
     <div className="hidden lg:block">

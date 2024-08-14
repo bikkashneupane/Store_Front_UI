@@ -1,6 +1,6 @@
 import { axiosProcessor } from "../../axios/axiosHelper";
 
-const PRODUCT_EP = import.meta.env.VITE_SERVER_API + "/products";
+const PRODUCT_EP = import.meta.env.VITE_SERVER_API + "/v1/products";
 
 // fetch active products => get
 export const fetchProductsAxios = () => {

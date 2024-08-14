@@ -1,17 +1,17 @@
 import {
   fetchUserAxios,
   loginUserAxios,
+  renewAccessJWTAxios,
   signupUserAxios,
   verifyAccountAxios,
 } from "./userAxios";
 import { setUser } from "./UserSlice";
 
 // fetch user
-export const fetchUserAction = (navigate) => async (dispatch) => {
+export const fetchUserAction = () => async (dispatch) => {
   const { status, user } = await fetchUserAxios();
   if (status === "success") {
     dispatch(setUser(user));
-    navigate("/");
   }
 };
 
@@ -27,12 +27,26 @@ export const verifyAccountAction = (obj) => {
 };
 
 // verify account
-export const loginUserAction = (obj, navigate) => async (dispatch) => {
+export const loginUserAction = (obj) => async (dispatch) => {
   const { status, tokens } = await loginUserAxios(obj);
 
   if (status === "success") {
     localStorage.setItem("refreshJWT", tokens.refreshJWT);
     sessionStorage.setItem("accessJWT", tokens.accessJWT);
-    dispatch(fetchUserAction(navigate));
+    dispatch(fetchUserAction());
+  }
+};
+
+// auto login
+export const autoLoginAction = () => async (dispatch) => {
+  const accessJWT = sessionStorage.getItem("accessJWT");
+  if (accessJWT) {
+    dispatch(fetchUserAction());
+  }
+
+  const refreshJWT = localStorage.getItem("refreshJWT");
+  if (refreshJWT) {
+    const { accessJWT } = await renewAccessJWTAxios();
+    accessJWT && dispatch(fetchUserAction());
   }
 };

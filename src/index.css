@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply text-black bg-white dark:bg-gray-900 dark:text-white;
+  @apply text-gray-700 bg-white dark:bg-gray-900 dark:text-gray-200;
 
-  font-family: "Sora", sans-serif;
+  font-family: "sans-serif", "Helvetica", "Arial";
 }

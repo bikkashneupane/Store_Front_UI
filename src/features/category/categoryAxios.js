@@ -1,6 +1,6 @@
 import { axiosProcessor } from "../../axios/axiosHelper";
 
-const CATEGORY_EP = import.meta.env.VITE_SERVER_API + "/categories";
+const CATEGORY_EP = import.meta.env.VITE_SERVER_API + "/v1/categories";
 
 // fetch active categories => get
 export const fetchCategoriesAxios = () => {

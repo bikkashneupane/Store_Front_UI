@@ -18,19 +18,30 @@ import { Link, useLocation } from "react-router-dom";
 import watch_logo from "../../assets/images/watch_logo.png";
 import { setUser } from "../../features/user/UserSlice";
 import DarkMode from "../custom/DarkMode";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const customClassNames = (...classes) => {
   return classes.filter(Boolean).join(" ");
 };
 
 const Header = () => {
+  const [scrollY, setScrollY] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const location = useLocation();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
   const { categories } = useSelector((state) => state.categories);
+
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const handleOnLogout = () => {
     dispatch(setUser({}));
@@ -39,27 +50,29 @@ const Header = () => {
   };
 
   const navigation = [
-    { name: "Browse", to: "/products", current: false },
+    { name: "Browse", to: "/products" },
     {
       name: "Categories",
       to: "/categories",
-      current: false,
       options: categories?.map((cat) => ({
         name: cat?.title,
         to: `/products?category=${cat?.title}&cat_id=${cat?._id}`,
       })),
     },
-    { name: "About", to: "/about", current: false },
-    { name: "Contact", to: "/contact", current: false },
-    { name: "Cart", to: "/cart", current: false, mobile: true },
-    { name: "Profile", to: "/profile", current: false, mobile: true },
+    { name: "About", to: "/about" },
+    { name: "Contact", to: "/contact" },
+    { name: "Cart", to: "/cart", mobile: true },
+    { name: "Profile", to: "/profile", mobile: true },
   ];
 
   return (
-    <div className="w-full shadow-lg">
+    <div className="w-full shadow-lg sticky top-0 z-50">
+      {/* On Scroll, change the background of nav */}
       <Disclosure
         as="nav"
-        className="dark:bg-gray-900 dark:border-b dark:border-b-gray-700"
+        className={`${
+          scrollY > 0 && "bg-gray-900 text-white"
+        } transition-colors duration-300 dark:bg-gray-900 dark:border-b dark:border-b-gray-700`}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between py-6">
@@ -90,7 +103,9 @@ const Header = () => {
                   src={watch_logo}
                   className="h-[30px] w-[30px]"
                 />
-                <h1>vikiasmy's</h1>
+                <h1 className={scrollY > 0 ? "text-gray-200" : ""}>
+                  vikiasmy's
+                </h1>
               </Link>
 
               {/* Navigations */}
@@ -99,10 +114,13 @@ const Header = () => {
                   {navigation
                     .filter((item) => !item.mobile)
                     .map((item) => {
-                      const isCurrent = location.pathname === item.to;
                       return item?.options ? (
                         <Menu as="div" key={item?.name} className="relative">
-                          <MenuButton className="text-gray-700 dark:text-gray-300 hover:bg-gray-600 hover:text-white block rounded-md px-3 py-2 font-bold cursor-pointer">
+                          <MenuButton
+                            className={`${
+                              scrollY > 0 ? "text-gray-200" : "text-gray-700"
+                            } dark:text-gray-300 hover:bg-gray-600 hover:text-white block rounded-md px-3 py-2 font-bold cursor-pointer`}
+                          >
                             {item?.name}
                           </MenuButton>
 
@@ -125,8 +143,9 @@ const Header = () => {
                       ) : (
                         <Link key={item?.name} to={item?.to}>
                           <DisclosureButton
-                            aria-current={isCurrent ? "page" : undefined}
-                            className="text-gray-700 dark:text-gray-300 hover:bg-gray-600 hover:text-white block rounded-md px-3 py-2 font-bold"
+                            className={`${
+                              scrollY > 0 ? "text-gray-200" : "text-gray-700"
+                            } dark:text-gray-300 hover:bg-gray-600 hover:text-white block rounded-md px-3 py-2 font-bold`}
                           >
                             {item.name}
                           </DisclosureButton>
@@ -144,22 +163,23 @@ const Header = () => {
                 {user?._id ? (
                   <Menu as="div" className="relative ml-3">
                     <div>
-                      <MenuButton className="relative flex rounded-full text-sm dark:bg-gray-800 p-1 text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white cursor-pointer">
-                        <span className="absolute -inset-1.5" />
-                        <span className="sr-only">Open user menu</span>
-                        {user?.profileImage ? (
-                          <div className="flex gap-1 items-center">
-                            <span className="font-semibold text-base dark:text-white">
-                              {user?.firstName}
-                            </span>
-                            <img
-                              alt=""
-                              src={user?.profileImage}
-                              className="h-7 w-7 p-0.5"
-                            />
-                          </div>
+                      <MenuButton
+                        className={`${
+                          scrollY > 0 ? "bg-gray-800" : "bg-white"
+                        } relative flex p-1 rounded-full border dark:border-gray-600 text-sm dark:bg-gray-800 hover:border-purple-600 cursor-pointer shadow-xl`}
+                      >
+                        {user?.profileImage !== "" ? (
+                          <img
+                            alt=""
+                            src={user?.profileImage}
+                            className="h-7 w-7 p-0.5"
+                          />
                         ) : (
-                          <div className="w-7 h-7 p-0.5 rounded-full border border-gray-700 dark:border-none dark:text-gray-200 flex justify-center items-center font-semibold">
+                          <div
+                            className={`${
+                              scrollY > 0 ? "text-gray-200" : ""
+                            } w-7 h-7 p-0.5 rounded-full dark:text-gray-200 flex justify-center items-center font-semibold`}
+                          >
                             {user?.firstName?.charAt(0)?.toUpperCase()}
                             {user?.lastName?.charAt(0)?.toUpperCase()}
                           </div>
@@ -197,31 +217,34 @@ const Header = () => {
                     </MenuItems>
                   </Menu>
                 ) : (
-                  <Link to={"/login"}>
-                    <button
-                      type="button"
-                      className="relative dark:bg-gray-800 p-1 text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white rounded-full cursor-pointer"
-                    >
-                      <span className="absolute -inset-1.5" />
-                      <span className="sr-only">Login</span>
-                      <UserCircleIcon aria-hidden="true" className="h-7 w-7" />
-                    </button>
+                  <Link
+                    to={"/login"}
+                    className={`${
+                      scrollY > 0 ? "bg-gray-800" : "bg-white"
+                    } relative flex p-1 rounded-full text-sm dark:bg-gray-800 cursor-pointer shadow-xl`}
+                  >
+                    <UserCircleIcon aria-hidden="true" className="h-8 w-8" />
                   </Link>
                 )}
               </div>
 
               {/* Dark Mode */}
-              <DarkMode />
+              <DarkMode scrollY={scrollY} />
 
               {/* Cart */}
               <Link
                 to={"/cart"}
                 type="button"
-                className="hidden md:inline relative dark:bg-gray-800 p-1 text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white rounded-full cursor-pointer"
+                className={`${
+                  scrollY > 0 ? "text-gray-200 bg-gray-800 " : "text-gray-700 "
+                } hidden md:inline relative dark:bg-gray-800 p-1 dark:text-gray-200 dark:hover:text-white rounded-full shadow-xl cursor-pointer`}
               >
                 <span className="absolute -inset-1.5" />
                 <span className="sr-only">View Cart</span>
-                <ShoppingBagIcon aria-hidden="true" className="h-7 w-7 p-0.5" />
+                <ShoppingBagIcon
+                  aria-hidden="true"
+                  className=" h-7 w-7 p-0.5"
+                />
 
                 <span className="absolute top-1 right-1 transform translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-700 border-2 border-white rounded-full">
                   {cart?.reduce((acc, curr) => acc + curr.quantity, 0) || 0}
@@ -239,9 +262,8 @@ const Header = () => {
             {navigation.map((item) => (
               <Link key={item.name} to={item?.to}>
                 <DisclosureButton
-                  aria-current={item.current ? "page" : undefined}
                   className={customClassNames(
-                    item.current
+                    scrollY > 0
                       ? "bg-gray-700 text-white"
                       : "text-gray-900 dark:text-white hover:bg-gray-600 hover:text-white",
                     "block rounded-md px-3 py-2 text-base font-medium"

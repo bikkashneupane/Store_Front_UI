@@ -1,5 +1,3 @@
-import { toast } from "react-toastify";
-import { fetchClientSecretAxios } from "./cartAxios";
 import { addToCart, updateCart } from "./cartSlice";
 
 // add to cart

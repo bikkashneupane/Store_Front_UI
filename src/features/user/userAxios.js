@@ -1,11 +1,11 @@
 import { axiosProcessor } from "../../axios/axiosHelper";
 
-const USERS_EP = import.meta.env.VITE_SERVER_API + "/users";
+const USER_EP = import.meta.env.VITE_SERVER_API + "/v1/users";
 
 // signup post
 export const signupUserAxios = (obj) => {
   return axiosProcessor({
-    url: USERS_EP + "/signup",
+    url: USER_EP + "/signup",
     method: "POST",
     data: obj,
     isToast: true,
@@ -15,7 +15,7 @@ export const signupUserAxios = (obj) => {
 // verify account axios
 export const verifyAccountAxios = (obj) => {
   return axiosProcessor({
-    url: USERS_EP + "/verify-account",
+    url: USER_EP + "/verify-account",
     method: "POST",
     data: obj,
     isToast: true,
@@ -25,7 +25,7 @@ export const verifyAccountAxios = (obj) => {
 // login post
 export const loginUserAxios = (obj) => {
   return axiosProcessor({
-    url: USERS_EP + "/login",
+    url: USER_EP + "/login",
     method: "POST",
     data: obj,
     isToast: true,
@@ -35,8 +35,23 @@ export const loginUserAxios = (obj) => {
 // fetch user profile get
 export const fetchUserAxios = () => {
   return axiosProcessor({
-    url: USERS_EP + "/profile",
+    url: USER_EP + "/profile",
     method: "GET",
     isPrivate: true,
   });
+};
+
+// renew access axios
+export const renewAccessJWTAxios = async () => {
+  const axiosObj = {
+    url: USER_EP + "/renew-access",
+    method: "GET",
+    isPrivate: true,
+    isRefresh: true,
+  };
+
+  const { accessJWT } = await axiosProcessor(axiosObj);
+  accessJWT && sessionStorage.setItem("accessJWT", accessJWT);
+
+  return accessJWT;
 };

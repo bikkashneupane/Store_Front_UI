@@ -27,6 +27,8 @@ import {
 } from "./features/category/categoryAction";
 import "./App.css";
 import Checkout from "./pages/checkout/Checkout";
+import { autoLoginAction } from "./features/user/userAction";
+import useScrollToTop from "./hooks/useScrollToTop";
 
 const appRouter = createBrowserRouter([
   {
@@ -117,13 +119,15 @@ function DefaultLayout() {
     }, 2000);
   }, []);
 
+  // custom hook, scroll to top when navigating
+  useScrollToTop();
+
   if (isLoading) {
     return <LoadingScreen />;
   }
   return (
-    <div>
+    <div className="relative">
       <Header />
-      {/* pt-[80px] */}
       <div className="min-h-[75vh]">
         <Outlet />
       </div>
@@ -139,6 +143,7 @@ function App() {
     dispatch(fetchProductsAction());
     dispatch(fetchCategoriesAction());
     dispatch(fetchSubCatAction());
+    dispatch(autoLoginAction());
   }, [dispatch]);
   return (
     <>

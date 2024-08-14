@@ -4,47 +4,64 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CustomCart from "../../components/custom/CustomCart";
 import CheckoutForm from "./CheckoutForm";
-import axios from "axios";
 import { Link } from "react-router-dom";
-
-const orderEP =
-  import.meta.env.VITE_SERVER_API + "/orders/create-payment-intent";
+import { v4 as uuidv4 } from "uuid";
+import { axiosProcessor } from "../../axios/axiosHelper";
 
 const stripePromise = loadStripe(`${import.meta.env.VITE_STRIPE_PK}`);
+const orderEP =
+  import.meta.env.VITE_SERVER_API + "/v1/orders/create-payment-intent";
 
 const Checkout = () => {
   const [clientSecret, setClientSecret] = useState("");
   const { cart } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   const { isDarkMode } = useSelector((state) => state.darkMode);
+
+  const [orderId, setOrderId] = useState(
+    uuidv4().split("-").pop().toUpperCase()
+  );
+
   const totalAmount = cart?.reduce((acc, curr) => {
     return acc + curr?.quantity * (curr?.salesPrice || curr?.price);
   }, 0);
 
   useEffect(() => {
     const fetchClientSecret = async () => {
-      try {
-        const { data } = await axios.post(orderEP, {
-          amount: totalAmount,
-          currency: "AUD",
-          userId: user?._id,
-          userName: `${user?.firstName} ${user?.lastName}`,
-          items: cart?.map((item) => ({
-            _id: item?._id,
-            name: item?.name,
-            quantity: item?.quantity,
-            price: item?.salesPrice || item?.price,
-          })),
-        });
-        const { clientSecret } = data;
-        setClientSecret(clientSecret);
-      } catch (error) {
-        console.log(error);
+      if (cart?.length > 0 && user?._id) {
+        try {
+          const orderObj = {
+            amount: totalAmount,
+            currency: "AUD",
+            orderId,
+            userId: user?._id,
+            userName: `${user?.firstName} ${user?.lastName}`,
+            items: cart?.map((item) => ({
+              _id: item?._id,
+              name: item?.name,
+              quantity: item?.quantity,
+              price: item?.salesPrice || item?.price,
+            })),
+          };
+
+          console.log("Use effect total amount : ", orderObj);
+          const { clientSecret } = await axiosProcessor({
+            url: orderEP,
+            method: "post",
+            data: orderObj,
+            isPrivate: true,
+            isToast: true,
+          });
+
+          setClientSecret(clientSecret);
+        } catch (error) {
+          console.log(error);
+        }
       }
     };
 
     fetchClientSecret();
-  }, [cart, totalAmount, user?._id, user?.firstName, user?.lastName]);
+  }, [cart, orderId, totalAmount, user?._id, user?.firstName, user?.lastName]);
 
   const options = {
     clientSecret,

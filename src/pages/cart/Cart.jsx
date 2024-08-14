@@ -1,10 +1,12 @@
 import { useSelector } from "react-redux";
 import CustomCart from "../../components/custom/CustomCart";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Cart = () => {
   const { cart } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
+
+  const location = useLocation();
 
   return (
     <div className="min-h-screen ">
@@ -23,6 +25,7 @@ const Cart = () => {
             <CustomCart buttonTitle="Checkout" buttonLink={"/checkout"} />
             <Link
               to={user?._id ? "/checkout" : "/login"}
+              state={location.pathname}
               className="mt-4 block w-full text-center py-2 bg-purple-600 text-white rounded-md shadow hover:bg-purple-500"
             >
               {user?._id ? "Checkout" : `Login To Checkout`}

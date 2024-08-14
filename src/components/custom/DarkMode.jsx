@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocalStorage } from "react-use";
 import { setDarkMode } from "../../redux/darkModeSlice";
 
-const DarkMode = () => {
+const DarkMode = ({ scrollY }) => {
   const dispatch = useDispatch();
   const { isDarkMode } = useSelector((state) => state.darkMode);
-  const [value, setValue] = useLocalStorage("dark_mode", false);
+  const [value, setValue] = useLocalStorage("dark_mode", true);
 
   // Sync Redux state with localStorage
   useEffect(() => {
@@ -32,7 +32,11 @@ const DarkMode = () => {
 
   return (
     <div
-      className="dark:bg-gray-800 p-1 text-gray-600 dark:text-gray-200 hover:text-black dark:hover:text-white rounded-full cursor-pointer"
+      className={`${
+        scrollY > 0
+          ? "bg-gray-800 text-gray-200 hover:text-white"
+          : "text-gray-600 hover:text-black"
+      } dark:bg-gray-800 p-1 dark:text-gray-200 dark:hover:text-white rounded-full shadow-xl cursor-pointer`}
       onClick={handleToggle}
     >
       {isDarkMode ? (

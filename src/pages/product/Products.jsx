@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import {
-  ChevronDownIcon,
-  FunnelIcon,
-  Squares2X2Icon,
-} from "@heroicons/react/20/solid";
-
 import { useDispatch, useSelector } from "react-redux";
 import MobileFilter from "../../components/product/MobileFilter";
 import DesktopFilter from "../../components/product/DesktopFilter";
 import ProductList from "../../components/product/ProductList";
 import Pagination from "../../components/product/Pagination";
 import {
+  removeFilteredBrand,
+  removeFilteredMaterial,
+  setFilteredBrand,
+  setFilteredMaterial,
   setFilteredProducts,
   setFilteredProductsWithSubCat,
 } from "../../features/product/ProductSlice";
@@ -30,8 +27,10 @@ const Products = () => {
   const dispatch = useDispatch();
   const {
     products,
-    filteredProducts = [],
-    filteredProductsWithSubCat = [],
+    filteredProducts,
+    filteredProductsWithSubCat,
+    filteredBrand,
+    filteredMaterial,
   } = useSelector((state) => state.products);
 
   useEffect(() => {
@@ -51,7 +50,7 @@ const Products = () => {
   }, [categoryId, dispatch, products]);
 
   // total products per page
-  const productsPerPage = 9;
+  const productsPerPage = 20;
 
   // total pages -> for pagination
   const totalPages = Math.ceil(
@@ -131,28 +130,38 @@ const Products = () => {
   // Filter Product with sub-category logic
   const handleSubCatFilter = (e) => {
     const { name, value, checked } = e.target;
+    console.log(name, value, checked);
 
-    let updatedFilteredProducts = [...filteredProducts];
+    let updatedProducts = [...filteredProductsWithSubCat];
 
     if (checked) {
-      // Add the new filter if it doesn't already exist
-      const isFilterPresent = updatedFilteredProducts?.some(
+      name === "brandId" && dispatch(setFilteredBrand(value));
+      name === "materialId" && dispatch(setFilteredMaterial(value));
+
+      const addedProducts = filteredProducts?.filter(
         (item) => item[name] === value
       );
-      if (!isFilterPresent) {
-        // Filter products based on the subcategory
-        const filtered = filteredProducts?.filter(
-          (product) => product[name] === value
+
+      // check if subcatProd empty
+      //  empty add the filter
+      // not empty, filter products that are not already present
+      if (filteredProductsWithSubCat?.length === 0) {
+        updatedProducts = addedProducts;
+      } else {
+        const nonMatchingProducts = filteredProductsWithSubCat?.filter(
+          (item) => item[name] !== value
         );
-        updatedFilteredProducts = [...updatedFilteredProducts, ...filtered];
+        updatedProducts = [...addedProducts, ...nonMatchingProducts];
       }
     } else {
-      // Remove the filter if it exists
-      updatedFilteredProducts = updatedFilteredProducts.filter(
-        (product) => product[name] !== value
-      );
+      name === "brandId" && dispatch(removeFilteredBrand(value));
+      name === "materialId" && dispatch(removeFilteredMaterial(value));
+      // remove products from filteredProductsFromSubCat
+      updatedProducts = updatedProducts?.filter((item) => item[name] !== value);
     }
-    dispatch(setFilteredProductsWithSubCat(updatedFilteredProducts));
+
+    console.log(updatedProducts);
+    dispatch(setFilteredProductsWithSubCat(updatedProducts));
   };
 
   return (
@@ -172,6 +181,7 @@ const Products = () => {
               handleSubCatFilter={handleSubCatFilter}
             />
 
+            {/* Sort / Filter / Product List / Pagination */}
             <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex items-baseline justify-between border-b border-gray-200 dark:border-gray-700 pb-6 pt-10">
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-300">
@@ -179,25 +189,7 @@ const Products = () => {
                 </h1>
 
                 {/* Sort Products by price / best rated */}
-                <div className="flex items-center">
-                  <SortProduct />
-
-                  <button
-                    type="button"
-                    className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 sm:ml-7"
-                  >
-                    <span className="sr-only">View grid</span>
-                    <Squares2X2Icon aria-hidden="true" className="h-5 w-5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setMobileFiltersOpen(true)}
-                    className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 sm:ml-6 lg:hidden"
-                  >
-                    <span className="sr-only">Filters</span>
-                    <FunnelIcon aria-hidden="true" className="h-5 w-5" />
-                  </button>
-                </div>
+                <SortProduct />
               </div>
 
               <section className="pb-24 pt-6">
@@ -211,13 +203,7 @@ const Products = () => {
 
                   {/* Product grid */}
                   <div className="lg:col-span-3">
-                    <ProductList
-                      products={
-                        filteredProducts?.length > 0
-                          ? filteredProducts
-                          : pageProducts
-                      }
-                    />
+                    <ProductList products={pageProducts} />
                   </div>
                 </div>
               </section>

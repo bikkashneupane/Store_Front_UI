@@ -4,6 +4,8 @@ const initialState = {
   products: [],
   filteredProducts: [],
   filteredProductsWithSubCat: [],
+  filteredBrand: [],
+  filteredMaterial: [],
 };
 
 //create slice
@@ -14,12 +16,27 @@ const slice = createSlice({
     setProducts: (state, action) => {
       state.products = action.payload;
     },
-
     setFilteredProducts: (state, action) => {
       state.filteredProducts = action.payload;
     },
     setFilteredProductsWithSubCat: (state, action) => {
       state.filteredProductsWithSubCat = action.payload;
+    },
+    setFilteredBrand: (state, action) => {
+      state.filteredBrand.push(action.payload);
+    },
+    removeFilteredBrand: (state, action) => {
+      state.filteredBrand = state.filteredBrand.filter(
+        (item) => item !== action.payload
+      );
+    },
+    setFilteredMaterial: (state, action) => {
+      state.filteredMaterial.push(action.payload);
+    },
+    removeFilteredMaterial: (state, action) => {
+      state.filteredMaterial = state.filteredMaterial.filter(
+        (item) => item !== action.payload
+      );
     },
   },
 });
@@ -29,5 +46,9 @@ export const {
   setProducts,
   setFilteredProducts,
   setFilteredProductsWithSubCat,
+  setFilteredBrand,
+  removeFilteredBrand,
+  setFilteredMaterial,
+  removeFilteredMaterial,
 } = actions;
 export default reducer;

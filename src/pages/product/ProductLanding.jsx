@@ -6,6 +6,7 @@ import {
   addToCartAction,
   updateCartAction,
 } from "../../features/cart/cartAction";
+import "./ProductLanding.css";
 
 const reviews = { href: "#product-reviews", average: 4, totalCount: 117 };
 
@@ -24,7 +25,6 @@ const ProductLanding = () => {
   const selectedProduct = products?.find((item) => item._id === _id);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     setCurrentImage(selectedProduct?.thumbnail);
 
     // Set itemCount based on the cart item if it exists
@@ -42,7 +42,7 @@ const ProductLanding = () => {
   };
 
   return (
-    <div className="dark:bg-gray-900 text-gray-900 dark:text-white">
+    <div className="dark:bg-gray-900 text-gray-900 dark:text-white relative">
       <div className="mx-auto mt-10 md:mt-20 max-w-7xl sm:px-6 lg:px-8">
         <div className="lg:flex lg:gap-x-8">
           {/* Image gallery */}
@@ -204,7 +204,7 @@ const ProductLanding = () => {
         </div>
       </div>
       {/* Product Description and Review  */}
-      <div className="bg-black text-white py-4 flex justify-center gap-10 mt-16 cursor-pointer">
+      <div className="bg-black text-white py-4 flex justify-center gap-10 mt-16 cursor-pointer sticky top-0">
         <a href="#porduct-description">Description</a>
         <a href="#product-reviews">Reviews</a>
       </div>

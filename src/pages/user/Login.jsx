@@ -1,9 +1,9 @@
 import { CustomForm } from "./../../components/custom/CustomForm";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import bg_url from "./../../assets/images/login-signup-wallpaper.jpg";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { loginUserAction } from "../../features/user/userAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -13,6 +13,15 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useSelector((state) => state.user);
+
+  console.log("Location in Login: ", location);
+
+  useEffect(() => {
+    if (user?._id) {
+      navigate(location.state ?? "/");
+    }
+  }, [navigate, user?._id, location]);
 
   const handleOnLogin = async (e) => {
     e.preventDefault();
@@ -22,7 +31,7 @@ const Login = () => {
     if (!email || !password) {
       return toast.error("Email and Password must be provided.");
     }
-    dispatch(loginUserAction({ email, password }, navigate));
+    dispatch(loginUserAction({ email, password }));
   };
 
   const inputs = [
