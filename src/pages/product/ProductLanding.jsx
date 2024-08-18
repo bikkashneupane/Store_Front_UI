@@ -1,7 +1,7 @@
 import { StarIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   addToCartAction,
   updateCartAction,
@@ -22,6 +22,7 @@ const ProductLanding = () => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
   const { products } = useSelector((state) => state.products);
+  const { brands, materials } = useSelector((state) => state.categories);
   const selectedProduct = products?.find((item) => item._id === _id);
 
   useEffect(() => {
@@ -43,8 +44,8 @@ const ProductLanding = () => {
 
   return (
     <div className="dark:bg-gray-900 text-gray-900 dark:text-white relative">
-      <div className="mx-auto mt-10 md:mt-20 max-w-7xl sm:px-6 lg:px-8">
-        <div className="lg:flex lg:gap-x-8">
+      <div className="mx-auto mt-10 md:mt-20 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="lg:flex lg:gap-x-8 ">
           {/* Image gallery */}
           <div className="lg:w-4/5 lg:flex lg:items-start lg:gap-x-4">
             {/* Image gallery for larger screens */}
@@ -73,16 +74,16 @@ const ProductLanding = () => {
             </div>
 
             {/* Main image */}
-            <div className="md:px-4 w-full lg:w-auto md:ml-4">
+            <div className="lg:px-4 w-full lg:w-auto lg:ml-4">
               <img
                 alt={selectedProduct?.title}
                 src={currentImage}
-                className="w-full lg:min-w-[580px] h-[520px] object-cover object-center rounded-lg shadow-xl shadow-b dark:shadow-gray-400 shadow-gray-500"
+                className="w-full lg:min-w-[580px] h-[520px] object-cover object-center rounded-lg shadow-lg dark:shadow-gray-400 shadow-gray-500"
               />
             </div>
 
             {/* Image gallery for smaller screens */}
-            <div className="flex lg:hidden space-x-2 mt-6 overflow-x-auto scrollbar-hidden">
+            <div className="flex justify-center lg:hidden space-x-2 mt-6 overflow-x-auto scrollbar-hidden">
               {selectedProduct?.images.map((img, index) => (
                 <div
                   key={index}
@@ -108,20 +109,26 @@ const ProductLanding = () => {
           </div>
 
           {/* Product details */}
-          <div className="my-10 lg:my-0 p-4 lg:w-1/2 lg:p-12 lg:pb-4 dark:border-2 dark:border-gray-700 rounded-lg shadow-xl max-h-[520px] dark:shadow-gray-600 shadow-gray-500">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-              {selectedProduct?.title}
+          <div className="overflow-hidden my-10 lg:my-0 p-4 lg:px-10 lg:py-6 lg:w-1/2  dark:border-2 dark:border-gray-700 rounded-lg shadow-lgs max-h-[520px] dark:shadow-gray-600 shadow-gray-500">
+            <h1 className="font-semibold text-gray-900 dark:text-white">
+              {selectedProduct?.name}
             </h1>
+            <span className="text-sm">
+              {
+                brands?.find((brand) => brand._id === selectedProduct?.brandId)
+                  ?.name
+              }
+            </span>
 
-            <div className="font-semibold text-xl mt-2">
-              {selectedProduct?.sales?.isSales ? (
+            <div className="font-semibold text-lg mt-2">
+              {selectedProduct?.salesPrice ? (
                 <>
                   <span className="line-through text-gray-500 dark:text-gray-400">
                     ${selectedProduct?.price} AUD
                   </span>
                   &nbsp;&nbsp;
                   <span className="text-gray-800 dark:text-gray-200">
-                    ${selectedProduct?.sales.salesPrice} AUD
+                    ${selectedProduct?.salesPrice} AUD
                   </span>
                 </>
               ) : (
@@ -132,7 +139,7 @@ const ProductLanding = () => {
             </div>
 
             {/* Reviews */}
-            <div className="mt-6">
+            <div className="mt-2">
               <h3 className="sr-only">Reviews</h3>
               <div className="flex items-center">
                 <div className="flex items-center">
@@ -144,7 +151,7 @@ const ProductLanding = () => {
                         reviews.average > rating
                           ? "text-gray-900 dark:text-gray-200"
                           : "text-gray-200 dark:text-gray-600",
-                        "h-5 w-5 flex-shrink-0"
+                        "h-4 w-4 flex-shrink-0"
                       )}
                     />
                   ))}
@@ -159,8 +166,19 @@ const ProductLanding = () => {
               </div>
             </div>
 
+            {/* Description */}
+            <div className="mt-6">
+              <a href="#product-description">
+                <h1 className="font-semibold">Overview</h1>
+                <p className="my-2 text-sm text-gray-900 dark:text-gray-300">
+                  {selectedProduct?.description?.slice(0, 150)} ...{" "}
+                  <span className="underline">read more</span>
+                </p>
+              </a>
+            </div>
+
             <form
-              className="flex flex-col mt-10 gap-4"
+              className="flex flex-col mt-6 gap-4"
               onSubmit={handleOnSubmit}
             >
               <div className="flex gap-4 items-center">
@@ -186,42 +204,103 @@ const ProductLanding = () => {
               </div>
               <button
                 type="submit"
-                className="flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                className="rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                 disabled={itemCount < 1}
               >
                 Add to bag
               </button>
             </form>
-
-            {/* Description */}
-            <div className="mt-10">
-              <h3 className="text-xl font-semibold">Description</h3>
-              <p className="mt-2 text-base text-gray-900 dark:text-gray-300">
-                {selectedProduct?.description?.slice(0, 250)} ....
-              </p>
-            </div>
+            <Link
+              to={"/cart"}
+              className="mt-4 rounded-md flex justify-center border border-transparent bg-teal-600 px-8 py-3 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+              disabled={itemCount < 1}
+            >
+              My Cart
+            </Link>
           </div>
         </div>
       </div>
       {/* Product Description and Review  */}
-      <div className="bg-black text-white py-4 flex justify-center gap-10 mt-16 cursor-pointer sticky top-0">
+      <div className="bg-black text-white py-4 flex justify-center gap-10 mt-16 cursor-pointer sticky top-0 px-4">
         <a href="#porduct-description">Description</a>
+        <a href="#product-specs">Specifications</a>
         <a href="#product-reviews">Reviews</a>
       </div>
 
-      <div
-        className="my-4 mx-auto max-w-7xl sm:px-6 lg:px-8"
-        id="product-description"
-      >
+      <div className="my-4 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Description */}
-        <div className="py-4 mb-4">
+        <div className="py-4 mb-4" id="product-description">
           <h1 className="text-2xl font-bold mb-8 italic tracking-wider font-mono underline">
             Description
           </h1>
           <p>{selectedProduct?.description}</p>
         </div>
-        {/* Review */}
 
+        {/* Specifications */}
+        <div className="py-4 mb-4" id="product-specs">
+          <h1 className="text-2xl font-bold mb-8 italic tracking-wider font-mono underline">
+            Specifications
+          </h1>
+          <table className="border-gray-200 rounded-lg shadow-md">
+            <tbody>
+              <tr>
+                <td className="py-2 px-8 border dark:border-gray-500">Brand</td>
+                <td className="py-2 px-8 border dark:border-gray-500">
+                  {
+                    brands?.find(
+                      (brand) => brand._id === selectedProduct?.brandId
+                    )?.name
+                  }
+                </td>
+              </tr>
+              <tr>
+                <td className="py-2 px-8 border dark:border-gray-500">
+                  Material
+                </td>
+                <td className="py-2 px-8 border dark:border-gray-500">
+                  {
+                    materials?.find(
+                      (material) => material._id === selectedProduct?.materialId
+                    )?.name
+                  }
+                </td>
+              </tr>
+
+              <tr>
+                <td className="py-2 px-8 border dark:border-gray-500">
+                  Orientation
+                </td>
+                <td className="py-2 px-8 border dark:border-gray-500">
+                  {selectedProduct?.gender}
+                </td>
+              </tr>
+              <tr>
+                <td className="py-2 px-8 border dark:border-gray-500">Price</td>
+                <td className="py-2 px-8 border dark:border-gray-500">
+                  ${selectedProduct?.price} AUD
+                </td>
+              </tr>
+              {selectedProduct?.salesPrice && (
+                <tr>
+                  <td className="py-2 px-8 border dark:border-gray-500">
+                    Sales Price
+                  </td>
+                  <td className="py-2 px-8 border dark:border-gray-500">
+                    ${selectedProduct?.salesPrice} AUD
+                  </td>
+                </tr>
+              )}
+              <tr>
+                <td className="py-2 px-8 border dark:border-gray-500">Stock</td>
+                <td className="py-2 px-8 border dark:border-gray-500">
+                  {selectedProduct?.quantity}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Review */}
         <div className="mt-10 py-4">
           <h1 className="text-xl font-bold mb-8 tracking-wider font-mono underline">
             Reviews
@@ -258,6 +337,18 @@ const ProductLanding = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Images */}
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-4 ">
+          {selectedProduct?.images?.map((item) => (
+            <img
+              key={`${Date.now()}-${item}`}
+              src={item}
+              alt=""
+              className="p-4"
+            />
+          ))}
         </div>
       </div>
     </div>

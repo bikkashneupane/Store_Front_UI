@@ -1,17 +1,28 @@
 import {
   AddressElement,
-  CardElement,
   PaymentElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
+import { useDispatch } from "react-redux";
+import { setOrderIdInStore } from "../../features/order/orderSlice";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = ({ clientSecret }) => {
   const stripe = useStripe();
   const elements = useElements();
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleCheckout = async (e) => {
     e.preventDefault();
+
+    if (!stripe || !elements) {
+      console.error("Stripe has not loaded yet.");
+      return;
+    }
+
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -23,10 +34,14 @@ const CheckoutForm = ({ clientSecret }) => {
     if (!error) {
       console.log("Payment successful!", paymentIntent);
       // Optionally, you can update the frontend with order confirmation details here
+      // removeorderId from redux store
+      dispatch(setOrderIdInStore(""));
+      navigate("/order-confirmation");
     } else {
       console.error(error.message);
     }
   };
+
   return (
     <div className="bg-light dark:bg-dark">
       <form className="pt-6 pb-12" onSubmit={handleCheckout}>
@@ -53,7 +68,7 @@ const CheckoutForm = ({ clientSecret }) => {
                 Payment
               </label>
               <div className="bg-gray-50 dark:bg-gray-800 dark:border dark:border-gray-600 p-4 lg:p-12 rounded-lg">
-                <PaymentElement />
+                <PaymentElement options={{ layout: "tabs" }} />
               </div>
             </div>
           </div>
@@ -72,5 +87,3 @@ const CheckoutForm = ({ clientSecret }) => {
 };
 
 export default CheckoutForm;
-
-+63;

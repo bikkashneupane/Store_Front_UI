@@ -18,10 +18,33 @@ const images = [
   carousel_3,
 ];
 
+const cards = Array(10).fill(<CustomCard />); // Array of CustomCard components
+
 const Home = () => {
   const { categories } = useSelector((state) => state.categories);
+  const watch_Id = categories?.find((item) => item?.slug === "watches")?._id;
+  const accessories_Id = categories?.find(
+    (item) => item?.slug === "accessories"
+  )?._id;
 
-  const cards = Array(10).fill(<CustomCard />); // Array of CustomCard components
+  const homeCatInput = [
+    {
+      title: "Men",
+      to: `/products?category=Watches&cat_id=${watch_Id}&gender=men`,
+    },
+    {
+      title: "Women",
+      to: `/products?category=Watches&cat_id=${watch_Id}&gender=women`,
+    },
+    {
+      title: "Accessories",
+      to: `/products?category=Accessoris&cat_id=${accessories_Id}`,
+    },
+    {
+      title: "Watches",
+      to: `/products?category=Watches&cat_id=${watch_Id}`,
+    },
+  ];
 
   return (
     <div className="min-h-screen">
@@ -32,18 +55,14 @@ const Home = () => {
           {/* Category */}
           <div className="flex justify-center">
             <div className="flex flex-wrap gap-8">
-              <div className="flex-grow w-full md:w-1/2 lg:w-1/4 px-4">
-                <CategoryCard title={"Men"} link={"/men"} />
-              </div>
-              <div className="flex-grow w-full md:w-1/2 lg:w-1/4 px-4">
-                <CategoryCard title={"Women"} link={"/women"} />
-              </div>
-              <div className="flex-grow w-full md:w-1/2 lg:w-1/4 px-4">
-                <CategoryCard title={"Accessories"} link={"/accessories"} />
-              </div>
-              <div className="flex-grow w-full md:w-1/2 lg:w-1/4 px-4">
-                <CategoryCard title={"Watches"} link={"/watches"} />
-              </div>
+              {homeCatInput?.map((item) => (
+                <div
+                  key={`${Date.now}-${item?.title}`}
+                  className="flex-grow w-full md:w-1/2 lg:w-1/4 px-4"
+                >
+                  <CategoryCard title={item?.title} to={item?.to} />
+                </div>
+              ))}
             </div>
           </div>
 

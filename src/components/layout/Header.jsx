@@ -6,6 +6,7 @@ import {
   MenuButton,
   MenuItem,
   MenuItems,
+  Transition,
 } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -14,11 +15,11 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import watch_logo from "../../assets/images/watch_logo.png";
 import { setUser } from "../../features/user/UserSlice";
 import DarkMode from "../custom/DarkMode";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 const customClassNames = (...classes) => {
   return classes.filter(Boolean).join(" ");
@@ -67,7 +68,6 @@ const Header = () => {
 
   return (
     <div className="w-full shadow-lg sticky top-0 z-50">
-      {/* On Scroll, change the background of nav */}
       <Disclosure
         as="nav"
         className={`${
@@ -78,19 +78,10 @@ const Header = () => {
           <div className="relative flex items-center justify-between py-6">
             <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
               <DisclosureButton
-                onClick={() => setMobileOpen(!mobileOpen)}
-                className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                onClick={() => setMobileOpen(true)}
+                className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
               >
-                <span className="absolute -inset-0.5" />
-                <span className="sr-only">Open main menu</span>
-                <Bars3Icon
-                  aria-hidden="true"
-                  className="block h-6 w-6 group-data-[open]:hidden"
-                />
-                <XMarkIcon
-                  aria-hidden="true"
-                  className="hidden h-6 w-6 group-data-[open]:block"
-                />
+                <Bars3Icon aria-hidden="true" className="block h-6 w-6" />
               </DisclosureButton>
             </div>
             <div className="mx-auto flex flex-1 items-center justify-center md:justify-start">
@@ -108,7 +99,6 @@ const Header = () => {
                 </h1>
               </Link>
 
-              {/* Navigations */}
               <div className="hidden md:block sm:flex-1 sm:justify-center">
                 <div className="flex ps-2 lg:space-x-4 justify-center">
                   {navigation
@@ -156,9 +146,7 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Dark Mode/ Wish List/ Cart/ Profile */}
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              {/* Profile dropdown */}
               <div className="hidden md:inline">
                 {user?._id ? (
                   <Menu as="div" className="relative ml-3">
@@ -217,64 +205,82 @@ const Header = () => {
                     </MenuItems>
                   </Menu>
                 ) : (
-                  <Link
-                    to={"/login"}
-                    className={`${
-                      scrollY > 0 ? "bg-gray-800" : "bg-white"
-                    } relative flex p-1 rounded-full text-sm dark:bg-gray-800 cursor-pointer shadow-xl`}
-                  >
-                    <UserCircleIcon aria-hidden="true" className="h-8 w-8" />
+                  <Link to={"/login"}>
+                    <div className="bg-white rounded-full shadow p-1 border border-gray-300 dark:bg-gray-800 dark:border-gray-600">
+                      <UserCircleIcon className="h-6 w-6 text-gray-800 dark:text-gray-300" />
+                    </div>
                   </Link>
                 )}
               </div>
 
-              {/* Dark Mode */}
-              <DarkMode scrollY={scrollY} />
+              <DarkMode />
 
-              {/* Cart */}
-              <Link
-                to={"/cart"}
-                type="button"
-                className={`${
-                  scrollY > 0 ? "text-gray-200 bg-gray-800 " : "text-gray-700 "
-                } hidden md:inline relative dark:bg-gray-800 p-1 dark:text-gray-200 dark:hover:text-white rounded-full shadow-xl cursor-pointer`}
-              >
-                <span className="absolute -inset-1.5" />
-                <span className="sr-only">View Cart</span>
-                <ShoppingBagIcon
-                  aria-hidden="true"
-                  className=" h-7 w-7 p-0.5"
-                />
-
-                <span className="absolute top-1 right-1 transform translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-700 border-2 border-white rounded-full">
-                  {cart?.reduce((acc, curr) => acc + curr.quantity, 0) || 0}
-                </span>
+              <Link to={"/cart"}>
+                <div className="relative flex">
+                  <ShoppingBagIcon
+                    className={`${
+                      scrollY > 0 ? "text-gray-200" : "text-gray-800"
+                    } dark:text-gray-300 w-6 h-6`}
+                  />
+                  <span className="absolute -top-2 left-4 bg-red-500 text-white rounded-full text-xs font-semibold px-[7px]">
+                    {cart?.reduce((acc, curr) => acc + curr?.quantity, 0)}
+                  </span>
+                </div>
               </Link>
             </div>
           </div>
         </div>
 
-        {/* MObile Navigations */}
-        <DisclosurePanel
-          className={`md:hidden ${mobileOpen ? "block border-t" : "hidden"}`}
+        {/* Mobile Menu */}
+        <Transition
+          show={mobileOpen}
+          as={Fragment}
+          enter="transition ease-in-out duration-300 transform"
+          enterFrom="-translate-x-full opacity-0"
+          enterTo="translate-x-0 opacity-100"
+          leave="transition ease-in-out duration-300 transform"
+          leaveFrom="translate-x-0 opacity-100"
+          leaveTo="-translate-x-full opacity-0"
         >
-          <div className="space-y-1 px-2 pb-3 pt-2">
-            {navigation.map((item) => (
-              <Link key={item.name} to={item?.to}>
-                <DisclosureButton
-                  className={customClassNames(
-                    scrollY > 0
-                      ? "bg-gray-700 text-white"
-                      : "text-gray-900 dark:text-white hover:bg-gray-600 hover:text-white",
-                    "block rounded-md px-3 py-2 text-base font-medium"
-                  )}
+          <div className="fixed inset-0 z-40 flex lg:hidden">
+            {/* Overlay */}
+            <div
+              className="fixed inset-0 bg-black bg-opacity-25"
+              onClick={() => setMobileOpen(false)}
+            ></div>
+
+            {/* Mobile Menu */}
+            <div className="relative  w-full max-w-xs bg-white dark:bg-gray-900 p-4">
+              <div className="flex justify-between items-center">
+                <h2 className="font-medium text-gray-900 dark:text-gray-100 ps-2">
+                  vikiasmy's
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setMobileOpen(false)}
+                  className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white dark:bg-gray-800 p-2 text-gray-400 dark:text-gray-300"
                 >
-                  {item.name}
-                </DisclosureButton>
-              </Link>
-            ))}
+                  <XMarkIcon aria-hidden="true" className="h-6 w-6" />
+                </button>
+              </div>
+
+              <DisclosurePanel static>
+                <div className="flex flex-col gap-4 mt-6">
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.to}
+                      className="block rounded-md px-3 py-2 text-base font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </DisclosurePanel>
+            </div>
           </div>
-        </DisclosurePanel>
+        </Transition>
       </Disclosure>
     </div>
   );

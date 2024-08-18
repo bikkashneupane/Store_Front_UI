@@ -29,6 +29,8 @@ import "./App.css";
 import Checkout from "./pages/checkout/Checkout";
 import { autoLoginAction } from "./features/user/userAction";
 import useScrollToTop from "./hooks/useScrollToTop";
+import OrderConfirmation from "./pages/order/OrderConfirmation";
+import MyOrders from "./pages/order/MyOrders";
 
 const appRouter = createBrowserRouter([
   {
@@ -61,6 +63,14 @@ const appRouter = createBrowserRouter([
         element: <Payment />,
       },
       {
+        path: "/order-confirmation",
+        element: <OrderConfirmation />,
+      },
+      {
+        path: "/my-orders",
+        element: <MyOrders />,
+      },
+      {
         path: "/about",
         element: <About />,
       },
@@ -68,14 +78,7 @@ const appRouter = createBrowserRouter([
         path: "/contact",
         element: <Contact />,
       },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/signup",
-        element: <Signup />,
-      },
+
       {
         path: "/profile",
         element: <Profile />,
@@ -85,6 +88,14 @@ const appRouter = createBrowserRouter([
         element: <VerifyAccount />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
   },
 ]);
 

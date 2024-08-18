@@ -1,61 +1,23 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setFilteredProducts,
-  setFilteredProductsWithSubCat,
-  setProducts,
-} from "../../features/product/ProductSlice";
 
 const classNames = (...classes) => {
   return classes.filter(Boolean).join(" ");
 };
 
-const SortProduct = () => {
-  const [currentSort, setCurrentSort] = useState(null);
-
-  const dispatch = useDispatch();
-  const { products, filteredProducts, filteredProductsWithSubCat } =
-    useSelector((state) => state.products);
-
-  const sortedProducts =
-    filteredProductsWithSubCat?.length > 0
-      ? filteredProductsWithSubCat
-      : filteredProducts?.lenght > 0
-      ? filteredProducts
-      : products;
-
+const SortProduct = ({ products, handleSortProduct }) => {
   const sortAscending = () => {
-    const ascending = [...sortedProducts]?.sort(
+    const ascending = [...products]?.sort(
       (a, b) => (a?.salesPrice || a?.price) - (b?.salesPrice || b?.price)
     );
-
-    if (filteredProductsWithSubCat?.length > 0) {
-      dispatch(setFilteredProductsWithSubCat(ascending));
-      return;
-    }
-    if (filteredProducts?.length > 0) {
-      dispatch(setFilteredProducts(ascending));
-    } else {
-      dispatch(setProducts(ascending));
-    }
+    handleSortProduct(ascending);
   };
 
   const sortDescending = () => {
-    const ascending = [...sortedProducts]?.sort(
+    const descending = [...products]?.sort(
       (a, b) => (b?.salesPrice || b?.price) - (a?.salesPrice || a?.price)
     );
-
-    if (filteredProductsWithSubCat?.length > 0) {
-      dispatch(setFilteredProductsWithSubCat(ascending));
-      return;
-    }
-    if (filteredProducts?.length > 0) {
-      dispatch(setFilteredProducts(ascending));
-    } else {
-      dispatch(setProducts(ascending));
-    }
+    handleSortProduct(descending);
   };
 
   const sortOptions = [

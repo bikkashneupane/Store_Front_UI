@@ -6,15 +6,13 @@ import {
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
 
-const DesktopFilter = ({
-  handleOnCategoryFilter,
-  handleSubCatFilter,
-  handleGenderFilter,
-}) => {
+const DesktopFilter = ({ handleOnCategoryFilter, handleSubCatFilter }) => {
   const { categories, brands, materials } = useSelector(
     (state) => state.categories
   );
-  const { filteredProducts } = useSelector((state) => state.products);
+  const { filteredProducts, activeFilters } = useSelector(
+    (state) => state.products
+  );
 
   return (
     <div className="hidden lg:block">
@@ -60,7 +58,7 @@ const DesktopFilter = ({
               >
                 <input
                   defaultValue={item?._id}
-                  defaultChecked={
+                  checked={
                     item?.checked ||
                     filteredProducts?.find(
                       (prod) => prod?.categoryId === item?._id
@@ -82,7 +80,6 @@ const DesktopFilter = ({
             ))}
           </div>
         </DisclosurePanel>
-        {/* ))} */}
       </Disclosure>
 
       {/* Map subCategories depending on category selection */}
@@ -223,7 +220,8 @@ const DesktopFilter = ({
                     name="gender"
                     type="checkbox"
                     value="men"
-                    onChange={handleGenderFilter}
+                    defaultChecked={activeFilters?.gender?.includes("men")}
+                    onChange={handleSubCatFilter}
                     className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-teal-400"
                   />
                   <label className="ml-3 text-sm text-gray-600 dark:text-gray-400">
@@ -235,7 +233,8 @@ const DesktopFilter = ({
                     name="gender"
                     type="checkbox"
                     value="women"
-                    onChange={handleGenderFilter}
+                    defaultChecked={activeFilters?.gender?.includes("women")}
+                    onChange={handleSubCatFilter}
                     className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-teal-400"
                   />
                   <label className="ml-3 text-sm text-gray-600 dark:text-gray-400">
@@ -247,7 +246,8 @@ const DesktopFilter = ({
                     name="gender"
                     type="checkbox"
                     value="unisex"
-                    onChange={handleGenderFilter}
+                    defaultChecked={activeFilters?.gender?.includes("unisex")}
+                    onChange={handleSubCatFilter}
                     className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-teal-400"
                   />
                   <label className="ml-3 text-sm text-gray-600 dark:text-gray-400">

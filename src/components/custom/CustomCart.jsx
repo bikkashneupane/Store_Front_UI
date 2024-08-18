@@ -80,20 +80,22 @@ const CustomCart = () => {
         </h2>
         <ul className="space-y-2">
           {cart.map((product) => (
-            <li key={product?._id} className="flex justify-between">
-              <span className="font-semibold dark:text-gray-100">
+            <li
+              key={product?._id}
+              className="flex justify-between gap-4 text-sm"
+            >
+              <span className="dark:text-gray-100">
                 {product?.quantity} x {product?.name}
               </span>
               <span className="dark:text-gray-100">
                 $
                 {(product?.salesPrice || product?.price) * product?.quantity ||
-                  0}{" "}
-                AUD
+                  0}
               </span>
             </li>
           ))}
         </ul>
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-between mt-4 border-t py-2">
           <span className="font-semibold dark:text-gray-100">Total</span>
           <span className="dark:text-gray-100">
             $
@@ -101,8 +103,7 @@ const CustomCart = () => {
               (acc, curr) =>
                 acc + (curr?.salesPrice || curr?.price) * curr?.quantity,
               0
-            ) || 0}{" "}
-            AUD
+            ) || 0}
           </span>
         </div>
       </div>

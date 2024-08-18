@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CustomCart from "../../components/custom/CustomCart";
@@ -7,6 +7,7 @@ import CheckoutForm from "./CheckoutForm";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { axiosProcessor } from "../../axios/axiosHelper";
+import { setOrderIdInStore } from "../../features/order/orderSlice";
 
 const stripePromise = loadStripe(`${import.meta.env.VITE_STRIPE_PK}`);
 const orderEP =
@@ -14,22 +15,33 @@ const orderEP =
 
 const Checkout = () => {
   const [clientSecret, setClientSecret] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [orderId, setOrderId] = useState("");
+
+  const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   const { isDarkMode } = useSelector((state) => state.darkMode);
+  const orderIdFromState = useSelector((state) => state.order.orderId);
 
-  const [orderId, setOrderId] = useState(
-    uuidv4().split("-").pop().toUpperCase()
-  );
-
-  const totalAmount = cart?.reduce((acc, curr) => {
-    return acc + curr?.quantity * (curr?.salesPrice || curr?.price);
-  }, 0);
+  useEffect(() => {
+    if (!orderIdFromState) {
+      const currentOrderId = uuidv4().split("-").pop().toUpperCase();
+      setOrderId(currentOrderId);
+      dispatch(setOrderIdInStore(currentOrderId));
+    } else {
+      setOrderId(orderIdFromState);
+    }
+  }, [dispatch, orderIdFromState]);
 
   useEffect(() => {
     const fetchClientSecret = async () => {
-      if (cart?.length > 0 && user?._id) {
+      if (cart?.length > 0 && user?._id && orderId) {
         try {
+          const totalAmount = cart?.reduce((acc, curr) => {
+            return acc + curr?.quantity * (curr?.salesPrice || curr?.price);
+          }, 0);
+
           const orderObj = {
             amount: totalAmount,
             currency: "AUD",
@@ -56,12 +68,13 @@ const Checkout = () => {
           setClientSecret(clientSecret);
         } catch (error) {
           console.log(error);
+          setErrorMsg(error);
         }
       }
     };
 
     fetchClientSecret();
-  }, [cart, orderId, totalAmount, user?._id, user?.firstName, user?.lastName]);
+  }, [dispatch, cart, orderId, user]);
 
   const options = {
     clientSecret,
@@ -82,6 +95,8 @@ const Checkout = () => {
               </Link>
             </p>
           </div>
+        ) : errorMsg ? (
+          <div className="text-red-600">{errorMsg}</div>
         ) : clientSecret ? (
           <Elements stripe={stripePromise} options={options}>
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-x-4 gap-y-8">
