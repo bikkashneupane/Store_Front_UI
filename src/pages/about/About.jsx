@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-light dark:bg-dark text-gray-700 dark:text-gray-500">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 flex flex-col justify-center items-center mt-10">
+    <div className="min-h-screen text-gray-700 dark:text-gray-400">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 flex flex-col justify-center items-center">
         <h1 className="text-3xl font-bold mb-6 dark:text-gray-300">About Us</h1>
         <section className="mb-10">
           <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">

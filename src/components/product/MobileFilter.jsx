@@ -97,6 +97,8 @@ const MobileFilter = ({
                         filteredProducts?.find(
                           (prod) => prod?.categoryId === item?._id
                         )
+                          ? true
+                          : false
                       }
                       id={item?._id}
                       name={item?.slug}

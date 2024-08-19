@@ -1,7 +1,7 @@
 import { StarIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   addToCartAction,
   updateCartAction,
@@ -16,6 +16,7 @@ function classNames(...classes) {
 
 const ProductLanding = () => {
   const [currentImage, setCurrentImage] = useState("");
+
   const [itemCount, setItemCount] = useState(0);
 
   const { _id } = useParams();
@@ -25,6 +26,8 @@ const ProductLanding = () => {
   const { brands, materials } = useSelector((state) => state.categories);
   const selectedProduct = products?.find((item) => item._id === _id);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     setCurrentImage(selectedProduct?.thumbnail);
 
@@ -33,7 +36,7 @@ const ProductLanding = () => {
     setItemCount(cartItem?.quantity || 0);
   }, [selectedProduct?.thumbnail, cart, _id]);
 
-  const handleOnSubmit = (e) => {
+  const handleAddToCart = (e) => {
     e.preventDefault();
     if (cart?.find((item) => item._id === _id)) {
       dispatch(updateCartAction({ ...selectedProduct, quantity: itemCount }));
@@ -42,66 +45,74 @@ const ProductLanding = () => {
     }
   };
 
+  const handleOnBuyNow = (e) => {
+    e.preventDefault();
+    if (cart?.find((item) => item._id === _id)) {
+      dispatch(updateCartAction({ ...selectedProduct, quantity: itemCount }));
+    } else {
+      dispatch(addToCartAction({ ...selectedProduct, quantity: itemCount }));
+    }
+    navigate("/checkout");
+  };
   return (
     <div className="dark:bg-gray-900 text-gray-900 dark:text-white relative">
       <div className="mx-auto mt-10 md:mt-20 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="lg:flex lg:gap-x-8 ">
+        <div className="lg:grid lg:grid-cols-5 gap-y-10">
           {/* Image gallery */}
-          <div className="lg:w-4/5 lg:flex lg:items-start lg:gap-x-4">
+          <div className="md:flex md:gap-8 lg:col-span-3 w-full">
             {/* Image gallery for larger screens */}
-            <div className="hidden lg:flex lg:flex-col lg:gap-y-2 lg:mb-4 h-full ">
+            <div className="hidden md:flex md:flex-col gap-2 mb-4 h-full">
               {selectedProduct?.images.map((img, index) => (
                 <div
                   key={index}
-                  className={
+                  onMouseOver={() => setCurrentImage(img)}
+                  className={`relative w-16 h-16 border-2 rounded-md shadow-md ${
                     img === currentImage
-                      ? "relative w-24 h-24 p-0.5 border-2 rounded-md shadow-md border-purple-500"
-                      : "relative w-24 h-24 p-0.5 border-2 rounded-md shadow-md border-gray-500 hover:border-purple-500"
-                  }
+                      ? "border-purple-500"
+                      : "border-gray-500 hover:border-purple-500"
+                  } `}
                 >
                   <img
-                    alt={`Thumbnail ${index}`}
+                    alt="product_images"
                     src={img}
-                    className={
+                    className={`w-full h-full rounded-md cursor-pointer ${
                       img === currentImage
-                        ? "w-full h-full rounded-md cursor-pointer"
-                        : "w-full h-full rounded-md cursor-pointer hover:opacity-100 opacity-30"
-                    }
-                    onClick={() => setCurrentImage(img)}
+                        ? "opacity-100"
+                        : "hover:opacity-100 opacity-30"
+                    }`}
                   />
                 </div>
               ))}
             </div>
 
             {/* Main image */}
-            <div className="lg:px-4 w-full lg:w-auto lg:ml-4">
+            <div className="lg:px-4">
               <img
                 alt={selectedProduct?.title}
                 src={currentImage}
-                className="w-full lg:min-w-[580px] h-[520px] object-cover object-center rounded-lg shadow-lg dark:shadow-gray-400 shadow-gray-500"
+                className="w-full h-full object-cover object-center rounded-lg"
               />
             </div>
-
             {/* Image gallery for smaller screens */}
-            <div className="flex justify-center lg:hidden space-x-2 mt-6 overflow-x-auto scrollbar-hidden">
+            <div className="flex justify-center md:hidden space-x-2 mt-6 overflow-x-auto scrollbar-hidden">
               {selectedProduct?.images.map((img, index) => (
                 <div
                   key={index}
-                  className={
+                  onMouseOver={() => setCurrentImage(img)}
+                  className={`relative w-16 h-16 border-2 rounded-md shadow-md ${
                     img === currentImage
-                      ? "relative w-24 h-24 p-0.5 border-2 rounded-md shadow-md border-purple-500"
-                      : "relative w-24 h-24 p-0.5 border-2 rounded-md shadow-md border-gray-500 hover:border-purple-500"
-                  }
+                      ? "border-purple-500"
+                      : "border-gray-500 hover:border-purple-500"
+                  } `}
                 >
                   <img
                     alt={`Thumbnail ${index}`}
                     src={img}
-                    className={
+                    className={`w-full h-full rounded-md cursor-pointer ${
                       img === currentImage
-                        ? "w-full h-full rounded-md cursor-pointer"
-                        : "w-full h-full rounded-md cursor-pointer hover:opacity-100 opacity-70"
-                    }
-                    onClick={() => setCurrentImage(img)}
+                        ? "opacity-100"
+                        : "hover:opacity-100 opacity-30"
+                    }`}
                   />
                 </div>
               ))}
@@ -109,11 +120,11 @@ const ProductLanding = () => {
           </div>
 
           {/* Product details */}
-          <div className="overflow-hidden my-10 lg:my-0 p-4 lg:px-10 lg:py-6 lg:w-1/2  dark:border-2 dark:border-gray-700 rounded-lg shadow-lgs max-h-[520px] dark:shadow-gray-600 shadow-gray-500">
-            <h1 className="font-semibold text-gray-900 dark:text-white">
+          <div className="relative overflow-hidden mt-10 lg:my-0 lg:col-span-2 px-6">
+            <h1 className="font-semibold text-lg text-gray-900 dark:text-white">
               {selectedProduct?.name}
             </h1>
-            <span className="text-sm">
+            <span className="font-semibold text-sm">
               {
                 brands?.find((brand) => brand._id === selectedProduct?.brandId)
                   ?.name
@@ -170,16 +181,19 @@ const ProductLanding = () => {
             <div className="mt-6">
               <a href="#product-description">
                 <h1 className="font-semibold">Overview</h1>
-                <p className="my-2 text-sm text-gray-900 dark:text-gray-300">
-                  {selectedProduct?.description?.slice(0, 150)} ...{" "}
-                  <span className="underline">read more</span>
+                <p className="my-2 text-gray-900 dark:text-gray-300 text-[15px] break-words whitespace-normal">
+                  {selectedProduct?.description?.slice(0, 500)} ...
+                  <span className="underline text-purple-600 dark:text-purple-400">
+                    {" "}
+                    read more
+                  </span>
                 </p>
               </a>
             </div>
 
             <form
-              className="flex flex-col mt-6 gap-4"
-              onSubmit={handleOnSubmit}
+              className="flex flex-col mt-10 gap-4"
+              onSubmit={handleAddToCart}
             >
               <div className="flex gap-4 items-center">
                 <button
@@ -202,21 +216,24 @@ const ProductLanding = () => {
                   +
                 </button>
               </div>
-              <button
-                type="submit"
-                className="rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-                disabled={itemCount < 1}
-              >
-                Add to bag
-              </button>
+              <div className="relative grid grid-cols-1 gap-3">
+                <button
+                  type="submit"
+                  className="w-full rounded-md border border-transparent bg-purple-600 px-8 py-2 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                  disabled={itemCount < 1}
+                >
+                  Add to Cart
+                </button>
+                <button
+                  onClick={handleOnBuyNow}
+                  type="submit"
+                  className="w-full rounded-md flex justify-center border border-transparent bg-teal-600 px-8 py-2 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                  disabled={itemCount < 1}
+                >
+                  Buy Now
+                </button>
+              </div>
             </form>
-            <Link
-              to={"/cart"}
-              className="mt-4 rounded-md flex justify-center border border-transparent bg-teal-600 px-8 py-3 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-              disabled={itemCount < 1}
-            >
-              My Cart
-            </Link>
           </div>
         </div>
       </div>
@@ -243,6 +260,12 @@ const ProductLanding = () => {
           </h1>
           <table className="border-gray-200 rounded-lg shadow-md">
             <tbody>
+              <tr>
+                <td className="py-2 px-8 border dark:border-gray-500">SKU</td>
+                <td className="py-2 px-8 border dark:border-gray-500">
+                  {selectedProduct?.sku}
+                </td>
+              </tr>
               <tr>
                 <td className="py-2 px-8 border dark:border-gray-500">Brand</td>
                 <td className="py-2 px-8 border dark:border-gray-500">

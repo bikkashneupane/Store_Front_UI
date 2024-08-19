@@ -4,15 +4,12 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import { useDispatch } from "react-redux";
-import { setOrderIdInStore } from "../../features/order/orderSlice";
 import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = ({ clientSecret }) => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleCheckout = async (e) => {
@@ -34,8 +31,7 @@ const CheckoutForm = ({ clientSecret }) => {
     if (!error) {
       console.log("Payment successful!", paymentIntent);
       // Optionally, you can update the frontend with order confirmation details here
-      // removeorderId from redux store
-      dispatch(setOrderIdInStore(""));
+
       navigate("/order-confirmation");
     } else {
       console.error(error.message);

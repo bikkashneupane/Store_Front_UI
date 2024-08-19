@@ -21,10 +21,6 @@ import { setUser } from "../../features/user/UserSlice";
 import DarkMode from "../custom/DarkMode";
 import { Fragment, useEffect, useState } from "react";
 
-const customClassNames = (...classes) => {
-  return classes.filter(Boolean).join(" ");
-};
-
 const Header = () => {
   const [scrollY, setScrollY] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);

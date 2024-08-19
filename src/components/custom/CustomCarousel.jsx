@@ -1,27 +1,29 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 const CustomCarousel = ({ images = [] }) => {
   const [current, setCurrent] = useState(0);
-  const length = images.length;
   const timeoutRef = useRef(null);
-
-  const nextSlide = () => {
-    setCurrent((prev) => (prev === length - 1 ? 0 : prev + 1));
-  };
 
   // const prevSlide = () => {
   //   setCurrent((prev) => (prev === 0 ? length - 1 : prev - 1));
   // };
 
-  const startAutoSlide = () => {
-    timeoutRef.current = setTimeout(nextSlide, 4000);
-  };
-
   useEffect(() => {
+    const length = images?.length;
+
+    const nextSlide = () => {
+      setCurrent((prev) => (prev === length - 1 ? 0 : prev + 1));
+    };
+
+    const startAutoSlide = () => {
+      timeoutRef.current = setInterval(nextSlide, 4000);
+    };
+
     startAutoSlide();
-    return () => clearTimeout(timeoutRef.current);
-  }, []);
+
+    return () => clearInterval(timeoutRef.current);
+  }, [images]);
 
   if (!Array.isArray(images) || images.length <= 0) {
     return null;

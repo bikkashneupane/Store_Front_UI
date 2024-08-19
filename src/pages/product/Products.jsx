@@ -174,7 +174,6 @@ const Products = () => {
       });
     });
 
-    console.log(updatedProducts);
     dispatch(setFilteredProductsWithSubCat(updatedProducts));
     dispatch(setActiveFilters(updatedFilters)); // Update Redux state with active filters
   };
@@ -189,14 +188,14 @@ const Products = () => {
   };
 
   return (
-    <div className="bg-light dark:bg-dark min-h-screen">
+    <div className="min-h-screen">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {!productFound ? (
-          <div className="mt-20 flex justify-center font-semibold">
+          <div className="pt-20 flex justify-center font-semibold">
             {category} updating soon... Please Come Back Later
           </div>
         ) : (
-          <div className="my-6 bg-white dark:bg-gray-900 shadow-lg rounded-md">
+          <div className="py-6 bg-white dark:bg-gray-900 shadow-lg rounded-md">
             {/* Mobile filter dialog */}
 
             <MobileFilter

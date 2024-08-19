@@ -8,6 +8,8 @@ import carousel_3 from "./../../assets/images/carousel_3.jpg";
 import { CustomCard } from "../../components/custom/CustomCard";
 import CategoryCard from "../../components/custom/CategoryCard";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import LoadingScreen from "../../components/layout/LoadingScreen";
 
 const images = [
   wrist_watch,
@@ -21,6 +23,13 @@ const images = [
 const cards = Array(10).fill(<CustomCard />); // Array of CustomCard components
 
 const Home = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
   const { categories } = useSelector((state) => state.categories);
   const watch_Id = categories?.find((item) => item?.slug === "watches")?._id;
   const accessories_Id = categories?.find(
@@ -45,6 +54,10 @@ const Home = () => {
       to: `/products?category=Watches&cat_id=${watch_Id}`,
     },
   ];
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="min-h-screen">

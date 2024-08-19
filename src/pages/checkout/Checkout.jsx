@@ -4,7 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CustomCart from "../../components/custom/CustomCart";
 import CheckoutForm from "./CheckoutForm";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { axiosProcessor } from "../../axios/axiosHelper";
 import { setOrderIdInStore } from "../../features/order/orderSlice";
@@ -24,15 +24,20 @@ const Checkout = () => {
   const { isDarkMode } = useSelector((state) => state.darkMode);
   const orderIdFromState = useSelector((state) => state.order.orderId);
 
+  const location = useLocation();
+  console.log(location);
+
   useEffect(() => {
-    if (!orderIdFromState) {
-      const currentOrderId = uuidv4().split("-").pop().toUpperCase();
-      setOrderId(currentOrderId);
-      dispatch(setOrderIdInStore(currentOrderId));
-    } else {
-      setOrderId(orderIdFromState);
+    if (user?._id) {
+      if (!orderIdFromState) {
+        const currentOrderId = uuidv4().split("-").pop().toUpperCase();
+        setOrderId(currentOrderId);
+        dispatch(setOrderIdInStore(currentOrderId));
+      } else {
+        setOrderId(orderIdFromState);
+      }
     }
-  }, [dispatch, orderIdFromState]);
+  }, [dispatch, orderIdFromState, user?._id]);
 
   useEffect(() => {
     const fetchClientSecret = async () => {
@@ -95,19 +100,29 @@ const Checkout = () => {
               </Link>
             </p>
           </div>
+        ) : !user?._id ? (
+          <div className="flex justify-center items-center mt-32">
+            <Link
+              to={"/login"}
+              state={location.pathname}
+              className="py-2 px-16 bg-purple-600 text-white rounded-md shadow-lg"
+            >
+              Login To Checkout
+            </Link>
+          </div>
         ) : errorMsg ? (
           <div className="text-red-600">{errorMsg}</div>
         ) : clientSecret ? (
           <Elements stripe={stripePromise} options={options}>
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-x-4 gap-y-8">
               {/* Checkout Form */}
-              <div className="lg:col-span-3 rounded-xl shadow-2xl px-2 lg:px-16 py-4  dark:bg-gray-800">
+              <div className="lg:col-span-3 px-2 lg:px-16 py-4 rounded-xl shadow-2xl dark:bg-gray-800">
                 <CheckoutForm clientSecret={clientSecret} />
               </div>
 
               <div className="lg:col-span-2">
                 {/* Integrate Cart component here */}
-                <div className="mx-auto max-w-5xl pt-6 pb-12 px-4 lg:px-10 lg:pt-10 lg:pb-16 rounded-xl shadow-lg dark:bg-gray-800">
+                <div className="mx-auto max-w-5xl pt-6 pb-12 px-4 lg:px-10 lg:pt-10 lg:pb-16 rounded-xl shadow-2xl dark:bg-gray-800">
                   <CustomCart buttonTitle="Checkout" buttonLink={"/checkout"} />
                   <Link
                     to={"/products"}
