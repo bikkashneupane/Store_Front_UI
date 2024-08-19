@@ -1,4 +1,5 @@
 import {
+  editProfileDetailAxios,
   fetchUserAxios,
   loginUserAxios,
   renewAccessJWTAxios,
@@ -33,6 +34,14 @@ export const loginUserAction = (obj) => async (dispatch) => {
   if (status === "success") {
     localStorage.setItem("refreshJWT", tokens.refreshJWT);
     sessionStorage.setItem("accessJWT", tokens.accessJWT);
+    dispatch(fetchUserAction());
+  }
+};
+
+// update profile
+export const editProfileDetail = (obj, name) => async (dispatch) => {
+  const { status } = await editProfileDetailAxios(obj, name);
+  if (status === "success") {
     dispatch(fetchUserAction());
   }
 };

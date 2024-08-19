@@ -363,13 +363,13 @@ const ProductLanding = () => {
         </div>
 
         {/* Images */}
-        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-4 ">
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-y-6 lg:gap-10">
           {selectedProduct?.images?.map((item) => (
             <img
               key={`${Date.now()}-${item}`}
               src={item}
               alt=""
-              className="p-4"
+              className="w-full h-ful border dark:border-0 rounded-md "
             />
           ))}
         </div>

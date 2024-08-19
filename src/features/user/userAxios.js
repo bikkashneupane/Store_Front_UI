@@ -41,6 +41,22 @@ export const fetchUserAxios = () => {
   });
 };
 
+// update profile update
+export const editProfileDetailAxios = (obj, name) => {
+  return axiosProcessor({
+    url:
+      name === "details"
+        ? USER_EP + `/update-profile`
+        : name === "email"
+        ? USER_EP + "/update-email"
+        : USER_EP + "/update-password",
+    method: "PUT",
+    data: obj,
+    isPrivate: true,
+    isToast: true,
+  });
+};
+
 // renew access axios
 export const renewAccessJWTAxios = async () => {
   const axiosObj = {
