@@ -152,22 +152,23 @@ const Profile = () => {
           <div className="w-3/5 px-2">
             <TabGroup>
               {/* Tabs */}
-              <TabList className="flex gap-16 border-b border-gray-200 dark:border-gray-700">
+              <TabList className="flex gap-16 border-b border-gray-200 dark:border-gray-700 py-2">
                 <Tab
                   onClick={resetForm}
-                  className="py-3 text-lg font-bold text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
+                  className="py-3 px-6 text-lg font-bold text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   Details
                 </Tab>
                 <Tab
                   onClick={resetForm}
-                  className="py-3 text-lg font-bold text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
+                  className="py-2 px-6 text-lg font-bold text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   Email
                 </Tab>
                 <Tab
+                  as="button"
                   onClick={resetForm}
-                  className="py-3 text-lg font-bold text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
+                  className="py-3 px-6 text-lg font-bold text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   Password
                 </Tab>

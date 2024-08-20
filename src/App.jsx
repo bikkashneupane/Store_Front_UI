@@ -3,7 +3,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "swiper/swiper-bundle.css";
 import { ToastContainer } from "react-toastify";
 import Footer from "./components/layout/Footer";
-import Header from "./components/layout/Header";
 import Signup from "./pages/user/Signup";
 import Login from "./pages/user/Login";
 import Home from "./pages/home/Home";
@@ -29,6 +28,7 @@ import { autoLoginAction } from "./features/user/userAction";
 import OrderConfirmation from "./pages/order/OrderConfirmation";
 import MyOrders from "./pages/order/MyOrders";
 import useScrollToTop from "./hooks/useScrollToTop";
+import Header from "./components/layout/Header";
 
 const appRouter = createBrowserRouter([
   {

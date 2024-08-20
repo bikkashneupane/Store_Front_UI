@@ -18,7 +18,9 @@ const MobileFilter = ({
   const { categories, brands, materials } = useSelector(
     (state) => state.categories
   );
-  const { filteredProducts } = useSelector((state) => state.products);
+  const { filteredProducts, activeFilters } = useSelector(
+    (state) => state.products
+  );
 
   return (
     <Dialog
@@ -159,7 +161,14 @@ const MobileFilter = ({
                         <div key={item._id} className="flex items-center">
                           <input
                             defaultValue={item?._id}
-                            defaultChecked={item?.checked}
+                            checked={
+                              item?.checked ||
+                              activeFilters["brand"]?.find(
+                                (itm) => itm === item?._id
+                              )
+                                ? true
+                                : false
+                            }
                             id={item?._id}
                             name="brandId"
                             type="checkbox"
@@ -216,7 +225,14 @@ const MobileFilter = ({
                         <div key={item._id} className="flex items-center">
                           <input
                             defaultValue={item?._id}
-                            defaultChecked={item?.checked}
+                            checked={
+                              item?.checked ||
+                              activeFilters["material"]?.find(
+                                (itm) => itm === item?._id
+                              )
+                                ? true
+                                : false
+                            }
                             id={item?._id}
                             name="materialId"
                             type="checkbox"
@@ -256,6 +272,7 @@ const MobileFilter = ({
                         name="gender"
                         type="checkbox"
                         value="men"
+                        defaultChecked={activeFilters?.gender?.includes("men")}
                         onChange={handleSubCatFilter}
                         className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-teal-400"
                       />

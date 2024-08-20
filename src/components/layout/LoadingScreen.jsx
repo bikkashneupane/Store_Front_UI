@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import watch_logo from "../../assets/images/watch_logo.png";
+
 const LoadingScreen = () => {
   return (
     <div className="min-h-screen flex items-center justify-center lg:mt-52 lg:justify-start flex-col z-50">
@@ -12,7 +13,7 @@ const LoadingScreen = () => {
         transition={{
           duration: 5, // Duration of the animation
           ease: "easeInOut",
-          repeat: Infinity, // Repeat the animation infinitely
+          // repeat: Infinity, // Repeat the animation infinitely
         }}
         className="flex justify-center items-center"
       >

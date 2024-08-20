@@ -19,11 +19,6 @@ const Products = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [productFound, setProductFound] = useState(true);
 
-  const [query] = useSearchParams();
-  const categoryId = query.get("cat_id");
-  const category = query.get("category");
-  const gender = query.get("gender");
-
   const dispatch = useDispatch();
   const {
     products,
@@ -32,32 +27,59 @@ const Products = () => {
     activeFilters,
   } = useSelector((state) => state.products);
 
+  const [query] = useSearchParams();
+  const categoryQuery = query.get("category");
+  const brandQuery = query.get("brand");
+  const materialQuery = query.get("material");
+  const genderQuery = query.get("gender");
+
   useEffect(() => {
     // category selected from navlink
-    if (categoryId) {
+    if (categoryQuery) {
       const catProducts = products?.filter(
-        (product) => product?.categoryId === categoryId
+        (product) => product?.categoryId === categoryQuery
       );
-      if (catProducts?.length > 0) {
-        dispatch(setFilteredProducts(catProducts));
 
-        if (gender) {
-          const updatedFilters = { ...activeFilters, gender: [gender] };
-          dispatch(setActiveFilters(updatedFilters));
-
-          const subCatProducts = catProducts?.filter(
-            (item) => item?.gender === gender
-          );
-          dispatch(setFilteredProductsWithSubCat(subCatProducts));
-        }
-
-        setProductFound(true);
-      } else {
-        dispatch(setFilteredProducts([]));
+      if (catProducts?.length === 0) {
         setProductFound(false);
+        return;
+      }
+
+      dispatch(setFilteredProducts(catProducts));
+      setProductFound(true);
+
+      const updatedFilters = {
+        brand: brandQuery ? [brandQuery] : [],
+        material: materialQuery ? [materialQuery] : [],
+        gender: genderQuery ? [genderQuery] : [],
+      };
+
+      dispatch(setActiveFilters(updatedFilters));
+
+      const filterConditions = [
+        { key: "gender", query: genderQuery, field: "gender" },
+        { key: "brand", query: brandQuery, field: "brandId" },
+        { key: "material", query: materialQuery, field: "materialId" },
+      ];
+
+      const subCatProducts = filterConditions
+        .filter(({ query }) => query)
+        .reduce((filtered, { field, query }) => {
+          return filtered.filter((item) => item[field] === query);
+        }, catProducts);
+
+      if (subCatProducts.length) {
+        dispatch(setFilteredProductsWithSubCat(subCatProducts));
       }
     }
-  }, [categoryId, dispatch, products, gender]);
+  }, [
+    categoryQuery,
+    dispatch,
+    products,
+    brandQuery,
+    materialQuery,
+    genderQuery,
+  ]);
 
   //reset redux filters products
   useEffect(() => {
@@ -133,12 +155,12 @@ const Products = () => {
 
     if (checked) {
       const newProducts = products?.filter(
-        (product) => product?.categoryId === value
+        (product) => product?.categoryQuery === value
       );
       updatedFilteredProducts = [...updatedFilteredProducts, ...newProducts];
     } else {
       updatedFilteredProducts = updatedFilteredProducts?.filter(
-        (product) => product?.categoryId !== value
+        (product) => product?.categoryQuery !== value
       );
     }
     // store in filteredProducts in redux
@@ -192,7 +214,7 @@ const Products = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {!productFound ? (
           <div className="pt-20 flex justify-center font-semibold">
-            {category} updating soon... Please Come Back Later
+            Store updating soon... Please Come Back Later
           </div>
         ) : (
           <div className="py-6 bg-white dark:bg-gray-900 shadow-lg rounded-md">

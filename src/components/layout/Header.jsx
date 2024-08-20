@@ -10,6 +10,8 @@ import {
 } from "@headlessui/react";
 import {
   Bars3Icon,
+  MinusIcon,
+  PlusIcon,
   ShoppingBagIcon,
   UserCircleIcon,
   XMarkIcon,
@@ -24,10 +26,17 @@ import { Fragment, useEffect, useState } from "react";
 const Header = () => {
   const [scrollY, setScrollY] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showCat, setShowCat] = useState(false);
+  const [currentBrand, setCurrentBrand] = useState([]);
+  const [currentMaterial, setCurrentMaterial] = useState([]);
+  const [currentCatId, setCurrentCatId] = useState("");
+
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
-  const { categories } = useSelector((state) => state.categories);
+  const { categories, brands, materials } = useSelector(
+    (state) => state.categories
+  );
 
   const handleScroll = () => {
     setScrollY(window.scrollY);
@@ -47,15 +56,17 @@ const Header = () => {
   };
 
   const navigation = [
-    { name: "Browse", to: "/products" },
-    {
-      name: "Categories",
-      to: "/categories",
-      options: categories?.map((cat) => ({
-        name: cat?.title,
-        to: `/products?category=${cat?.title}&cat_id=${cat?._id}`,
-      })),
-    },
+    ...(categories || []).map((cat) => ({
+      _id: cat?._id,
+      name: cat?.title,
+      to: `/products?category=${cat?._id}`,
+      catBrands: (brands || []).filter((item) =>
+        cat.brand?.includes(item?._id)
+      ),
+      catMaterials: (materials || []).filter((item) =>
+        cat.material?.includes(item?._id)
+      ),
+    })),
     { name: "About", to: "/about" },
     { name: "Contact", to: "/contact" },
     { name: "Cart", to: "/cart", mobile: true },
@@ -100,34 +111,31 @@ const Header = () => {
                   {navigation
                     .filter((item) => !item.mobile)
                     .map((item) => {
-                      return item?.options ? (
-                        <Menu as="div" key={item?.name} className="relative">
-                          <MenuButton
+                      return item?.catBrands ? (
+                        <Link
+                          key={item?._id}
+                          to={item?.to}
+                          onMouseOver={() => {
+                            setCurrentCatId(item?._id);
+                            setCurrentBrand(item?.catBrands);
+                            setCurrentMaterial(item?.catMaterials);
+                            setShowCat(true);
+                          }}
+                        >
+                          <button
                             className={`${
                               scrollY > 0 ? "text-gray-200" : "text-gray-700"
-                            } dark:text-gray-300 hover:bg-gray-600 hover:text-white block rounded-md px-3 py-2 font-bold cursor-pointer`}
+                            } dark:text-gray-300 hover:bg-gray-600 hover:text-white block rounded-md px-3 py-2 font-bold`}
                           >
                             {item?.name}
-                          </MenuButton>
-
-                          <MenuItems
-                            transition
-                            className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                          >
-                            {item?.options?.map((opt, i) => (
-                              <MenuItem key={`${opt?.name}-${i}`}>
-                                <Link
-                                  to={opt?.to}
-                                  className="block px-4 py-2 text-sm font-bold text-gray-700 dark:text-gray-200 data-[focus]:bg-gray-100 dark:data-[focus]:bg-gray-700"
-                                >
-                                  {opt?.name}
-                                </Link>
-                              </MenuItem>
-                            ))}
-                          </MenuItems>
-                        </Menu>
+                          </button>
+                        </Link>
                       ) : (
-                        <Link key={item?.name} to={item?.to}>
+                        <Link
+                          key={item?.name}
+                          to={item?.to}
+                          onMouseOver={() => setShowCat(false)}
+                        >
                           <DisclosureButton
                             className={`${
                               scrollY > 0 ? "text-gray-200" : "text-gray-700"
@@ -225,58 +233,220 @@ const Header = () => {
               </Link>
             </div>
           </div>
-        </div>
 
-        {/* Mobile Menu */}
-        <Transition
-          show={mobileOpen}
-          as={Fragment}
-          enter="transition ease-in-out duration-300 transform"
-          enterFrom="-translate-x-full opacity-0"
-          enterTo="translate-x-0 opacity-100"
-          leave="transition ease-in-out duration-300 transform"
-          leaveFrom="translate-x-0 opacity-100"
-          leaveTo="-translate-x-full opacity-0"
-        >
-          <div className="fixed inset-0 z-40 flex lg:hidden">
-            {/* Overlay */}
-            <div
-              className="fixed inset-0 bg-black bg-opacity-25"
-              onClick={() => setMobileOpen(false)}
-            ></div>
+          <Transition
+            as={Fragment}
+            show={mobileOpen}
+            enter="transition-opacity ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <DisclosurePanel className="fixed inset-0 z-40 overflow-y-auto text-white min-h-[100vh]">
+              <div className="bg-black w-full h-full bg-opacity-40 absolute"></div>
+              <div className="bg-gray-900 flex flex-col px-8 py-2 w-[350px] h-full relative">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-baseline gap-1 font-semibold text-xl mb-4">
+                    <img
+                      alt="Vikiasmy"
+                      src={watch_logo}
+                      className="h-[30px] w-[30px]"
+                    />
+                    <h1>vikiasmy's</h1>
+                  </div>
 
-            {/* Mobile Menu */}
-            <div className="relative  w-full max-w-xs bg-white dark:bg-gray-900 p-4">
-              <div className="flex justify-between items-center">
-                <h2 className="font-medium text-gray-900 dark:text-gray-100 ps-2">
-                  vikiasmy's
-                </h2>
-                <button
-                  type="button"
-                  onClick={() => setMobileOpen(false)}
-                  className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white dark:bg-gray-800 p-2 text-gray-400 dark:text-gray-300"
-                >
-                  <XMarkIcon aria-hidden="true" className="h-6 w-6" />
-                </button>
-              </div>
-
-              <DisclosurePanel static>
+                  <DisclosureButton
+                    onClick={() => setMobileOpen(false)}
+                    className="inline-flex items-center justify-center rounded-md p-2 hover:bg-gray-700 hover:text-white"
+                  >
+                    <XMarkIcon className="block h-6 w-6" />
+                  </DisclosureButton>
+                </div>
                 <div className="flex flex-col gap-4 mt-6">
                   {navigation.map((item) => (
+                    <Disclosure key={item?._id || item?.name}>
+                      <DisclosureButton
+                        className="group flex w-full items-center justify-between py-3 text-gray-300 hover:text-white"
+                        onClick={() => setCurrentCatId(item?._id)}
+                      >
+                        <Link
+                          to={item?.to}
+                          onClick={() => setMobileOpen(false)}
+                          className="text-sm font-bold tracking-widest"
+                        >
+                          {item.name.toUpperCase()}
+                        </Link>
+                        {item._id && (
+                          <span>
+                            <PlusIcon className="h-5 w-5 group-data-[open]:hidden" />
+                            <MinusIcon className="h-5 w-5 [.group:not([data-open])_&]:hidden" />
+                          </span>
+                        )}
+                      </DisclosureButton>
+                      {item?._id && (
+                        <DisclosurePanel>
+                          <Disclosure as="div" className="ps-4 mb-3">
+                            <DisclosureButton className="group flex w-full items-center justify-between py-3 text-gray-300 hover:text-white">
+                              <Link
+                                to={item?.to}
+                                onClick={() => setMobileOpen(false)}
+                                className="font-semibold text-[13px] text-gray-400"
+                              >
+                                SHOP BY BRAND
+                              </Link>
+
+                              <span>
+                                <PlusIcon className="h-5 w-5 group-data-[open]:hidden" />
+                                <MinusIcon className="h-5 w-5 [.group:not([data-open])_&]:hidden" />
+                              </span>
+                            </DisclosureButton>
+
+                            <DisclosurePanel>
+                              <div className="ms-4 ps-6 flex flex-col gap-4 pt-3 border-l text-gray-400">
+                                {item?.catBrands?.map((brand) => (
+                                  <Link
+                                    to={`/products?category=${currentCatId}&brand=${brand?._id}`}
+                                    key={brand?._id}
+                                    className="text-sm"
+                                    onClick={() => setMobileOpen(false)}
+                                  >
+                                    {brand?.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </DisclosurePanel>
+                          </Disclosure>
+
+                          <Disclosure as="div" className="ps-4 mb-3">
+                            <DisclosureButton className="group flex w-full items-center justify-between py-3 text-gray-300 hover:text-white">
+                              <Link
+                                to={item?.to}
+                                onClick={() => setMobileOpen(false)}
+                                className="font-semibold text-[13px] text-gray-400"
+                              >
+                                SHOP BY MATERIAL
+                              </Link>
+
+                              <span>
+                                <PlusIcon className="h-5 w-5 group-data-[open]:hidden" />
+                                <MinusIcon className="h-5 w-5 [.group:not([data-open])_&]:hidden" />
+                              </span>
+                            </DisclosureButton>
+
+                            <DisclosurePanel>
+                              <div className="ms-4 ps-6 flex flex-col gap-4 pt-3 border-l text-gray-400">
+                                {item?.catMaterials?.map((material) => (
+                                  <Link
+                                    to={`/products?category=${currentCatId}&material=${material?._id}`}
+                                    key={material?._id}
+                                    className="text-sm"
+                                    onClick={() => setMobileOpen(false)}
+                                  >
+                                    {material?.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </DisclosurePanel>
+                          </Disclosure>
+
+                          <DisclosureButton className="ps-4 mb-3 flex w-full items-center justify-between py-3 text-gray-300 hover:text-white">
+                            <Link
+                              to={`/products?category=${currentCatId}&gender=men`}
+                              onClick={() => setMobileOpen(false)}
+                              className="font-semibold text-[13px] text-gray-400"
+                            >
+                              MENS
+                            </Link>
+                          </DisclosureButton>
+
+                          <DisclosureButton className="ps-4 mb-3 flex w-full items-center justify-between py-3 text-gray-300 hover:text-white">
+                            <Link
+                              to={`/products?category=${currentCatId}&gender=women`}
+                              onClick={() => setMobileOpen(false)}
+                              className="font-semibold text-[13px] text-gray-400"
+                            >
+                              WOMENS
+                            </Link>
+                          </DisclosureButton>
+                        </DisclosurePanel>
+                      )}
+                      <hr className="border-gray-500" />
+                    </Disclosure>
+                  ))}
+                </div>
+              </div>
+            </DisclosurePanel>
+          </Transition>
+        </div>
+
+        {showCat && (
+          <div
+            className={`${
+              scrollY > 0 ? "bg-gray-800" : "bg-white"
+            } dark:bg-gray-900 border-y absolute z-30 w-full min-h-[320px]`}
+            onMouseOver={() => setShowCat(true)}
+            onMouseOut={() => setShowCat(false)}
+          >
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex justify-around">
+              <div>
+                <h1 className="font-bold mb-3">Shop By Brand</h1>
+                <div className="flex flex-col gap-2 font-semibold text-sm">
+                  {currentBrand?.map((item) => (
                     <Link
-                      key={item.name}
-                      to={item.to}
-                      className="block rounded-md px-3 py-2 text-base font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
-                      onClick={() => setMobileOpen(false)}
+                      to={`/products?category=${currentCatId}&brand=${item?._id}`}
+                      onClick={() => setShowCat(false)}
+                      key={item?._id}
+                      className={`${scrollY > 0 ? "text-gray-200" : ""}`}
                     >
-                      {item.name}
+                      {item?.name}
                     </Link>
                   ))}
                 </div>
-              </DisclosurePanel>
+              </div>
+
+              <div>
+                <h1 className="font-bold mb-3">Shop By Material</h1>
+                <div className="flex flex-col gap-2 font-semibold text-sm">
+                  {currentMaterial?.map((item) => (
+                    <Link
+                      to={`/products?category=${currentCatId}&material=${item?._id}`}
+                      key={item?._id}
+                      className={`${scrollY > 0 ? "text-gray-200" : ""}`}
+                    >
+                      {item?.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h1 className="font-bold mb-3">Shop By Gender</h1>
+                <div className="flex flex-col gap-2 font-semibold text-sm">
+                  {[
+                    {
+                      name: "Men",
+                      value: "men",
+                    },
+                    {
+                      name: "Women",
+                      value: "women",
+                    },
+                  ].map((item) => (
+                    <Link
+                      to={`/products?category=${currentCatId}&gender=${item?.value}`}
+                      key={`${Date.now()}-${item?.value}`}
+                      className={`${scrollY > 0 ? "text-gray-200" : ""}`}
+                    >
+                      {item?.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        </Transition>
+        )}
       </Disclosure>
     </div>
   );

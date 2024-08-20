@@ -55,9 +55,9 @@ const Home = () => {
     },
   ];
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
 
   return (
     <div className="min-h-screen">

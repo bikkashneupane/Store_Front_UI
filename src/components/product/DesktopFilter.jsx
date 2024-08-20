@@ -5,6 +5,7 @@ import {
 } from "@headlessui/react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
+import { setFilteredProductsWithSubCat } from "../../features/product/ProductSlice";
 
 const DesktopFilter = ({ handleOnCategoryFilter, handleSubCatFilter }) => {
   const { categories, brands, materials } = useSelector(
@@ -125,7 +126,14 @@ const DesktopFilter = ({ handleOnCategoryFilter, handleSubCatFilter }) => {
                     <div key={item._id} className="flex items-center">
                       <input
                         defaultValue={item?._id}
-                        defaultChecked={item?.checked}
+                        checked={
+                          item?.checked ||
+                          activeFilters["brand"]?.find(
+                            (itm) => itm === item?._id
+                          )
+                            ? true
+                            : false
+                        }
                         id={item?._id}
                         name="brandId"
                         type="checkbox"
@@ -182,7 +190,14 @@ const DesktopFilter = ({ handleOnCategoryFilter, handleSubCatFilter }) => {
                     <div key={item._id} className="flex items-center">
                       <input
                         defaultValue={item?._id}
-                        defaultChecked={item?.checked}
+                        checked={
+                          item?.checked ||
+                          activeFilters["material"]?.find(
+                            (itm) => itm === item?._id
+                          )
+                            ? true
+                            : false
+                        }
                         id={item?._id}
                         name="materialId"
                         type="checkbox"
