@@ -28,16 +28,16 @@ const Products = () => {
   } = useSelector((state) => state.products);
 
   const [query] = useSearchParams();
-  const categoryQuery = query.get("category");
+  const categoryId = query.get("category");
   const brandQuery = query.get("brand");
   const materialQuery = query.get("material");
   const genderQuery = query.get("gender");
 
   useEffect(() => {
     // category selected from navlink
-    if (categoryQuery) {
+    if (categoryId) {
       const catProducts = products?.filter(
-        (product) => product?.categoryId === categoryQuery
+        (product) => product?.categoryId === categoryId
       );
 
       if (catProducts?.length === 0) {
@@ -49,17 +49,18 @@ const Products = () => {
       setProductFound(true);
 
       const updatedFilters = {
-        brand: brandQuery ? [brandQuery] : [],
-        material: materialQuery ? [materialQuery] : [],
+        brandId: brandQuery ? [brandQuery] : [],
+        materialId: materialQuery ? [materialQuery] : [],
         gender: genderQuery ? [genderQuery] : [],
       };
 
+      console.log("UPdated FIlteres: ", updatedFilters);
       dispatch(setActiveFilters(updatedFilters));
 
       const filterConditions = [
-        { key: "gender", query: genderQuery, field: "gender" },
-        { key: "brand", query: brandQuery, field: "brandId" },
-        { key: "material", query: materialQuery, field: "materialId" },
+        { query: genderQuery, field: "gender" },
+        { query: brandQuery, field: "brandId" },
+        { query: materialQuery, field: "materialId" },
       ];
 
       const subCatProducts = filterConditions
@@ -68,18 +69,9 @@ const Products = () => {
           return filtered.filter((item) => item[field] === query);
         }, catProducts);
 
-      if (subCatProducts.length) {
-        dispatch(setFilteredProductsWithSubCat(subCatProducts));
-      }
+      dispatch(setFilteredProductsWithSubCat(subCatProducts));
     }
-  }, [
-    categoryQuery,
-    dispatch,
-    products,
-    brandQuery,
-    materialQuery,
-    genderQuery,
-  ]);
+  }, [categoryId, dispatch, products, brandQuery, materialQuery, genderQuery]);
 
   //reset redux filters products
   useEffect(() => {
@@ -155,13 +147,15 @@ const Products = () => {
 
     if (checked) {
       const newProducts = products?.filter(
-        (product) => product?.categoryQuery === value
+        (product) => product?.categoryId === value
       );
       updatedFilteredProducts = [...updatedFilteredProducts, ...newProducts];
     } else {
-      updatedFilteredProducts = updatedFilteredProducts?.filter(
-        (product) => product?.categoryQuery !== value
-      );
+      // updatedFilteredProducts = updatedFilteredProducts?.filter(
+      //   (product) => product?.categoryId !== value
+      // );
+      updatedFilteredProducts = [];
+      dispatch(setFilteredProductsWithSubCat([]));
     }
     // store in filteredProducts in redux
     dispatch(setFilteredProducts(updatedFilteredProducts));
@@ -170,13 +164,16 @@ const Products = () => {
   // Filter Product with sub-category logic
   const handleSubCatFilter = (e) => {
     const { name, value, checked } = e.target;
+    console.log(name, value, checked);
 
     let updatedFilters = { ...activeFilters };
+    console.log(updatedFilters);
 
     if (checked) {
       // Add the value to the array if it's not already present
       if (!updatedFilters[name]?.includes(value)) {
         updatedFilters[name] = [...updatedFilters[name], value];
+        console.log(updatedFilters);
       }
     } else {
       // Remove the value from the array
@@ -185,9 +182,11 @@ const Products = () => {
       );
     }
 
+    console.log(updatedFilters);
     // Apply all active filters
-    const updatedProducts = filteredProducts.filter((product) => {
+    const updatedProducts = filteredProducts?.filter((product) => {
       return Object.keys(updatedFilters).every((key) => {
+        console.log(key);
         // Check if the product matches any of the values for the key
         return (
           updatedFilters[key]?.length === 0 ||
@@ -196,6 +195,7 @@ const Products = () => {
       });
     });
 
+    console.log(updatedProducts);
     dispatch(setFilteredProductsWithSubCat(updatedProducts));
     dispatch(setActiveFilters(updatedFilters)); // Update Redux state with active filters
   };
@@ -211,13 +211,13 @@ const Products = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
         {!productFound ? (
           <div className="pt-20 flex justify-center font-semibold">
             Store updating soon... Please Come Back Later
           </div>
         ) : (
-          <div className="py-6 bg-white dark:bg-gray-900 shadow-lg rounded-md">
+          <div className="py-6 bg-white dark:bg-gray-900">
             {/* Mobile filter dialog */}
 
             <MobileFilter
@@ -229,10 +229,10 @@ const Products = () => {
 
             {/* Sort / Filter / Product List / Pagination */}
             <main className="mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex items-baseline justify-between border-b border-gray-200 dark:border-gray-700 pb-6 pt-10">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-300">
+              <div className="flex justify-end border-b border-gray-200 dark:border-gray-700 pb-6 ">
+                {/* <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-300">
                   Browse Store
-                </h1>
+                </h1> */}
 
                 <div className="flex items-center">
                   {/* Sort Products by price / best rated */}
@@ -260,7 +260,7 @@ const Products = () => {
               </div>
 
               <section className="pb-24 pt-6">
-                <div className="grid grid-cols-1 gap-y-10 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-y-10 lg:grid-cols-5">
                   {/* Filters */}
                   <DesktopFilter
                     handleOnCategoryFilter={handleOnCategoryFilter}
@@ -268,7 +268,7 @@ const Products = () => {
                   />
 
                   {/* Product grid */}
-                  <div className="lg:col-span-3">
+                  <div className="lg:col-span-4">
                     <ProductList products={pageProducts} />
                   </div>
                 </div>

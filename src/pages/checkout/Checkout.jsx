@@ -6,12 +6,13 @@ import CustomCart from "../../components/custom/CustomCart";
 import CheckoutForm from "./CheckoutForm";
 import { Link, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { axiosProcessor } from "../../axios/axiosHelper";
+// import { axiosProcessor } from "../../axios/axiosHelper";
 import { setOrderIdInStore } from "../../features/order/orderSlice";
+import { fetchClientSecretAction } from "../../features/order/orderAction";
 
 const stripePromise = loadStripe(`${import.meta.env.VITE_STRIPE_PK}`);
-const orderEP =
-  import.meta.env.VITE_SERVER_API + "/v1/orders/create-payment-intent";
+// const orderEP =
+//   import.meta.env.VITE_SERVER_API + "/v1/orders/create-payment-intent";
 
 const Checkout = () => {
   const [clientSecret, setClientSecret] = useState("");
@@ -61,14 +62,15 @@ const Checkout = () => {
             })),
           };
 
-          console.log("Use effect total amount : ", orderObj);
-          const { clientSecret } = await axiosProcessor({
-            url: orderEP,
-            method: "post",
-            data: orderObj,
-            isPrivate: true,
-            isToast: true,
-          });
+          const { clientSecret } = await fetchClientSecretAction(orderObj);
+
+          // const { clientSecret } = await axiosProcessor({
+          //   url: orderEP,
+          //   method: "post",
+          //   data: orderObj,
+          //   isPrivate: true,
+          //   isToast: true,
+          // });
 
           setClientSecret(clientSecret);
         } catch (error) {

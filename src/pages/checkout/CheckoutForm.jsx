@@ -4,13 +4,16 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setShippingAddress } from "../../features/order/orderSlice";
 
 const CheckoutForm = ({ clientSecret }) => {
   const stripe = useStripe();
   const elements = useElements();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleCheckout = async (e) => {
     e.preventDefault();
@@ -31,7 +34,8 @@ const CheckoutForm = ({ clientSecret }) => {
     if (!error) {
       console.log("Payment successful!", paymentIntent);
       // Optionally, you can update the frontend with order confirmation details here
-
+      // const shippingAddress = paymentIntent?.
+      dispatch(setShippingAddress(paymentIntent.shipping.address));
       navigate("/order-confirmation");
     } else {
       console.error(error.message);

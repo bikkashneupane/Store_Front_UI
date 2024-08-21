@@ -1,4 +1,6 @@
 import {
+  Dialog,
+  DialogPanel,
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
@@ -81,7 +83,7 @@ const Header = () => {
           scrollY > 0 && "bg-gray-900 text-white"
         } transition-colors duration-300 dark:bg-gray-900 dark:border-b dark:border-b-gray-700`}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-2">
           <div className="relative flex items-center justify-between py-6">
             <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
               <DisclosureButton
@@ -191,12 +193,12 @@ const Header = () => {
                         </Link>
                       </MenuItem>
                       <MenuItem>
-                        <a
-                          href="#"
+                        <Link
+                          to={"/my-orders"}
                           className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 data-[focus]:bg-gray-100 dark:data-[focus]:bg-gray-700"
                         >
                           My Orders
-                        </a>
+                        </Link>
                       </MenuItem>
                       <MenuItem>
                         <div
@@ -248,7 +250,7 @@ const Header = () => {
               <div className="bg-black w-full h-full bg-opacity-40 absolute"></div>
               <div className="bg-gray-900 flex flex-col px-8 py-2 w-[350px] h-full relative">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-baseline gap-1 font-semibold text-xl mb-4">
+                  <div className="flex items-baseline gap-1 font-semibold text-xl my-4">
                     <img
                       alt="Vikiasmy"
                       src={watch_logo}
@@ -274,7 +276,7 @@ const Header = () => {
                         <Link
                           to={item?.to}
                           onClick={() => setMobileOpen(false)}
-                          className="text-sm font-bold tracking-widest"
+                          className="text-sm font-semibold tracking-widest"
                         >
                           {item.name.toUpperCase()}
                         </Link>
@@ -384,12 +386,12 @@ const Header = () => {
         {showCat && (
           <div
             className={`${
-              scrollY > 0 ? "bg-gray-800" : "bg-white"
-            } dark:bg-gray-900 border-y absolute z-30 w-full min-h-[320px]`}
+              scrollY > 0 ? "bg-gray-900 border-y-gray-500" : "bg-gray-100"
+            } dark:bg-gray-900 border-y dark:border-y-gray-600 absolute z-30 w-full min-h-[320px]`}
             onMouseOver={() => setShowCat(true)}
             onMouseOut={() => setShowCat(false)}
           >
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex justify-around">
+            <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 py-4 flex justify-around">
               <div>
                 <h1 className="font-bold mb-3">Shop By Brand</h1>
                 <div className="flex flex-col gap-2 font-semibold text-sm">

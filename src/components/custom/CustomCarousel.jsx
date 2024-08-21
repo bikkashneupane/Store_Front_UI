@@ -32,7 +32,7 @@ const CustomCarousel = ({ images = [] }) => {
   return (
     <div className="relative w-full overflow-hidden">
       <div
-        className="relative flex w-full h-[60vh] transition-transform duration-300 ease-in-out"
+        className="relative flex w-full h-[70vh] transition-transform duration-300 ease-in-out"
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {images.map((image, index) => (

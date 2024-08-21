@@ -163,7 +163,7 @@ const MobileFilter = ({
                             defaultValue={item?._id}
                             checked={
                               item?.checked ||
-                              activeFilters["brand"]?.find(
+                              activeFilters["brandId"]?.find(
                                 (itm) => itm === item?._id
                               )
                                 ? true
@@ -227,7 +227,7 @@ const MobileFilter = ({
                             defaultValue={item?._id}
                             checked={
                               item?.checked ||
-                              activeFilters["material"]?.find(
+                              activeFilters["materialId"]?.find(
                                 (itm) => itm === item?._id
                               )
                                 ? true

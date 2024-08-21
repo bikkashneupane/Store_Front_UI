@@ -5,6 +5,9 @@ import wrist_watch from "./../../assets/images/wrist-watch.avif";
 import carousel_1 from "./../../assets/images/carousel_1.webp";
 import carousel_2 from "./../../assets/images/carousel_2.jpg";
 import carousel_3 from "./../../assets/images/carousel_3.jpg";
+import mens from "./../../assets/images/mens.webp";
+import womens from "./../../assets/images/womens.jpg";
+import accessories from "./../../assets/images/accessories.jpg";
 import { CustomCard } from "../../components/custom/CustomCard";
 import CategoryCard from "../../components/custom/CategoryCard";
 import { useSelector } from "react-redux";
@@ -39,19 +42,18 @@ const Home = () => {
   const homeCatInput = [
     {
       title: "Men",
-      to: `/products?category=Watches&cat_id=${watch_Id}&gender=men`,
+      to: `/products?category=${watch_Id}&gender=men`,
+      image: mens,
     },
     {
       title: "Women",
-      to: `/products?category=Watches&cat_id=${watch_Id}&gender=women`,
+      to: `/products?category=${watch_Id}&gender=women`,
+      image: womens,
     },
     {
       title: "Accessories",
-      to: `/products?category=Accessoris&cat_id=${accessories_Id}`,
-    },
-    {
-      title: "Watches",
-      to: `/products?category=Watches&cat_id=${watch_Id}`,
+      to: `/products?category=${accessories_Id}`,
+      image: accessories,
     },
   ];
 
@@ -60,27 +62,24 @@ const Home = () => {
   // }
 
   return (
-    <div className="min-h-screen">
+    <div className="">
       <CustomCarousel images={images} />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="py-8">
+        <div className="mt-8">
           {/* Category */}
           <div className="flex justify-center">
-            <div className="flex flex-wrap gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {homeCatInput?.map((item) => (
-                <div
-                  key={`${Date.now}-${item?.title}`}
-                  className="flex-grow w-full md:w-1/2 lg:w-1/4 px-4"
-                >
-                  <CategoryCard title={item?.title} to={item?.to} />
+                <div key={`${Date.now}-${item?.title}`} className="px-4">
+                  <CategoryCard {...item} />
                 </div>
               ))}
             </div>
           </div>
 
           {/* POPULAR */}
-          <div className="my-6">
+          <div className="mt-20 mb-6">
             <h2 className="px-4 pt-4 text-2xl font-semibold text-center tracking-widest">
               MOST POPULAR
             </h2>

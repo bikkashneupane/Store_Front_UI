@@ -5,15 +5,13 @@ import {
 } from "@headlessui/react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
-import { setFilteredProductsWithSubCat } from "../../features/product/ProductSlice";
 
 const DesktopFilter = ({ handleOnCategoryFilter, handleSubCatFilter }) => {
   const { categories, brands, materials } = useSelector(
     (state) => state.categories
   );
-  const { filteredProducts, activeFilters } = useSelector(
-    (state) => state.products
-  );
+  const { filteredProducts, filteredProductsWithSubCat, activeFilters } =
+    useSelector((state) => state.products);
 
   return (
     <div className="hidden lg:block">
@@ -128,11 +126,9 @@ const DesktopFilter = ({ handleOnCategoryFilter, handleSubCatFilter }) => {
                         defaultValue={item?._id}
                         checked={
                           item?.checked ||
-                          activeFilters["brand"]?.find(
-                            (itm) => itm === item?._id
+                          activeFilters["brandId"]?.some(
+                            (value) => value === item?._id
                           )
-                            ? true
-                            : false
                         }
                         id={item?._id}
                         name="brandId"
@@ -192,11 +188,9 @@ const DesktopFilter = ({ handleOnCategoryFilter, handleSubCatFilter }) => {
                         defaultValue={item?._id}
                         checked={
                           item?.checked ||
-                          activeFilters["material"]?.find(
-                            (itm) => itm === item?._id
+                          activeFilters["materialId"]?.some(
+                            (value) => value === item?._id
                           )
-                            ? true
-                            : false
                         }
                         id={item?._id}
                         name="materialId"

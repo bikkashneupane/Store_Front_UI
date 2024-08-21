@@ -26,6 +26,7 @@ const slice = createSlice({
       state.filteredProductsWithSubCat = action.payload;
     },
     setActiveFilters: (state, action) => {
+      console.log("ProdSLice: ", action.payload);
       state.activeFilters = action.payload;
     },
   },

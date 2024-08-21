@@ -15,8 +15,21 @@ import { Link } from "react-router-dom";
 const OrderConfirmation = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  const { orderId } = useSelector((state) => state.order);
+  const { orderId, shippingAddress } = useSelector((state) => state.order);
   const { cart } = useSelector((state) => state.cart);
+
+  const options = { month: "long", day: "numeric" };
+  const date = new Date();
+  const day7 = new Date(date);
+
+  day7.setDate(day7.getDate() + 7);
+
+  const fromDate = date.toLocaleDateString("en-US", options);
+  const toDate = day7.toLocaleDateString("en-US", options);
+
+  const checking = new Date().toLocaleDateString("en-US", options);
+
+  console.log(checking);
 
   const [currentCart, setCurrentCart] = useState(cart || []);
 
@@ -133,7 +146,7 @@ const OrderConfirmation = () => {
                   <div className="space-y-2">
                     <h1 className="text-lg font-bold">Estimeted Arrival</h1>
                     <h2 className="text-sm font-semibold">
-                      August 20 - August 25
+                      {fromDate} - {toDate}
                     </h2>
                     <p className="text-sm text-gray-700 dark:text-gray-400">
                       To ensure prompt delivery some items may be shipped
@@ -147,9 +160,15 @@ const OrderConfirmation = () => {
                   <div className="space-y-2">
                     <h1 className="text-lg font-bold">Shipping To</h1>
                     <div className="">
-                      <p className="text-sm font-semibold">20 King St</p>
-                      <p className="text-sm font-semibold">Sydney, 2000</p>
-                      <p className="text-sm font-semibold">NSW Sydney</p>
+                      <p className="text-sm font-semibold">
+                        {shippingAddress?.line1}
+                      </p>
+                      <p className="text-sm font-semibold">
+                        {shippingAddress?.city} {shippingAddress?.postal_code}
+                      </p>
+                      <p className="text-sm font-semibold">
+                        {shippingAddress?.state}
+                      </p>
                     </div>
                     <p className="text-sm text-gray-700 dark:text-gray-400">
                       Tracking information will be available once your order is
