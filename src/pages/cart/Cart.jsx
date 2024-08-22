@@ -3,7 +3,7 @@ import CustomCart from "../../components/custom/CustomCart";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const { cart } = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.carts);
 
   return (
     <div className="">

@@ -3,7 +3,7 @@ import { removeFromCart, updateCart } from "../../features/cart/cartSlice";
 
 const CustomCart = () => {
   const dispatch = useDispatch();
-  const { cart } = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.carts);
 
   const handleQuantityChange = (e, product) => {
     const newQuantity = parseInt(e.target.value);

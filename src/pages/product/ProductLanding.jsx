@@ -1,4 +1,3 @@
-import { StarIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,24 +6,28 @@ import {
   updateCartAction,
 } from "../../features/cart/cartAction";
 import "./ProductLanding.css";
-
-const reviews = { href: "#product-reviews", average: 4, totalCount: 117 };
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import Stars from "../../components/custom/Star";
+import profile_alt from "../../assets/images/profile_alt.jpeg";
 
 const ProductLanding = () => {
   const [currentImage, setCurrentImage] = useState("");
-
   const [itemCount, setItemCount] = useState(0);
 
   const { _id } = useParams();
   const dispatch = useDispatch();
-  const { cart } = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.carts);
   const { products } = useSelector((state) => state.products);
+  const { reviews } = useSelector((state) => state.reviews);
   const { brands, materials } = useSelector((state) => state.categories);
   const selectedProduct = products?.find((item) => item._id === _id);
+
+  const productReviews = reviews?.filter(
+    (review) => review?.productId === selectedProduct?._id
+  );
+  const totalReviews = productReviews?.length;
+  const averageRating =
+    productReviews?.reduce((acc, curr) => acc + curr?.ratings, 0) /
+    totalReviews;
 
   const navigate = useNavigate();
 
@@ -47,6 +50,7 @@ const ProductLanding = () => {
 
   const handleOnBuyNow = (e) => {
     e.preventDefault();
+    console.log("clicked");
     if (cart?.find((item) => item._id === _id)) {
       dispatch(updateCartAction({ ...selectedProduct, quantity: itemCount }));
     } else {
@@ -54,6 +58,7 @@ const ProductLanding = () => {
     }
     navigate("/checkout");
   };
+
   return (
     <div className="dark:bg-gray-900 text-gray-900 dark:text-white relative">
       <div className="mx-auto mt-10 md:mt-20 max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -90,7 +95,7 @@ const ProductLanding = () => {
               <img
                 alt={selectedProduct?.title}
                 src={currentImage}
-                className="w-full h-full object-cover object-center rounded-lg"
+                className="w-full max-h-[650px] object-cover object-center rounded-lg"
               />
             </div>
             {/* Image gallery for smaller screens */}
@@ -152,28 +157,14 @@ const ProductLanding = () => {
             {/* Reviews */}
             <div className="mt-2">
               <h3 className="sr-only">Reviews</h3>
-              <div className="flex items-center">
-                <div className="flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
-                    <StarIcon
-                      key={rating}
-                      aria-hidden="true"
-                      className={classNames(
-                        reviews.average > rating
-                          ? "text-gray-900 dark:text-gray-200"
-                          : "text-gray-200 dark:text-gray-600",
-                        "h-4 w-4 flex-shrink-0"
-                      )}
-                    />
-                  ))}
-                </div>
-                <p className="sr-only">{reviews.average} out of 5 stars</p>
-                <a
-                  href={reviews.href}
-                  className="ml-3 text-sm font-medium scroll-smooth text-purple-600 hover:text-purple-500 dark:text-purple-400 dark:hover:text-purple-300"
-                >
-                  {reviews.totalCount} reviews
-                </a>
+              <div className="flex gap-1 items-center">
+                <Stars stars={averageRating} />{" "}
+                <span className="text-sm">
+                  {" "}
+                  {totalReviews > 0
+                    ? `${averageRating}(${totalReviews})`
+                    : "Be the first"}
+                </span>
               </div>
             </div>
 
@@ -226,7 +217,6 @@ const ProductLanding = () => {
                 </button>
                 <button
                   onClick={handleOnBuyNow}
-                  type="submit"
                   className="w-full rounded-md flex justify-center border border-transparent bg-teal-600 px-8 py-2 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                   disabled={itemCount < 1}
                 >
@@ -324,43 +314,38 @@ const ProductLanding = () => {
         </div>
 
         {/* Review */}
-        <div className="mt-10 py-4">
-          <h1 className="text-xl font-bold mb-8 tracking-wider font-mono underline">
-            Reviews
-          </h1>
-          <div className="mt-8 flex flex-col gap-6" id="product-reviews">
-            <div className="flex gap-8">
-              <div className="w-8 h-8 border rounded-full flex items-center justify-center">
-                <span>BN</span>
-              </div>
-              <div>
-                <h1>Good Product</h1>
-                <h2>5 stars</h2>
-                <p>Amazing Product, A little Expensive though.</p>
-              </div>
-            </div>
-            <div className="flex gap-8">
-              <div className="w-8 h-8 border rounded-full flex items-center justify-center">
-                <span>BN</span>
-              </div>
-              <div>
-                <h1>Good Product</h1>
-                <h2>5 stars</h2>
-                <p>Amazing Product, A little Expensive though.</p>
-              </div>
-            </div>
-            <div className="flex gap-8">
-              <div className="w-8 h-8 border rounded-full flex items-center justify-center">
-                <span>BN</span>
-              </div>
-              <div>
-                <h1>Good Product</h1>
-                <h2>5 stars</h2>
-                <p>Amazing Product, A little Expensive though.</p>
-              </div>
+        {totalReviews > 0 && (
+          <div className="mt-10 py-4">
+            <h1 className="text-xl font-bold mb-8 tracking-wider font-mono underline">
+              Reviews
+            </h1>
+            <div
+              className="mt-8 flex flex-col gap-6 text-sm"
+              id="product-reviews"
+            >
+              {reviews?.map((review) => (
+                <div key={review?._id}>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={review?.userImage ?? profile_alt}
+                      alt=""
+                      className="w-8 h-8 rounded-full"
+                    />
+                    <h1>{reviews[0]?.userName?.split(" ")[0]}</h1>
+                  </div>
+                  <div className="ps-11 space-y-2">
+                    <h1>Reviewed on {review?.createdAt?.slice(0, 10)}</h1>
+                    <div className="flex gap-1 mb-2">
+                      <Stars stars={review?.ratings} />
+                      <h1 className="font-semibold">{review?.title}</h1>
+                    </div>
+                    <p>{review?.message}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
+        )}
 
         {/* Images */}
         <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-y-6 lg:gap-10">

@@ -43,12 +43,15 @@ export const fetchUserAxios = () => {
 
 // update profile update
 export const editProfileDetailAxios = (obj, name) => {
+  console.log("from axios", name);
   return axiosProcessor({
     url:
       name === "details"
         ? USER_EP + `/update-profile`
         : name === "email"
         ? USER_EP + "/update-email"
+        : name === "profile-image"
+        ? USER_EP + "/update-image"
         : USER_EP + "/update-password",
     method: "PUT",
     data: obj,

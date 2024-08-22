@@ -5,6 +5,7 @@ import cartReducer from "../features/cart/cartSlice";
 import catrgoryReducer from "../features/category/categorySlice";
 import darkModeReducer from "./darkModeSlice";
 import orderReducer from "../features/order/orderSlice";
+import reviewReducer from "../features/review/reviewSlice";
 
 //configure store
 const store = configureStore({
@@ -12,8 +13,9 @@ const store = configureStore({
     user: userReducer,
     categories: catrgoryReducer,
     products: productReducer,
-    cart: cartReducer,
-    order: orderReducer,
+    carts: cartReducer,
+    orders: orderReducer,
+    reviews: reviewReducer,
     darkMode: darkModeReducer,
   },
 });

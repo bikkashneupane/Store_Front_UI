@@ -2,8 +2,10 @@ import { CustomForm } from "../../components/custom/CustomForm";
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { editProfileDetail } from "../../features/user/userAction";
+import { Link } from "react-router-dom";
+import { CustomModal } from "../../components/custom/CustomModal";
 
 const detailInput = [
   {
@@ -22,12 +24,6 @@ const detailInput = [
     placeholder: "Phone",
     name: "phone",
     type: "number",
-    required: true,
-  },
-  {
-    placeholder: "Password",
-    name: "password",
-    type: "password",
     required: true,
   },
 ];
@@ -69,8 +65,10 @@ const passwordInput = [
 ];
 
 const Profile = () => {
+  const [showImageModal, setShowImageModal] = useState(false);
   const { user } = useSelector((state) => state.user);
   const { form, setForm, handleOnChange } = useForm({ ...user } || {});
+  const [profileImage, setProfileImage] = useState(user?.profileImage || null);
 
   const dispatch = useDispatch();
 
@@ -82,6 +80,7 @@ const Profile = () => {
   const handleProfileUpdate = (e) => {
     e.preventDefault();
     const { name } = e.target;
+
     let updateObj = {};
     const {
       firstName,
@@ -97,7 +96,6 @@ const Profile = () => {
     switch (name) {
       case "details":
         updateObj = { firstName, lastName, phone, password };
-        // dispatch(editProfileDetail(updateObj));
         break;
       case "email":
         updateObj = { email, password };
@@ -107,14 +105,28 @@ const Profile = () => {
           return alert("New Password Must Match");
         }
         updateObj = { currentPassword, newPassword };
-        // dispatch(editProfileDetail(updateObj));
-
         break;
       default:
         updateObj = {};
     }
 
     dispatch(editProfileDetail(updateObj, name));
+  };
+
+  // handle Image Change
+  const handleOnImageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0)
+      setProfileImage(e.target.files[0]);
+  };
+
+  // handle Image Update Submit
+  const handleUpdateImage = (e) => {
+    e.preventDefault();
+    console.log("Ima here");
+    const formData = new FormData();
+    formData.append("profileImage", profileImage);
+
+    dispatch(editProfileDetail(formData, "profile-image"));
   };
 
   // handle form reset
@@ -124,20 +136,60 @@ const Profile = () => {
 
   return (
     <div className="">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-        <h1>Profile</h1>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10">
+        {showImageModal && (
+          <CustomModal
+            title="Update Profile Image"
+            setShowImageModal={() => setShowImageModal(!showImageModal)}
+          >
+            <form
+              className="flex flex-col gap-2 text-sm"
+              onSubmit={handleUpdateImage}
+            >
+              <input
+                name="profile-image"
+                type="file"
+                accept="image/png,image/jpeg, image/gif, image/webp"
+                onChange={handleOnImageChange}
+              />
+
+              {profileImage !== null && (
+                <div className="flex justify-center">
+                  <img
+                    src={URL.createObjectURL(profileImage)}
+                    alt=""
+                    className="w-24 h-24 object-cover rounded-full"
+                  />
+                </div>
+              )}
+              <button
+                type="submit"
+                className="rounded-md bg-purple-600 py-2 px-4 text-sm text-white data-[hover]:bg-pruple-500 data-[active]:bg-purple-700"
+              >
+                Edit Profile Image
+              </button>
+            </form>
+          </CustomModal>
+        )}
+        <div className="text-lg font-semibold flex text-purple-600 gap-10">
+          <h1>Profile</h1>
+          <Link to={"/my-orders"}>My Orders</Link>
+        </div>
         {/* Desktop View */}
         {/* Tabs Option */}
-        <div className="flex gap-10 mt-10">
-          <div className=" px-2 pt-8">
-            <div className="group relative w-56 h-56 border rounded-full shadow-md flex justify-center items-center font-bold overflow-hidden">
-              <button className="absolute hidden group-hover:inline bottom-0 left-0 w-full px-2 py-2 bg-gray-200 rounded-md z-10">
+        <div className="flex justify-center gap-4 mt-16">
+          <div className=" px-2">
+            <div className="group relative w-28 h-28 border border-gray-500 rounded-full shadow-md flex justify-center items-center font-bold overflow-hidden">
+              <button
+                onClick={() => setShowImageModal(!showImageModal)}
+                className="absolute hidden group-hover:inline bottom-0 left-0 w-full px-2 py-2 bg-teal-500 rounded-md z-10 text-white text-sm"
+              >
                 Edit
               </button>
 
-              {user?.profileImage ? (
+              {profileImage ? (
                 <img
-                  src=""
+                  src={URL.createObjectURL(profileImage)}
                   alt="Profile"
                   className="relative w-full h-full object-cover object-center"
                 />
@@ -149,27 +201,13 @@ const Profile = () => {
               )}
             </div>
           </div>
-          <div className="w-3/5 px-2">
-            <TabGroup>
+          <div className="w-3/5 px-6 py-4 border rounded-lg mb-10">
+            <TabGroup as="div" className="py-10 px-6">
               {/* Tabs */}
-              <TabList className="flex gap-16 border-b border-gray-200 dark:border-gray-700 py-2">
-                <Tab
-                  onClick={resetForm}
-                  className="py-3 px-6 text-lg font-bold text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
-                >
-                  Details
-                </Tab>
-                <Tab
-                  onClick={resetForm}
-                  className="py-2 px-6 text-lg font-bold text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
-                >
-                  Email
-                </Tab>
-                <Tab
-                  as="button"
-                  onClick={resetForm}
-                  className="py-3 px-6 text-lg font-bold text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
-                >
+              <TabList className="flex gap-10 justify-center border-b border-gray-200 dark:border-gray-700 py-4 rounded-md bg-gray-600 text-white text-sm font-semibold ">
+                <Tab onClick={resetForm}>Details</Tab>
+                <Tab onClick={resetForm}>Email</Tab>
+                <Tab as="button" onClick={resetForm}>
                   Password
                 </Tab>
               </TabList>

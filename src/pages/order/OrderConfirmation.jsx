@@ -15,8 +15,8 @@ import { Link } from "react-router-dom";
 const OrderConfirmation = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  const { orderId, shippingAddress } = useSelector((state) => state.order);
-  const { cart } = useSelector((state) => state.cart);
+  const { orderId, shippingAddress } = useSelector((state) => state.orders);
+  const { cart } = useSelector((state) => state.carts);
 
   const options = { month: "long", day: "numeric" };
   const date = new Date();

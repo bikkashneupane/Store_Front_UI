@@ -1,6 +1,4 @@
 import {
-  Dialog,
-  DialogPanel,
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
@@ -35,7 +33,7 @@ const Header = () => {
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  const { cart } = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.carts);
   const { categories, brands, materials } = useSelector(
     (state) => state.categories
   );
@@ -246,18 +244,21 @@ const Header = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <DisclosurePanel className="fixed inset-0 z-40 overflow-y-auto text-white min-h-[100vh]">
+            <DisclosurePanel className="fixed inset-0 z-40 overflow-y-auto text-white min-h-full">
               <div className="bg-black w-full h-full bg-opacity-40 absolute"></div>
               <div className="bg-gray-900 flex flex-col px-8 py-2 w-[350px] h-full relative">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-baseline gap-1 font-semibold text-xl my-4">
+                  <Link
+                    to="/"
+                    className="flex items-baseline gap-1 font-semibold text-xl my-4"
+                  >
                     <img
                       alt="Vikiasmy"
                       src={watch_logo}
                       className="h-[30px] w-[30px]"
                     />
                     <h1>vikiasmy's</h1>
-                  </div>
+                  </Link>
 
                   <DisclosureButton
                     onClick={() => setMobileOpen(false)}
@@ -290,11 +291,11 @@ const Header = () => {
                       {item?._id && (
                         <DisclosurePanel>
                           <Disclosure as="div" className="ps-4 mb-3">
-                            <DisclosureButton className="group flex w-full items-center justify-between py-3 text-gray-300 hover:text-white">
+                            <DisclosureButton className="group flex w-full items-center justify-between py-3">
                               <Link
                                 to={item?.to}
                                 onClick={() => setMobileOpen(false)}
-                                className="font-semibold text-[13px] text-gray-400"
+                                className="font-semibold text-[13px] text-gray-400 hover:text-gray-200"
                               >
                                 SHOP BY BRAND
                               </Link>
@@ -311,7 +312,7 @@ const Header = () => {
                                   <Link
                                     to={`/products?category=${currentCatId}&brand=${brand?._id}`}
                                     key={brand?._id}
-                                    className="text-sm"
+                                    className="text-sm hover:text-gray-200"
                                     onClick={() => setMobileOpen(false)}
                                   >
                                     {brand?.name}
@@ -322,11 +323,11 @@ const Header = () => {
                           </Disclosure>
 
                           <Disclosure as="div" className="ps-4 mb-3">
-                            <DisclosureButton className="group flex w-full items-center justify-between py-3 text-gray-300 hover:text-white">
+                            <DisclosureButton className="group flex w-full items-center justify-between py-3 text-gray-300">
                               <Link
                                 to={item?.to}
                                 onClick={() => setMobileOpen(false)}
-                                className="font-semibold text-[13px] text-gray-400"
+                                className="font-semibold text-[13px] text-gray-400 hover:text-gray-200"
                               >
                                 SHOP BY MATERIAL
                               </Link>
@@ -343,7 +344,7 @@ const Header = () => {
                                   <Link
                                     to={`/products?category=${currentCatId}&material=${material?._id}`}
                                     key={material?._id}
-                                    className="text-sm"
+                                    className="text-sm hover:text-gray-200"
                                     onClick={() => setMobileOpen(false)}
                                   >
                                     {material?.name}
@@ -357,7 +358,7 @@ const Header = () => {
                             <Link
                               to={`/products?category=${currentCatId}&gender=men`}
                               onClick={() => setMobileOpen(false)}
-                              className="font-semibold text-[13px] text-gray-400"
+                              className="font-semibold text-[13px] text-gray-400 hover:text-gray-200"
                             >
                               MENS
                             </Link>
@@ -367,7 +368,7 @@ const Header = () => {
                             <Link
                               to={`/products?category=${currentCatId}&gender=women`}
                               onClick={() => setMobileOpen(false)}
-                              className="font-semibold text-[13px] text-gray-400"
+                              className="font-semibold text-[13px] text-gray-400 hover:text-gray-200"
                             >
                               WOMENS
                             </Link>
@@ -400,7 +401,9 @@ const Header = () => {
                       to={`/products?category=${currentCatId}&brand=${item?._id}`}
                       onClick={() => setShowCat(false)}
                       key={item?._id}
-                      className={`${scrollY > 0 ? "text-gray-200" : ""}`}
+                      className={`${
+                        scrollY > 0 ? "text-gray-200" : ""
+                      } hover:text-gray-500`}
                     >
                       {item?.name}
                     </Link>
@@ -415,7 +418,9 @@ const Header = () => {
                     <Link
                       to={`/products?category=${currentCatId}&material=${item?._id}`}
                       key={item?._id}
-                      className={`${scrollY > 0 ? "text-gray-200" : ""}`}
+                      className={`${
+                        scrollY > 0 ? "text-gray-200" : ""
+                      } hover:text-gray-500`}
                     >
                       {item?.name}
                     </Link>
@@ -439,7 +444,9 @@ const Header = () => {
                     <Link
                       to={`/products?category=${currentCatId}&gender=${item?.value}`}
                       key={`${Date.now()}-${item?.value}`}
-                      className={`${scrollY > 0 ? "text-gray-200" : ""}`}
+                      className={`${
+                        scrollY > 0 ? "text-gray-200" : ""
+                      } hover:text-gray-500`}
                     >
                       {item?.name}
                     </Link>

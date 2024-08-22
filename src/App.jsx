@@ -12,7 +12,6 @@ import ErrorElement from "./components/layout/ErrorElement";
 import ProductLanding from "./pages/product/ProductLanding";
 import Products from "./pages/product/Products";
 import Cart from "./pages/cart/Cart";
-import Payment from "./pages/payment/Payment";
 import Profile from "./pages/user/Profile";
 import VerifyAccount from "./pages/user/VerifyAccount";
 import { useEffect } from "react";
@@ -29,6 +28,7 @@ import OrderConfirmation from "./pages/order/OrderConfirmation";
 import MyOrders from "./pages/order/MyOrders";
 import useScrollToTop from "./hooks/useScrollToTop";
 import Header from "./components/layout/Header";
+import { fetchReviewAction } from "./features/review/reviewAction";
 
 const appRouter = createBrowserRouter([
   {
@@ -55,10 +55,6 @@ const appRouter = createBrowserRouter([
       {
         path: "/checkout",
         element: <Checkout />,
-      },
-      {
-        path: "/payment",
-        element: <Payment />,
       },
       {
         path: "/order-confirmation",
@@ -120,6 +116,7 @@ function App() {
     dispatch(fetchCategoriesAction());
     dispatch(fetchSubCatAction());
     dispatch(autoLoginAction());
+    dispatch(fetchReviewAction());
   }, [dispatch]);
   return (
     <>

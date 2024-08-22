@@ -20,10 +20,10 @@ const Checkout = () => {
   const [orderId, setOrderId] = useState("");
 
   const dispatch = useDispatch();
-  const { cart } = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.carts);
   const { user } = useSelector((state) => state.user);
   const { isDarkMode } = useSelector((state) => state.darkMode);
-  const orderIdFromState = useSelector((state) => state.order.orderId);
+  const orderIdFromState = useSelector((state) => state.orders.orderId);
 
   const location = useLocation();
   console.log(location);

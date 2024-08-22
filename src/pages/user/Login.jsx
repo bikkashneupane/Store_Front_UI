@@ -15,8 +15,6 @@ const Login = () => {
   const location = useLocation();
   const { user } = useSelector((state) => state.user);
 
-  console.log("Location in Login: ", location);
-
   useEffect(() => {
     if (user?._id) {
       navigate(location.state ?? "/");

@@ -12,7 +12,7 @@ export const CustomForm = ({ label, inputRef, as, ...rest }) => {
         <InputComponent
           {...rest}
           ref={inputRef}
-          className="block w-full px-4 py-2 rounded-md border-0 text-gray-900 text-sm dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-purple-600 dark:bg-gray-800"
+          className="block w-full px-4 py-2 rounded-md border-0 text-gray-900 text-sm dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 dark:placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-purple-600 dark:bg-gray-800"
         />
       </div>
     </div>

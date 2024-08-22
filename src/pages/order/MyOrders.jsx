@@ -1,13 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllOrdersAction } from "../../features/order/orderAction";
 import { Link, useNavigate } from "react-router-dom";
+import ReviewForm from "../../components/product/ReviewForm";
+import { CustomModal } from "../../components/custom/CustomModal";
 
 const MyOrders = () => {
+  const [showReviewModal, toggleReviewModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState({});
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { myOrders } = useSelector((state) => state.order);
+  const { myOrders } = useSelector((state) => state.orders);
   const { user } = useSelector((state) => state.user);
   const { products } = useSelector((state) => state.products);
 
@@ -15,8 +20,10 @@ const MyOrders = () => {
     dispatch(fetchAllOrdersAction());
   }, [dispatch]);
 
-  console.log(myOrders);
-
+  const handleReview = (productId, orderId) => {
+    setSelectedProduct({ productId, orderId });
+    toggleReviewModal(!showReviewModal);
+  };
   if (!user?._id) {
     navigate("/login");
   }
@@ -36,14 +43,21 @@ const MyOrders = () => {
 
   return (
     <div className="text-sm">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-8">
+      {showReviewModal && (
+        <CustomModal title="Leave your Review.." onHide={toggleReviewModal}>
+          <ReviewForm selectedProduct={selectedProduct} />
+        </CustomModal>
+      )}
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-center mb-10 font-bold text-lg">My Orders</h1>
+
         {/* Order History */}
         <div className="space-y-4">
           {myOrders?.map((order) => (
             <div
               key={order?._id}
-              className="border border-gray-300 dark:border-gray-700 rounded-md flex justify-center flex-col max-w-3xl mx-auto"
+              className="border border-gray-300 dark:border-gray-700 rounded-md flex justify-center flex-col max-w-4xl mx-auto"
             >
               <div className="bg-gray-100 dark:bg-gray-700 border-b dark:border-b-0 border-b-gray-300 py-4 rounded-t px-10 flex justify-between">
                 <div className="flex flex-col gap-1">
@@ -51,7 +65,7 @@ const MyOrders = () => {
                   <span className="text-xs">{order?.orderId}</span>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="font-semibold">Date Places</span>
+                  <span className="font-semibold">Order Placed</span>
                   <span className="text-xs">
                     {new Date(order?.createdAt?.slice(0, 10))
                       ?.toLocaleDateString("en-US", {
@@ -64,13 +78,7 @@ const MyOrders = () => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="font-semibold">Status</span>
-                  <h1
-                    className={`text-xs ${
-                      order?.status === "processing"
-                        ? "text-yellow-500"
-                        : "text-green-500"
-                    }`}
-                  >
+                  <h1 className="text-xs text-green-700">
                     {order?.status?.toUpperCase()}
                   </h1>
                 </div>
@@ -84,45 +92,50 @@ const MyOrders = () => {
                 <div className="">
                   <div className="mt-4">
                     {order?.items?.map((item) => (
-                      <div key={item?._id} className="pb-4 mb-4 w-full">
-                        <div className="flex w-full">
-                          <img
-                            src={
-                              products?.find((itm) => itm?._id === item?._id)
-                                ?.thumbnail
-                            }
-                            alt={item?.name}
-                            className="h-32 w-32 object-cover rounded-md mr-4"
-                          />
-                          <div className="space-y-2 flex w-full">
-                            <div className="space-y-1">
-                              <h3 className="font-semibold dark:text-gray-100">
-                                {item?.name}
-                                <div className="space-y-1 text-sm">
-                                  <p className="text-gray-600 dark:text-gray-400">
-                                    Quantity: {item?.quantity}
-                                  </p>
-                                  <p className="text-gray-600 dark:text-gray-400">
-                                    Amount: ${item?.price * item?.quantity}
-                                  </p>
-                                </div>
-                              </h3>
-                            </div>
+                      <div
+                        key={item?._id}
+                        className="pb-4 mb-4 flex justify-between items-start"
+                      >
+                        <div className="flex gap-4">
+                          <div className="relative">
+                            <span className="absolute bottom-0 right-0 bg-teal-600 text-white rounded-full border z-10 w-6 h-6 flex justify-center items-center">
+                              {item?.quantity}
+                            </span>
+                            <img
+                              src={
+                                products?.find((itm) => itm?._id === item?._id)
+                                  ?.thumbnail
+                              }
+                              alt={item?.name}
+                              className="relative h-24 w-24 object-cover rounded-md"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <h3 className="text-teal-600">{item?.name}</h3>
+                            <p className="text-gray-600 dark:text-gray-400">
+                              Amount: ${item?.price}
+                            </p>
 
-                            <div className="flex items-end w-full justify-end gap-1">
-                              <Link
-                                to={`/product/${item?._id}`}
-                                className="px-6 py-2 rounded-md bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold"
-                              >
-                                View Product
-                              </Link>
+                            <Link
+                              to={`/product/${item?._id}`}
+                              className="px-6 py-2  rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white text-sm"
+                            >
+                              View Product
+                            </Link>
 
-                              <button className="px-9 py-2 rounded-md bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold">
-                                Buy Again
-                              </button>
-                            </div>
+                            <button className="ml-1 px-9 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white text-sm">
+                              Buy Again
+                            </button>
                           </div>
                         </div>
+                        <button
+                          onClick={() =>
+                            handleReview(item?._id, order?.orderId)
+                          }
+                          className="px-6 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white "
+                        >
+                          Leave Product Review
+                        </button>
                       </div>
                     ))}
                   </div>
