@@ -1,6 +1,6 @@
 import { CustomForm } from "./../../components/custom/CustomForm";
 import { Link, useNavigate } from "react-router-dom";
-import bg_url from "./../../assets/images/login-signup-wallpaper.jpg";
+import bg_url from "./../../assets/images/wrist-watch.avif";
 import { useForm } from "../../hooks/useForm";
 import { toast } from "react-toastify";
 import { signupUserAction } from "../../features/user/userAction";
@@ -64,9 +64,15 @@ const Signup = () => {
   return (
     <div
       className="relative"
-      // style={{ backgroundImage: `url(${bg_url})` }}
+      style={{
+        backgroundImage: `url(${bg_url})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
+        width: "100%",
+      }}
     >
-      {/* <div className="absolute bg-black bg-opacity-40 w-full h-full"></div> */}
+      <div className="absolute bg-black bg-opacity-70 w-full h-full"></div>
 
       <div className="relative flex min-h-screen flex-col px-6 lg:px-8 items-center">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-20 md:mt-16">
@@ -79,7 +85,7 @@ const Signup = () => {
           </p>
         </div>
 
-        <div className="mt-2 sm:mx-auto md:min-w-[550px] p-10 md:max-w-md flex justify-center rounded-lg shadow-lg">
+        <div className="mt-2 sm:mx-auto md:min-w-[550px] p-10 md:max-w-md flex justify-center rounded-lg shadow-lg border border-gray-300">
           <form className="space-y-3 w-full " onSubmit={handleOnSignup}>
             {inputs.map((item, i) => (
               <CustomForm key={i} {...item} onChange={handleOnChange} />

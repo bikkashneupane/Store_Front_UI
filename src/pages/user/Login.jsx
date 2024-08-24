@@ -1,6 +1,6 @@
 import { CustomForm } from "./../../components/custom/CustomForm";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import bg_url from "./../../assets/images/login-signup-wallpaper.jpg";
+import bg_url from "./../../assets/images/wrist-watch.avif";
 import { useEffect, useRef } from "react";
 import { loginUserAction } from "../../features/user/userAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,18 +52,24 @@ const Login = () => {
   return (
     <div
       className="relative"
-      //  style={{ backgroundImage: `url(${bg_url})` }}
+      style={{
+        backgroundImage: `url(${bg_url})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
+        width: "100%",
+      }}
     >
-      {/* <div className="absolute bg-black bg-opacity-40 w-full h-full"></div> */}
+      <div className="absolute bg-black bg-opacity-70 w-full h-full"></div>
 
       <div className="relative flex min-h-screen flex-col px-6 lg:px-8 items-center">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-20 md:mt-16">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-20">
           <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight dark:text-white">
             Login
           </h2>
         </div>
 
-        <div className="mt-2 sm:mx-auto md:min-w-[550px] p-10 md:max-w-md flex justify-center rounded-lg shadow-lg border-gray-300">
+        <div className="mt-2 sm:mx-auto md:min-w-[550px] p-10 md:max-w-md flex justify-center rounded-lg shadow-lg border border-gray-300">
           <form className="space-y-3 w-full " onSubmit={handleOnLogin}>
             {inputs.map((item, i) => (
               <CustomForm key={i} {...item} />
