@@ -1,11 +1,11 @@
 import { FaStar } from "react-icons/fa";
 import { useForm } from "../../hooks/useForm";
-import { CustomForm } from "../custom/CustomForm";
+import { CustomInput } from "../custom/CustomInput";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { postReviewAction } from "../../features/review/reviewAction";
 
-const ReviewForm = ({ selectedProduct }) => {
+const ReviewForm = ({ selectedProduct, hideModal }) => {
   const { form, handleOnChange } = useForm({});
   const [ratings, setRatings] = useState(1);
   const dispatch = useDispatch();
@@ -14,6 +14,7 @@ const ReviewForm = ({ selectedProduct }) => {
     e.preventDefault();
     const { productId, orderId } = selectedProduct;
     dispatch(postReviewAction({ ...form, ratings, productId, orderId }));
+    hideModal();
   };
 
   const inputs = [
@@ -36,7 +37,7 @@ const ReviewForm = ({ selectedProduct }) => {
   return (
     <form className="flex flex-col gap-2 text-sm" onSubmit={handleOnSubmit}>
       {inputs?.map((item) => (
-        <CustomForm key={item?.name} {...item} onChange={handleOnChange} />
+        <CustomInput key={item?.name} {...item} onChange={handleOnChange} />
       ))}
       <div className="mb-3 flex items-center">
         <label className="text-sm mr-2">Select Star: </label>

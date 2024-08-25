@@ -323,26 +323,28 @@ const ProductLanding = () => {
               className="mt-8 flex flex-col gap-6 text-sm"
               id="product-reviews"
             >
-              {reviews?.map((review) => (
-                <div key={review?._id}>
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={review?.userImage ?? profile_alt}
-                      alt=""
-                      className="w-8 h-8 rounded-full"
-                    />
-                    <h1>{reviews[0]?.userName?.split(" ")[0]}</h1>
-                  </div>
-                  <div className="ps-11 space-y-2">
-                    <h1>Reviewed on {review?.createdAt?.slice(0, 10)}</h1>
-                    <div className="flex gap-1 mb-2">
-                      <Stars stars={review?.ratings} />
-                      <h1 className="font-semibold">{review?.title}</h1>
+              {reviews
+                ?.filter((item) => item.productId === _id)
+                ?.map((review) => (
+                  <div key={review?._id}>
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={review?.userImage ?? profile_alt}
+                        alt=""
+                        className="w-8 h-8 rounded-full"
+                      />
+                      <h1>{reviews[0]?.userName?.split(" ")[0]}</h1>
                     </div>
-                    <p>{review?.message}</p>
+                    <div className="ps-11 space-y-2">
+                      <h1>Reviewed on {review?.createdAt?.slice(0, 10)}</h1>
+                      <div className="flex gap-1 mb-2">
+                        <Stars stars={review?.ratings} />
+                        <h1 className="font-semibold">{review?.title}</h1>
+                      </div>
+                      <p>{review?.message}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         )}

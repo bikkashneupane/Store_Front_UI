@@ -1,10 +1,10 @@
-import { CustomForm } from "../../components/custom/CustomForm";
+import { CustomInput } from "../../components/custom/CustomInput";
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { editProfileDetail } from "../../features/user/userAction";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CustomModal } from "../../components/custom/CustomModal";
 
 const detailInput = [
@@ -65,16 +65,25 @@ const passwordInput = [
 ];
 
 const Profile = () => {
-  const [showImageModal, setShowImageModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { user } = useSelector((state) => state.user);
   const { form, setForm, handleOnChange } = useForm({ ...user } || {});
   const [profileImage, setProfileImage] = useState(user?.profileImage || null);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!user?._id) {
+      navigate("/login");
+      return;
+    }
     setForm({ ...user });
-  }, [setForm, user]);
+  }, [setForm, user, navigate]);
+
+  const hideModal = () => {
+    setShowModal(false);
+  };
 
   // handle form submit
   const handleProfileUpdate = (e) => {
@@ -137,11 +146,8 @@ const Profile = () => {
   return (
     <div className="">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10">
-        {showImageModal && (
-          <CustomModal
-            title="Update Profile Image"
-            setShowImageModal={() => setShowImageModal(!showImageModal)}
-          >
+        {showModal && (
+          <CustomModal title="Update Profile Image" onHide={hideModal}>
             <form
               className="flex flex-col gap-2 text-sm"
               onSubmit={handleUpdateImage}
@@ -181,7 +187,7 @@ const Profile = () => {
           <div className=" px-2">
             <div className="group relative w-28 h-28 border border-gray-500 rounded-full shadow-md flex justify-center items-center font-bold overflow-hidden">
               <button
-                onClick={() => setShowImageModal(!showImageModal)}
+                onClick={() => setShowModal(!showModal)}
                 className="absolute hidden group-hover:inline bottom-0 left-0 w-full px-2 py-2 bg-teal-500 rounded-md z-10 text-white text-sm"
               >
                 Edit
@@ -222,7 +228,7 @@ const Profile = () => {
                     name="details"
                   >
                     {detailInput?.map((item, i) => (
-                      <CustomForm
+                      <CustomInput
                         key={i}
                         {...item}
                         onChange={handleOnChange}
@@ -246,7 +252,7 @@ const Profile = () => {
                     name="email"
                   >
                     {emailInput?.map((item, i) => (
-                      <CustomForm
+                      <CustomInput
                         key={i}
                         {...item}
                         onChange={handleOnChange}
@@ -270,7 +276,7 @@ const Profile = () => {
                     name="password"
                   >
                     {passwordInput?.map((item, i) => (
-                      <CustomForm
+                      <CustomInput
                         key={i}
                         {...item}
                         onChange={handleOnChange}

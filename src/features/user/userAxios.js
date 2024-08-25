@@ -41,6 +41,24 @@ export const fetchUserAxios = () => {
   });
 };
 
+// request OTP
+export const requestOTP = async (data) => {
+  return axiosProcessor({
+    url: USER_EP + "/otp",
+    method: "POST",
+    data,
+  });
+};
+
+// reset Password
+export const resetPasswordAxios = async (data) => {
+  return axiosProcessor({
+    url: USER_EP + "/password/reset",
+    method: "POST",
+    data,
+  });
+};
+
 // update profile update
 export const editProfileDetailAxios = (obj, name) => {
   console.log("from axios", name);

@@ -29,6 +29,7 @@ import MyOrders from "./pages/order/MyOrders";
 import useScrollToTop from "./hooks/useScrollToTop";
 import Header from "./components/layout/Header";
 import { fetchReviewAction } from "./features/review/reviewAction";
+import { ForgetPassword } from "./pages/user/ForgetPassword";
 
 const appRouter = createBrowserRouter([
   {
@@ -90,6 +91,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+  },
+  {
+    path: "/forget-password",
+    element: <ForgetPassword />,
   },
 ]);
 

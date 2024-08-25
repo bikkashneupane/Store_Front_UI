@@ -6,7 +6,7 @@ import ReviewForm from "../../components/product/ReviewForm";
 import { CustomModal } from "../../components/custom/CustomModal";
 
 const MyOrders = () => {
-  const [showReviewModal, toggleReviewModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState({});
 
   const dispatch = useDispatch();
@@ -17,16 +17,21 @@ const MyOrders = () => {
   const { products } = useSelector((state) => state.products);
 
   useEffect(() => {
+    if (!user?._id) {
+      navigate("/login");
+      return;
+    }
     dispatch(fetchAllOrdersAction());
-  }, [dispatch]);
+  }, [dispatch, navigate, user]);
+
+  const hideModal = () => {
+    setShowModal(false);
+  };
 
   const handleReview = (productId, orderId) => {
     setSelectedProduct({ productId, orderId });
-    toggleReviewModal(!showReviewModal);
+    setShowModal(!showModal);
   };
-  if (!user?._id) {
-    navigate("/login");
-  }
 
   if (myOrders?.length === 0) {
     return (
@@ -43,9 +48,9 @@ const MyOrders = () => {
 
   return (
     <div className="text-sm">
-      {showReviewModal && (
-        <CustomModal title="Leave your Review.." onHide={toggleReviewModal}>
-          <ReviewForm selectedProduct={selectedProduct} />
+      {showModal && (
+        <CustomModal title="Leave your Review.." onHide={hideModal}>
+          <ReviewForm selectedProduct={selectedProduct} hideModal={hideModal} />
         </CustomModal>
       )}
 
