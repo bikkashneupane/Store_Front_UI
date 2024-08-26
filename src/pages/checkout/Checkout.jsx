@@ -65,7 +65,6 @@ const Checkout = () => {
 
           setClientSecret(clientSecret);
         } catch (error) {
-          console.log(error);
           setErrorMsg(error);
         }
       }

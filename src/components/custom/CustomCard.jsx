@@ -8,7 +8,6 @@ export const CustomCard = ({ product }) => {
   const dispatch = useDispatch();
 
   const handleAddToCart = (item) => {
-    console.log(item);
     dispatch(addToCartAction({ ...item, quantity: 1 }));
   };
 

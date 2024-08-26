@@ -16,7 +16,7 @@ const Signup = () => {
     if (confirmPassword !== rest.password) {
       return toast.error("Password Must Match");
     }
-    console.log(rest);
+
     const status = await signupUserAction(rest);
     if (status === "success") {
       navigate("/login");

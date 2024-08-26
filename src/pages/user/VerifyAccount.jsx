@@ -32,8 +32,6 @@ const VerifyAccount = () => {
     }
   }, [uniqueKey, email]);
 
-  console.log(response);
-
   return (
     <div
       className="relative text-white"
@@ -57,7 +55,6 @@ const VerifyAccount = () => {
         ) : response?.status === "success" ? (
           <div className="flex flex-col gap-4 justify-center items-center min-h-[50vh]">
             <Link to="/login" className="flex flex-col gap-2">
-              {console.log(response)}
               <span>{response?.message}</span>
               <button className="px-8 py-2 bg-teal-600 text-white rounded-md shadow-lg font-bold hover:bg-teal-500">
                 Login Now

@@ -37,7 +37,6 @@ const Home = () => {
     ?.map((item) => item?.productId);
 
   const uniqueProductIds = new Set(topProducts);
-  console.log(uniqueProductIds);
 
   const popularProducts = products
     ?.filter(

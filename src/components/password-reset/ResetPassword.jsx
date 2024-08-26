@@ -3,6 +3,7 @@ import {
   CustomInput,
   CustomInputForNonChangingBg,
 } from "../custom/CustomInput";
+import { toast } from "react-toastify";
 
 export const ResetPassword = ({ handleOnPasswordReset }) => {
   const otpRef = useRef("");
@@ -16,7 +17,7 @@ export const ResetPassword = ({ handleOnPasswordReset }) => {
     const confirmPassword = confirmPasswordRef.current.value;
 
     if (password !== confirmPassword) {
-      return new Error(console.log("Password must match"));
+      return toast.error("Password Must Match");
     }
 
     handleOnPasswordReset(otp, password);

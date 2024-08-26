@@ -131,7 +131,6 @@ const Profile = () => {
   // handle Image Update Submit
   const handleUpdateImage = (e) => {
     e.preventDefault();
-    console.log("Ima here");
     const formData = new FormData();
     formData.append("profileImage", profileImage);
 

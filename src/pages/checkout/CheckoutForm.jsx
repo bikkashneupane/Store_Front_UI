@@ -32,9 +32,7 @@ const CheckoutForm = ({ clientSecret }) => {
     });
 
     if (!error) {
-      console.log("Payment successful!", paymentIntent);
       // Optionally, you can update the frontend with order confirmation details here
-      // const shippingAddress = paymentIntent?.
       dispatch(setShippingAddress(paymentIntent.shipping.address));
       navigate("/order-confirmation");
     } else {

@@ -101,7 +101,7 @@ const MyOrders = () => {
                         key={item?._id}
                         className="pb-4 mb-4 flex justify-between items-start"
                       >
-                        <div className="flex gap-4 bg-teal-200">
+                        <div className="flex gap-4">
                           <div className="relative">
                             <span className="absolute bottom-0 right-0 bg-teal-600 text-white rounded-full border z-10 w-6 h-6 flex justify-center items-center">
                               {item?.quantity}
@@ -137,7 +137,7 @@ const MyOrders = () => {
                           onClick={() =>
                             handleReview(item?._id, order?.orderId)
                           }
-                          className="bg-yellow-200 self-start px-6 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white "
+                          className="self-start px-6 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white "
                         >
                           Leave Product Review
                         </button>
