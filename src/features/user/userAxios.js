@@ -61,7 +61,6 @@ export const resetPasswordAxios = async (data) => {
 
 // update profile update
 export const editProfileDetailAxios = (obj, name) => {
-  console.log("from axios", name);
   return axiosProcessor({
     url:
       name === "details"
