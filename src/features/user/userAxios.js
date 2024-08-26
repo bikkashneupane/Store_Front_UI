@@ -66,8 +66,6 @@ export const editProfileDetailAxios = (obj, name) => {
     url:
       name === "details"
         ? USER_EP + `/update-profile`
-        : name === "email"
-        ? USER_EP + "/update-email"
         : name === "profile-image"
         ? USER_EP + "/update-image"
         : USER_EP + "/update-password",

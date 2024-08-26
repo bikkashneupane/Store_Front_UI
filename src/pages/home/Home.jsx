@@ -96,7 +96,10 @@ const Home = () => {
               MOST POPULAR
             </h2>
             <div className="relative flex items-center">
-              <div className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full">
+              <div
+                className="flex gap-2 px-4 py-6 overflow-x-scroll w-full"
+                style={{ scrollbarWidth: "none" }}
+              >
                 {popularProducts.map((product) => (
                   <div
                     key={product?._id}
@@ -120,7 +123,10 @@ const Home = () => {
               </h1>
             </Link>
             <div className="relative flex items-center">
-              <div className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full">
+              <div
+                className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full"
+                style={{ scrollbarWidth: "none" }}
+              >
                 {womensProducts.map((product) => (
                   <div
                     key={product?._id}
@@ -144,7 +150,10 @@ const Home = () => {
               </h1>
             </Link>
             <div className="relative flex items-center">
-              <div className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full">
+              <div
+                className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full"
+                style={{ scrollbarWidth: "none" }}
+              >
                 {mensProducts.map((product) => (
                   <div
                     key={product?._id}

@@ -47,7 +47,7 @@ const Contact = () => {
                 id="name"
                 name="name"
                 required
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 dark:text-gray-800"
               />
             </div>
             <div>
@@ -59,7 +59,7 @@ const Contact = () => {
                 id="email"
                 name="email"
                 required
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 dark:text-gray-800"
               />
             </div>
             <div>
@@ -71,7 +71,7 @@ const Contact = () => {
                 name="message"
                 required
                 rows={7}
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 dark:text-gray-800"
               ></textarea>
             </div>
             <button

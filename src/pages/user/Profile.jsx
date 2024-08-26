@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { editProfileDetail } from "../../features/user/userAction";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CustomModal } from "../../components/custom/CustomModal";
 
 const detailInput = [
@@ -24,21 +24,6 @@ const detailInput = [
     placeholder: "Phone",
     name: "phone",
     type: "number",
-    required: true,
-  },
-];
-
-const emailInput = [
-  {
-    placeholder: "Email",
-    name: "email",
-    type: "email",
-    required: true,
-  },
-  {
-    placeholder: "Password",
-    name: "password",
-    type: "password",
     required: true,
   },
 ];
@@ -67,8 +52,9 @@ const passwordInput = [
 const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   const { user } = useSelector((state) => state.user);
+  console.log(user);
   const { form, setForm, handleOnChange } = useForm({ ...user } || {});
-  const [profileImage, setProfileImage] = useState(user?.profileImage || null);
+  const [profileImage, setProfileImage] = useState(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -176,25 +162,20 @@ const Profile = () => {
             </form>
           </CustomModal>
         )}
-        <div className="text-lg font-semibold flex text-purple-600 gap-10">
-          <h1>Profile</h1>
-          <Link to={"/my-orders"}>My Orders</Link>
-        </div>
-        {/* Desktop View */}
-        {/* Tabs Option */}
-        <div className="flex justify-center gap-4 mt-16">
-          <div className=" px-2">
+
+        <div className="grid grid-cols-1 gap-4 mt-10">
+          <div className="px-2 flex justify-center">
             <div className="group relative w-28 h-28 border border-gray-500 rounded-full shadow-md flex justify-center items-center font-bold overflow-hidden">
               <button
                 onClick={() => setShowModal(!showModal)}
-                className="absolute hidden group-hover:inline bottom-0 left-0 w-full px-2 py-2 bg-teal-500 rounded-md z-10 text-white text-sm"
+                className="absolute hidden group-hover:inline bottom-0 left-0 w-full px-2 py-2 bg-purple-500 rounded-md z-10 text-white text-sm"
               >
                 Edit
               </button>
 
-              {profileImage ? (
+              {user?.profileImage ? (
                 <img
-                  src={URL.createObjectURL(profileImage)}
+                  src={user?.profileImage}
                   alt="Profile"
                   className="relative w-full h-full object-cover object-center"
                 />
@@ -206,18 +187,24 @@ const Profile = () => {
               )}
             </div>
           </div>
-          <div className="w-3/5 px-6 py-4 border rounded-lg mb-10">
-            <TabGroup as="div" className="py-10 px-6">
-              {/* Tabs */}
-              <TabList className="flex gap-10 justify-center border-b border-gray-200 dark:border-gray-700 py-4 rounded-md bg-gray-600 text-white text-sm font-semibold ">
-                <Tab onClick={resetForm}>Details</Tab>
-                <Tab onClick={resetForm}>Email</Tab>
-                <Tab as="button" onClick={resetForm}>
+          <div className="w-full md:max-w-3xl mx-auto px-4 py-2 border rounded-lg mb-10">
+            <TabGroup as="div" className="py-2 px-6">
+              <TabList className="flex gap-2 justify-center border-b border-gray-200 dark:border-gray-700 p-2 rounded-md text-sm font-semibold ">
+                <Tab
+                  onClick={resetForm}
+                  className="bg-gray-200 dark:bg-gray-700 data-[selected]:bg-purple-700 dark:data-[selected]:bg-purple-700 data-[selected]:text-white px-9 py-3 rounded-md "
+                >
+                  Details
+                </Tab>
+                <Tab
+                  as="button"
+                  onClick={resetForm}
+                  className="bg-gray-200 dark:bg-gray-700 data-[selected]:bg-purple-700 dark:data-[selected]:bg-purple-700 data-[selected]:text-white px-9 py-3 rounded-md "
+                >
                   Password
                 </Tab>
               </TabList>
 
-              {/* Tab Panels */}
               <TabPanels>
                 {/* Details Panel */}
                 <TabPanel className="pt-6">
@@ -239,30 +226,6 @@ const Profile = () => {
                       className="mt-10 flex w-full justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
                     >
                       Update Profile
-                    </button>
-                  </form>
-                </TabPanel>
-
-                {/* Email Panel */}
-                <TabPanel className="pt-6">
-                  <form
-                    className="space-y-4"
-                    onSubmit={handleProfileUpdate}
-                    name="email"
-                  >
-                    {emailInput?.map((item, i) => (
-                      <CustomInput
-                        key={i}
-                        {...item}
-                        onChange={handleOnChange}
-                        value={form[item?.name] || ""}
-                      />
-                    ))}
-                    <button
-                      type="submit"
-                      className="mt-10 flex w-full justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
-                    >
-                      Update Email
                     </button>
                   </form>
                 </TabPanel>

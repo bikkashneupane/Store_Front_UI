@@ -3,7 +3,7 @@ import watch_logo from "../../assets/images/watch_logo.png";
 
 const LoadingScreen = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center lg:mt-52 lg:justify-start flex-col z-50">
+    <div className="min-h-screen mt-24">
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{
@@ -17,9 +17,11 @@ const LoadingScreen = () => {
         }}
         className="flex justify-center items-center"
       >
-        <img src={watch_logo} alt="Watch Logo" className="h-40 w-40" />
+        <img src={watch_logo} alt="Watch Logo" className="h-28 w-28" />
       </motion.div>
-      <span className="text-2xl font-bold mt-16">Welcome to Vikiasmy's</span>
+      <h1 className="text-xl font-bold mt-10 text-center">
+        Welcome to Vikiasmy's
+      </h1>
     </div>
   );
 };
