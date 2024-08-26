@@ -1,5 +1,8 @@
 import { useRef } from "react";
-import { CustomInput } from "../custom/CustomInput";
+import {
+  CustomInput,
+  CustomInputForNonChangingBg,
+} from "../custom/CustomInput";
 
 export const ResetPassword = ({ handleOnPasswordReset }) => {
   const otpRef = useRef("");
@@ -51,7 +54,7 @@ export const ResetPassword = ({ handleOnPasswordReset }) => {
       <h3 className="text-center">Reset Password</h3>
       <hr className="mb-4" />
       {inputs.map((item) => (
-        <CustomInput key={item.name} {...item} />
+        <CustomInputForNonChangingBg key={item.name} {...item} />
       ))}
       <button
         className="w-full mt-4 bg-purple-600 text-white py-2 rounded-md shadow-lg"

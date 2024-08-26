@@ -36,7 +36,7 @@ export const CustomInputForNonChangingBg = ({
         <InputComponent
           {...rest}
           ref={inputRef}
-          className="block w-full px-4 py-2 rounded-md border-0 text-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-purple-600"
+          className="block w-full px-4 py-2 rounded-md border-0 text-sm text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-purple-600"
         />
       </div>
     </div>

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { verifyAccountAction } from "../../features/user/userAction";
+import bg_url from "./../../assets/images/wrist-watch.avif";
+
 import "./user-css/user.css";
 
 const VerifyAccount = () => {
@@ -33,8 +35,18 @@ const VerifyAccount = () => {
   console.log(response);
 
   return (
-    <div className="bg-teal-200 min-h-screen">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div
+      className="relative text-white"
+      style={{
+        backgroundImage: `url(${bg_url})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
+        width: "100%",
+      }}
+    >
+      <div className="absolute bg-black bg-opacity-70 w-full h-full"></div>
+      <div className="relative flex min-h-screen flex-col px-6 lg:px-8 items-center">
         {loading ? (
           <div className="flex flex-col gap-4 justify-center items-center min-h-[50vh]">
             <div className="animate-spin-slow w-12 h-12 border-4 border-dashed rounded-full border-yellow-500"></div>
@@ -54,9 +66,15 @@ const VerifyAccount = () => {
           </div>
         ) : (
           <div className="flex flex-col gap-4 justify-center items-center min-h-[50vh]">
-            <span className="font-bold tracking-wider text-xl text-red-500">
+            <span className="font-bold tracking-wider text-xl text-red-600">
               {response?.message || "Verification failed. Please try again."}
             </span>
+            <Link
+              to={"/forget-password"}
+              className="px-6 py-2 bg-purple-600 text-white rounded-md mt-4"
+            >
+              Request New OPT
+            </Link>
           </div>
         )}
       </div>

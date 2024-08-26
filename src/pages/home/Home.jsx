@@ -11,8 +11,7 @@ import accessories from "./../../assets/images/accessories.jpg";
 import { CustomCard } from "../../components/custom/CustomCard";
 import CategoryCard from "../../components/custom/CategoryCard";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import LoadingScreen from "../../components/layout/LoadingScreen";
+import { Link } from "react-router-dom";
 
 const images = [
   wrist_watch,
@@ -23,21 +22,39 @@ const images = [
   carousel_3,
 ];
 
-const cards = Array(10).fill(<CustomCard />); // Array of CustomCard components
-
 const Home = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, []);
-
   const { categories } = useSelector((state) => state.categories);
   const watch_Id = categories?.find((item) => item?.slug === "watches")?._id;
   const accessories_Id = categories?.find(
     (item) => item?.slug === "accessories"
   )?._id;
+
+  const { reviews } = useSelector((state) => state.reviews);
+  const { products } = useSelector((state) => state.products);
+
+  const topProducts = reviews
+    ?.filter((review) => review?.ratings >= 4)
+    ?.map((item) => item?.productId);
+
+  const uniqueProductIds = new Set(topProducts);
+  console.log(uniqueProductIds);
+
+  const popularProducts = products
+    ?.filter(
+      (item) =>
+        uniqueProductIds?.has(item?._id) && item?.categoryId === watch_Id
+    )
+    ?.slice(0, 10);
+
+  const mensProducts = products
+    ?.filter((item) => item?.gender === "men" && item?.categoryId === watch_Id)
+    ?.slice(0, 10);
+
+  const womensProducts = products
+    ?.filter(
+      (item) => item?.gender === "women" && item?.categoryId === watch_Id
+    )
+    ?.slice(0, 10);
 
   const homeCatInput = [
     {
@@ -56,10 +73,6 @@ const Home = () => {
       image: accessories,
     },
   ];
-
-  // if (isLoading) {
-  //   return <LoadingScreen />;
-  // }
 
   return (
     <div className="">
@@ -80,17 +93,17 @@ const Home = () => {
 
           {/* POPULAR */}
           <div className="mt-20 mb-6">
-            <h2 className="px-4 pt-4 text-2xl font-semibold text-center tracking-widest">
+            <h2 className="px-4 pt-4 text-xl tracking-wider text-center font-bold">
               MOST POPULAR
             </h2>
             <div className="relative flex items-center">
               <div className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full">
-                {cards.map((card, index) => (
+                {popularProducts.map((product) => (
                   <div
-                    key={index}
+                    key={product?._id}
                     className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4"
                   >
-                    {card}
+                    <CustomCard product={product} />
                   </div>
                 ))}
               </div>
@@ -99,20 +112,22 @@ const Home = () => {
 
           {/* Female */}
           <div className="my-6">
-            <h2 className="px-4 pt-4 text-2xl tracking-widest text-center">
+            <h2 className="px-4 pt-4 text-xl tracking-wider text-center">
               NEW ARRIVALS AND FAVOURITES
             </h2>
-            <h2 className="px-4 pt-4 text-2xl font-semibold text-center tracking-widest">
-              FEMALE
-            </h2>
+            <Link to={`/products?category=${watch_Id}&gender=women`}>
+              <h1 className="px-4 pt-4 text-xl tracking-wider text-center hover:text-purple-500 hover:underline font-bold">
+                WOMEN
+              </h1>
+            </Link>
             <div className="relative flex items-center">
               <div className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full">
-                {cards.map((card, index) => (
+                {womensProducts.map((product) => (
                   <div
-                    key={index}
+                    key={product?._id}
                     className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4"
                   >
-                    {card}
+                    <CustomCard product={product} />
                   </div>
                 ))}
               </div>
@@ -121,20 +136,22 @@ const Home = () => {
 
           {/* Mens */}
           <div className="my-6">
-            <h2 className="px-4 pt-4 text-2xl tracking-widest text-center">
+            <h2 className="px-4 pt-4 text-xl tracking-wider text-center">
               NEW ARRIVALS AND FAVOURITES
             </h2>
-            <h2 className="px-4 pt-4 text-2xl font-semibold text-center tracking-widest">
-              MEN
-            </h2>
+            <Link to={`/products?category=${watch_Id}&gender=men`}>
+              <h1 className="px-4 pt-4 text-xl tracking-wider text-center hover:text-purple-500 hover:underline font-bold">
+                MEN
+              </h1>
+            </Link>
             <div className="relative flex items-center">
               <div className="flex gap-2 px-4 py-6 overflow-x-scroll scrollbar-hide w-full">
-                {cards.map((card, index) => (
+                {mensProducts.map((product) => (
                   <div
-                    key={index}
+                    key={product?._id}
                     className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4"
                   >
-                    {card}
+                    <CustomCard product={product} />
                   </div>
                 ))}
               </div>

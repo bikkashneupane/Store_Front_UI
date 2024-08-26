@@ -50,7 +50,6 @@ const ProductLanding = () => {
 
   const handleOnBuyNow = (e) => {
     e.preventDefault();
-    console.log("clicked");
     if (cart?.find((item) => item._id === _id)) {
       dispatch(updateCartAction({ ...selectedProduct, quantity: itemCount }));
     } else {
@@ -67,27 +66,28 @@ const ProductLanding = () => {
           <div className="md:flex md:gap-8 lg:col-span-3 w-full">
             {/* Image gallery for larger screens */}
             <div className="hidden md:flex md:flex-col gap-2 mb-4 h-full">
-              {selectedProduct?.images.map((img, index) => (
-                <div
-                  key={index}
-                  onMouseOver={() => setCurrentImage(img)}
-                  className={`relative w-16 h-16 border-2 rounded-md shadow-md ${
-                    img === currentImage
-                      ? "border-purple-500"
-                      : "border-gray-500 hover:border-purple-500"
-                  } `}
-                >
-                  <img
-                    alt="product_images"
-                    src={img}
-                    className={`w-full h-full rounded-md cursor-pointer ${
+              {selectedProduct?.images?.length > 1 &&
+                selectedProduct?.images.map((img, index) => (
+                  <div
+                    key={index}
+                    onMouseOver={() => setCurrentImage(img)}
+                    className={`relative w-16 h-16 border-2 rounded-md shadow-md ${
                       img === currentImage
-                        ? "opacity-100"
-                        : "hover:opacity-100 opacity-30"
-                    }`}
-                  />
-                </div>
-              ))}
+                        ? "border-purple-500"
+                        : "border-gray-500 hover:border-purple-500"
+                    } `}
+                  >
+                    <img
+                      alt="product_images"
+                      src={img}
+                      className={`w-full h-full rounded-md cursor-pointer ${
+                        img === currentImage
+                          ? "opacity-100"
+                          : "hover:opacity-100 opacity-30"
+                      }`}
+                    />
+                  </div>
+                ))}
             </div>
 
             {/* Main image */}
@@ -100,27 +100,28 @@ const ProductLanding = () => {
             </div>
             {/* Image gallery for smaller screens */}
             <div className="flex justify-center md:hidden space-x-2 mt-6 overflow-x-auto scrollbar-hidden">
-              {selectedProduct?.images.map((img, index) => (
-                <div
-                  key={index}
-                  onMouseOver={() => setCurrentImage(img)}
-                  className={`relative w-16 h-16 border-2 rounded-md shadow-md ${
-                    img === currentImage
-                      ? "border-purple-500"
-                      : "border-gray-500 hover:border-purple-500"
-                  } `}
-                >
-                  <img
-                    alt={`Thumbnail ${index}`}
-                    src={img}
-                    className={`w-full h-full rounded-md cursor-pointer ${
+              {selectedProduct?.images?.length > 1 &&
+                selectedProduct?.images.map((img, index) => (
+                  <div
+                    key={index}
+                    onMouseOver={() => setCurrentImage(img)}
+                    className={`relative w-16 h-16 border-2 rounded-md shadow-md ${
                       img === currentImage
-                        ? "opacity-100"
-                        : "hover:opacity-100 opacity-30"
-                    }`}
-                  />
-                </div>
-              ))}
+                        ? "border-purple-500"
+                        : "border-gray-500 hover:border-purple-500"
+                    } `}
+                  >
+                    <img
+                      alt={`Thumbnail ${index}`}
+                      src={img}
+                      className={`w-full h-full rounded-md cursor-pointer ${
+                        img === currentImage
+                          ? "opacity-100"
+                          : "hover:opacity-100 opacity-30"
+                      }`}
+                    />
+                  </div>
+                ))}
             </div>
           </div>
 
@@ -140,16 +141,21 @@ const ProductLanding = () => {
               {selectedProduct?.salesPrice ? (
                 <>
                   <span className="line-through text-gray-500 dark:text-gray-400">
-                    ${selectedProduct?.price} AUD
+                    ${new Intl.NumberFormat().format(selectedProduct?.price)}{" "}
+                    AUD
                   </span>
                   &nbsp;&nbsp;
                   <span className="text-gray-800 dark:text-gray-200">
-                    ${selectedProduct?.salesPrice} AUD
+                    $
+                    {new Intl.NumberFormat().format(
+                      selectedProduct?.salesPrice
+                    )}{" "}
+                    AUD
                   </span>
                 </>
               ) : (
                 <span className="text-gray-800 dark:text-gray-200">
-                  ${selectedProduct?.price} AUD
+                  ${new Intl.NumberFormat().format(selectedProduct?.price)} AUD
                 </span>
               )}
             </div>
@@ -240,7 +246,7 @@ const ProductLanding = () => {
           <h1 className="text-2xl font-bold mb-8 italic tracking-wider font-mono underline">
             Description
           </h1>
-          <p>{selectedProduct?.description}</p>
+          <p className="whitespace-pre-wrap">{selectedProduct?.description}</p>
         </div>
 
         {/* Specifications */}

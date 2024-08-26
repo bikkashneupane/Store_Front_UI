@@ -27,10 +27,6 @@ const OrderConfirmation = () => {
   const fromDate = date.toLocaleDateString("en-US", options);
   const toDate = day7.toLocaleDateString("en-US", options);
 
-  const checking = new Date().toLocaleDateString("en-US", options);
-
-  console.log(checking);
-
   const [currentCart, setCurrentCart] = useState(cart || []);
 
   useEffect(() => {

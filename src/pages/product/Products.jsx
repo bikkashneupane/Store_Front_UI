@@ -54,7 +54,6 @@ const Products = () => {
         gender: genderQuery ? [genderQuery] : [],
       };
 
-      console.log("UPdated FIlteres: ", updatedFilters);
       dispatch(setActiveFilters(updatedFilters));
 
       const filterConditions = [
@@ -164,16 +163,13 @@ const Products = () => {
   // Filter Product with sub-category logic
   const handleSubCatFilter = (e) => {
     const { name, value, checked } = e.target;
-    console.log(name, value, checked);
 
     let updatedFilters = { ...activeFilters };
-    console.log(updatedFilters);
 
     if (checked) {
       // Add the value to the array if it's not already present
       if (!updatedFilters[name]?.includes(value)) {
         updatedFilters[name] = [...updatedFilters[name], value];
-        console.log(updatedFilters);
       }
     } else {
       // Remove the value from the array
@@ -182,11 +178,9 @@ const Products = () => {
       );
     }
 
-    console.log(updatedFilters);
     // Apply all active filters
     const updatedProducts = filteredProducts?.filter((product) => {
       return Object.keys(updatedFilters).every((key) => {
-        console.log(key);
         // Check if the product matches any of the values for the key
         return (
           updatedFilters[key]?.length === 0 ||
@@ -195,7 +189,6 @@ const Products = () => {
       });
     });
 
-    console.log(updatedProducts);
     dispatch(setFilteredProductsWithSubCat(updatedProducts));
     dispatch(setActiveFilters(updatedFilters)); // Update Redux state with active filters
   };

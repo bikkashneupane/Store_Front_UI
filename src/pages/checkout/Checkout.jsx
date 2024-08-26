@@ -26,7 +26,6 @@ const Checkout = () => {
   const orderIdFromState = useSelector((state) => state.orders.orderId);
 
   const location = useLocation();
-  console.log(location);
 
   useEffect(() => {
     if (user?._id) {
@@ -63,14 +62,6 @@ const Checkout = () => {
           };
 
           const { clientSecret } = await fetchClientSecretAction(orderObj);
-
-          // const { clientSecret } = await axiosProcessor({
-          //   url: orderEP,
-          //   method: "post",
-          //   data: orderObj,
-          //   isPrivate: true,
-          //   isToast: true,
-          // });
 
           setClientSecret(clientSecret);
         } catch (error) {

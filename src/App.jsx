@@ -14,7 +14,7 @@ import Products from "./pages/product/Products";
 import Cart from "./pages/cart/Cart";
 import Profile from "./pages/user/Profile";
 import VerifyAccount from "./pages/user/VerifyAccount";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchProductsAction } from "./features/product/productAction";
 import {
@@ -30,6 +30,7 @@ import useScrollToTop from "./hooks/useScrollToTop";
 import Header from "./components/layout/Header";
 import { fetchReviewAction } from "./features/review/reviewAction";
 import { ForgetPassword } from "./pages/user/ForgetPassword";
+import LoadingScreen from "./components/layout/LoadingScreen";
 
 const appRouter = createBrowserRouter([
   {
@@ -78,10 +79,6 @@ const appRouter = createBrowserRouter([
         path: "/profile",
         element: <Profile />,
       },
-      {
-        path: "/verify-account",
-        element: <VerifyAccount />,
-      },
     ],
   },
   {
@@ -93,14 +90,29 @@ const appRouter = createBrowserRouter([
     element: <Signup />,
   },
   {
+    path: "/verify-account",
+    element: <VerifyAccount />,
+  },
+  {
     path: "/forget-password",
     element: <ForgetPassword />,
   },
 ]);
 
 function DefaultLayout() {
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
   // custom hook, scroll to top when navigating
   useScrollToTop();
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="relative">
@@ -126,7 +138,14 @@ function App() {
   return (
     <>
       <RouterProvider router={appRouter} />
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        stacked
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        newestOnTop={true}
+      />
     </>
   );
 }

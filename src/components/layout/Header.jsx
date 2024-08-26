@@ -106,6 +106,7 @@ const Header = () => {
                 </h1>
               </Link>
 
+              {/* Navigations */}
               <div className="hidden md:block sm:flex-1 sm:justify-center">
                 <div className="flex ps-2 lg:space-x-4 justify-center">
                   {navigation
@@ -160,7 +161,7 @@ const Header = () => {
                           scrollY > 0 ? "bg-gray-800" : "bg-white"
                         } relative flex p-1 rounded-full border dark:border-gray-600 text-sm dark:bg-gray-800 hover:border-purple-600 cursor-pointer shadow-xl`}
                       >
-                        {user?.profileImage !== "" ? (
+                        {user?.profileImage ? (
                           <img
                             alt=""
                             src={user?.profileImage}
