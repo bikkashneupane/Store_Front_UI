@@ -81,7 +81,7 @@ const Header = () => {
           scrollY > 0 && "bg-gray-900 text-white"
         } transition-colors duration-300 dark:bg-gray-900 dark:border-b dark:border-b-gray-700`}
       >
-        <div className="mx-auto max-w-7xl px-2">
+        <div className="mx-auto max-w-7xl px-6">
           <div className="relative flex items-center justify-between py-6">
             <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
               <DisclosureButton

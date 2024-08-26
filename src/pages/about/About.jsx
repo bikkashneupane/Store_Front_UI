@@ -2,27 +2,27 @@ import { Link } from "react-router-dom";
 
 const About = () => {
   return (
-    <div className="min-h-screen text-gray-700 dark:text-gray-400">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 flex flex-col justify-center items-center">
+    <div className="min-h-screen text-gray-700 dark:text-gray-400 text-sm">
+      <div className="mx-auto max-w-7xl px-6 md:px-8 py-10 flex flex-col justify-center items-center">
         <h1 className="text-3xl font-bold mb-6 dark:text-gray-300">About Us</h1>
         <section className="mb-10">
-          <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
+          <h2 className="text-base font-semibold mb-4 dark:text-gray-300">
             Quality Watches at Affordable Prices
           </h2>
-          <p className="mb-4">
+          <p className="mb-4 text-justify">
             Our mission is simple: to bring you the top global brands in watches
             at affordable prices. Vikiamy's is the ideal shopping destination
             for anyone looking for a new watch or a special gift. With over ten
             years of experience, we have served hundreds of thousands of
             satisfied customers.
           </p>
-          <p className="mb-4">
+          <p className="mb-4 text-justify">
             We offer an incredible range of watches, stocking hundreds of models
             from more than 40 brands. From everyday watches to premium choices
             like Seiko, Ball, Baume & Mercier, and Frederique Constant, all our
             watches are authentic and brand new.
           </p>
-          <p className="mb-4">
+          <p className="mb-4 text-justify">
             As authorized stockists of quality watch brands, you can be
             confident that you're getting the real deal when you purchase from
             us. We stay on top of new products in the market, bringing you the
@@ -31,17 +31,17 @@ const About = () => {
           </p>
         </section>
         <section className="mb-10">
-          <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
+          <h2 className="text-base font-semibold mb-4 dark:text-gray-300">
             An Australian Retailer, Born from a Genuine Love for Watches
           </h2>
-          <p className="mb-4">
+          <p className="mb-4 text-justify">
             Ten years ago, we saw a demand in the Australian watch market. We
             knew that watch-lovers needed a greater range of online offerings at
             better prices. Vikiamy's was created so customers like ourselves
             could find a large selection of quality watches at competitive
             prices from the convenience of their own homes.
           </p>
-          <p className="mb-4">
+          <p className="mb-4 text-justify">
             We now offer an extensive range of well-curated pieces, from men's
             and women's watches to our latest statement jewelry collection,
             including diamond earrings, rings, and bracelets. Our original
@@ -49,16 +49,16 @@ const About = () => {
           </p>
         </section>
         <section className="mb-10">
-          <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
+          <h2 className="text-base font-semibold mb-4 dark:text-gray-300">
             Taking the Stress Out of Buying
           </h2>
-          <p className="mb-4">
+          <p className="mb-4 text-justify">
             We understand that investing in a watch is a big decision, whether
             it's for everyday wear or special occasions. That's why we offer
             comprehensive after-sale Customer Service, helping you maintain your
             watch and keep it in top condition.
           </p>
-          <p className="mb-4">
+          <p className="mb-4 text-justify">
             You can also return your purchase easily within 30 days, no
             questions asked. This means you don’t have to stress about whether
             your chosen watch will suit your style. If it doesn’t, simply send
@@ -66,26 +66,26 @@ const About = () => {
           </p>
         </section>
         <section className="mb-10">
-          <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
+          <h2 className="text-base font-semibold mb-4 dark:text-gray-300">
             Our Commitment to You: Top Customer Service
           </h2>
-          <p className="mb-4">
+          <p className="mb-4 text-justify">
             We're fast and reliable. You get same-day, free shipping on any
             watch purchase within Australia. We take care to ensure that all our
             watches are well-packed, so you can be assured that your purchase
             will get to you safely.
           </p>
-          <p className="mb-4">
+          <p className="mb-4 text-justify">
             If you have any product or order issues, we're here to help. You can
             reach us easily through our Customer Support Service by phone or
             email.
           </p>
         </section>
         <section>
-          <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
+          <h2 className="text-base font-semibold mb-4 dark:text-gray-300">
             Meet the Team
           </h2>
-          <p className="mb-4">
+          <p className="mb-4 text-justify">
             <strong>Bikash</strong> is our Director, managing our buying
             requirements and ongoing relationships with suppliers. His goal is
             to ensure you enjoy the thrill of purchasing a new watch with the
