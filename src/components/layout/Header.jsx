@@ -211,8 +211,14 @@ const Header = () => {
                   </Menu>
                 ) : (
                   <Link to={"/login"}>
-                    <div className="bg-white rounded-full shadow p-1 border border-gray-300 dark:bg-gray-800 dark:border-gray-600">
-                      <UserCircleIcon className="h-6 w-6 text-gray-800 dark:text-gray-300" />
+                    <div
+                      className={`dark:text-gray-300 rounded-full shadow border dark:bg-gray-800 dark:border-gray-600 ${
+                        scrollY > 0
+                          ? "bg-gray-800 text-gray-300 border-gray-600"
+                          : "bg-white text-gray-800 border-gray-300"
+                      }`}
+                    >
+                      <UserCircleIcon className="h-6 w-6" />
                     </div>
                   </Link>
                 )}
