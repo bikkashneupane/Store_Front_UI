@@ -154,7 +154,7 @@ const Header = () => {
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <div className="hidden md:inline">
                 {user?._id ? (
-                  <Menu as="div" className="relative ml-3">
+                  <Menu as="div" className="relative ml-3 z-40">
                     <div>
                       <MenuButton
                         className={`${

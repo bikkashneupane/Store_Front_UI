@@ -52,7 +52,6 @@ const Checkout = () => {
             currency: "AUD",
             orderId,
             userId: user?._id,
-            userName: `${user?.firstName} ${user?.lastName}`,
             items: cart?.map((item) => ({
               _id: item?._id,
               name: item?.name,

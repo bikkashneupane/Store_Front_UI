@@ -13,6 +13,12 @@ const MyOrders = () => {
   const navigate = useNavigate();
 
   const { myOrders } = useSelector((state) => state.orders);
+  const sortedOrderByDate = [...myOrders]?.sort((a, b) => {
+    const dateA = new Date(a?.createdAt);
+    const dateB = new Date(b?.createdAt);
+    return dateB - dateA;
+  });
+
   const { user } = useSelector((state) => state.user);
   const { products } = useSelector((state) => state.products);
 
@@ -59,7 +65,7 @@ const MyOrders = () => {
 
         {/* Order History */}
         <div className="space-y-4">
-          {myOrders?.map((order) => (
+          {sortedOrderByDate?.map((order) => (
             <div
               key={order?._id}
               className="border border-gray-300 dark:border-gray-700 rounded-md flex justify-center flex-col max-w-4xl mx-auto"
@@ -82,9 +88,15 @@ const MyOrders = () => {
                   </span>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="font-semibold">Status</span>
-                  <h1 className="text-xs text-green-700">
-                    {order?.status?.toUpperCase()}
+                  <span className="font-semibold">Delivery Status</span>
+                  <h1
+                    className={`text-xs ${
+                      order?.orderStatus === "delivered"
+                        ? "text-green-500"
+                        : "text-yellow-500"
+                    }`}
+                  >
+                    {order?.orderStatus?.toUpperCase()}
                   </h1>
                 </div>
                 <div className="flex flex-col gap-1 font-semibold">
