@@ -103,7 +103,7 @@ const Home = () => {
                 {popularProducts.map((product) => (
                   <div
                     key={product?._id}
-                    className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4"
+                    className="flex-shrink-0 sm:w-1/2 lg:w-1/4"
                   >
                     <CustomCard product={product} />
                   </div>
@@ -130,7 +130,7 @@ const Home = () => {
                 {womensProducts.map((product) => (
                   <div
                     key={product?._id}
-                    className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4"
+                    className="flex-shrink-0 sm:w-1/2 lg:w-1/4"
                   >
                     <CustomCard product={product} />
                   </div>
@@ -157,7 +157,7 @@ const Home = () => {
                 {mensProducts.map((product) => (
                   <div
                     key={product?._id}
-                    className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4"
+                    className="flex-shrink-0 sm:w-1/2 lg:w-1/4"
                   >
                     <CustomCard product={product} />
                   </div>

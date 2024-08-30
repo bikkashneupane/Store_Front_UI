@@ -13,7 +13,7 @@ export const CustomCard = ({ product }) => {
 
   return (
     <div className="max-h-min shadow-lg text-sm">
-      <div className="bg-gray-100 dark:bg-gray-800 overflow-hidden group rounded-t-md">
+      <div className="bg-light dark:bg-dark overflow-hidden group rounded-t-md">
         <div className="relative flex justify-center">
           <div className="absolute bottom-0 w-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
             <button
@@ -25,7 +25,7 @@ export const CustomCard = ({ product }) => {
           </div>
           <Link to={`/product/${_id}`}>
             <img
-              className="object-cover h-[300px] w-full"
+              className="object-cover object-center h-[300px]"
               src={thumbnail}
               alt="Product-Image"
             />

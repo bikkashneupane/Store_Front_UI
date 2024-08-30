@@ -64,7 +64,7 @@ const Login = () => {
       <div className="absolute bg-black bg-opacity-70 w-full h-full"></div>
 
       <div className="relative flex min-h-screen flex-col px-6 lg:px-8 items-center">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-32 flex flex-col justify-center items-center mb-4 gap-4">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-16 flex flex-col justify-center items-center mb-4 gap-4">
           <h2 className="mt-2 text-2xl font-bold leading-9 text-white">
             Login Now
           </h2>

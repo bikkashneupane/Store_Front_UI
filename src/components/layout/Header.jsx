@@ -70,6 +70,7 @@ const Header = () => {
     { name: "About", to: "/about" },
     { name: "Contact", to: "/contact" },
     { name: "Cart", to: "/cart", mobile: true },
+    { name: "My Orders", to: "/my-orders", mobile: true },
     { name: "Profile", to: "/profile", mobile: true },
   ];
 
@@ -81,7 +82,7 @@ const Header = () => {
           scrollY > 0 && "bg-gray-900 text-white"
         } transition-colors duration-300 dark:bg-gray-900 dark:border-b dark:border-b-gray-700`}
       >
-        <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-7xl pe-2 sm:px-4 md:px-8">
           <div className="relative flex items-center justify-between py-6">
             <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
               <DisclosureButton
