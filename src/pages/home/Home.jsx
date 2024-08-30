@@ -1,17 +1,17 @@
+import CategoryCard from "../../components/custom/CategoryCard";
+import { CustomCard } from "../../components/custom/CustomCard";
 import CustomCarousel from "./../../components/custom/CustomCarousel";
-import pocket_watch from "./../../assets/images/pocket-watch.avif";
+import { Link } from "react-router-dom";
+import accessories from "./../../assets/images/accessories.jpg";
 import analog_watch from "./../../assets/images/analog-watch.jpg";
-import wrist_watch from "./../../assets/images/wrist-watch.avif";
 import carousel_1 from "./../../assets/images/carousel_1.webp";
 import carousel_2 from "./../../assets/images/carousel_2.jpg";
 import carousel_3 from "./../../assets/images/carousel_3.jpg";
 import mens from "./../../assets/images/mens.webp";
-import womens from "./../../assets/images/womens.jpg";
-import accessories from "./../../assets/images/accessories.jpg";
-import { CustomCard } from "../../components/custom/CustomCard";
-import CategoryCard from "../../components/custom/CategoryCard";
+import pocket_watch from "./../../assets/images/pocket-watch.avif";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import womens from "./../../assets/images/womens.jpg";
+import wrist_watch from "./../../assets/images/wrist-watch.avif";
 
 const images = [
   wrist_watch,

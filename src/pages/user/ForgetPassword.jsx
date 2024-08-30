@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { requestOTP, resetPasswordAxios } from "../../features/user/userAxios";
+
 import { RequestOTP } from "../../components/password-reset/RequestOTP";
 import { ResetPassword } from "../../components/password-reset/ResetPassword";
-import { requestOTP, resetPasswordAxios } from "../../features/user/userAxios";
 import bg_url from "./../../assets/images/wrist-watch.avif";
+import { useState } from "react";
 
 export const ForgetPassword = () => {
   const [showForm, setShowForm] = useState("otp");

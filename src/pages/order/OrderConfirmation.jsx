@@ -1,5 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setOrderIdInStore } from "../../features/order/orderSlice";
 import {
   AtSymbolIcon,
   CalendarDateRangeIcon,
@@ -8,9 +6,12 @@ import {
   PhoneIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/outline";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { emptyCart } from "../../features/cart/cartSlice";
+
 import { Link } from "react-router-dom";
+import { emptyCart } from "../../features/cart/cartSlice";
+import { setOrderIdInStore } from "../../features/order/orderSlice";
 
 const OrderConfirmation = () => {
   const dispatch = useDispatch();

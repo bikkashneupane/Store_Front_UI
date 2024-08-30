@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
-import bg_url from "./../../assets/images/wrist-watch.avif";
-import watch_logo from "../../assets/images/watch_logo.png";
-import { useForm } from "../../hooks/useForm";
-import { toast } from "react-toastify";
-import { signupUserAction } from "../../features/user/userAction";
+
 import { CustomInputForNonChangingBg } from "../../components/custom/CustomInput";
+import bg_url from "./../../assets/images/wrist-watch.avif";
+import { signupUserAction } from "../../features/user/userAction";
+import { toast } from "react-toastify";
+import { useForm } from "../../hooks/useForm";
+import watch_logo from "../../assets/images/watch_logo.png";
 
 const Signup = () => {
   const { form, handleOnChange } = useForm([]);

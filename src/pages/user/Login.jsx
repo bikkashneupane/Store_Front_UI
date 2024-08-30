@@ -1,11 +1,12 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import bg_url from "./../../assets/images/wrist-watch.avif";
-import watch_logo from "../../assets/images/watch_logo.png";
-import { useEffect, useRef } from "react";
-import { loginUserAction } from "../../features/user/userAction";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { useEffect, useRef } from "react";
+
 import { CustomInputForNonChangingBg } from "../../components/custom/CustomInput";
+import bg_url from "./../../assets/images/wrist-watch.avif";
+import { loginUserAction } from "../../features/user/userAction";
+import { toast } from "react-toastify";
+import watch_logo from "../../assets/images/watch_logo.png";
 
 const Login = () => {
   const emailRef = useRef();

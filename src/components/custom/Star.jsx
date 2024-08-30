@@ -1,4 +1,5 @@
 import { FaRegStar, FaStar } from "react-icons/fa";
+
 import { FaRegStarHalfStroke } from "react-icons/fa6";
 
 const maxRating = 5;

@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { verifyAccountAction } from "../../features/user/userAction";
-import bg_url from "./../../assets/images/wrist-watch.avif";
-
 import "./user-css/user.css";
+
+import { Link, useSearchParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+
+import bg_url from "./../../assets/images/wrist-watch.avif";
+import { verifyAccountAction } from "../../features/user/userAction";
 
 const VerifyAccount = () => {
   const [searchParam] = useSearchParams();

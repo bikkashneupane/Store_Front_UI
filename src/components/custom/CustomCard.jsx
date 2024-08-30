@@ -1,6 +1,6 @@
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToCartAction } from "../../features/cart/cartAction";
+import { useDispatch } from "react-redux";
 
 export const CustomCard = ({ product }) => {
   const { _id, thumbnail, name, brand, price, salesPrice } = product;

@@ -1,9 +1,9 @@
-import { FaStar } from "react-icons/fa";
-import { useForm } from "../../hooks/useForm";
 import { CustomInput } from "../custom/CustomInput";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { FaStar } from "react-icons/fa";
 import { postReviewAction } from "../../features/review/reviewAction";
+import { useDispatch } from "react-redux";
+import { useForm } from "../../hooks/useForm";
+import { useState } from "react";
 
 const ReviewForm = ({ selectedProduct, hideModal }) => {
   const { form, handleOnChange } = useForm({});

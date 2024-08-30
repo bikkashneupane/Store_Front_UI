@@ -1,9 +1,10 @@
-import { useRef } from "react";
 import {
   CustomInput,
   CustomInputForNonChangingBg,
 } from "../custom/CustomInput";
+
 import { toast } from "react-toastify";
+import { useRef } from "react";
 
 export const ResetPassword = ({ handleOnPasswordReset }) => {
   const otpRef = useRef("");

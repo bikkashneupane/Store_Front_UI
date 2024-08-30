@@ -1,8 +1,9 @@
 import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocalStorage } from "react-use";
+
 import { setDarkMode } from "../../redux/darkModeSlice";
+import { useEffect } from "react";
+import { useLocalStorage } from "react-use";
 
 const DarkMode = () => {
   const dispatch = useDispatch();

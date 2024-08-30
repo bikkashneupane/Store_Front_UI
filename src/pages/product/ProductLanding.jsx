@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import "./ProductLanding.css";
+
 import {
   addToCartAction,
   updateCartAction,
 } from "../../features/cart/cartAction";
-import "./ProductLanding.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import Stars from "../../components/custom/Star";
 import profile_alt from "../../assets/images/profile_alt.jpeg";
 

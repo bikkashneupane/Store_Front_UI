@@ -7,6 +7,7 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { MinusIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
+
 import { useSelector } from "react-redux";
 
 const MobileFilter = ({

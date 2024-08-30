@@ -4,9 +4,10 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
+
+import { setShippingAddress } from "../../features/order/orderSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setShippingAddress } from "../../features/order/orderSlice";
 
 const CheckoutForm = ({ clientSecret }) => {
   const stripe = useStripe();

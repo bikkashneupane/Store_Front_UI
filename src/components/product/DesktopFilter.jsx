@@ -4,6 +4,7 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+
 import { useSelector } from "react-redux";
 
 const DesktopFilter = ({ handleOnCategoryFilter, handleSubCatFilter }) => {

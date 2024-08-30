@@ -1,36 +1,38 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "swiper/swiper-bundle.css";
-import { ToastContainer } from "react-toastify";
-import Footer from "./components/layout/Footer";
-import Signup from "./pages/user/Signup";
-import Login from "./pages/user/Login";
-import Home from "./pages/home/Home";
-import About from "./pages/about/About";
-import Contact from "./pages/contact/Contact";
-import ErrorElement from "./components/layout/ErrorElement";
-import ProductLanding from "./pages/product/ProductLanding";
-import Products from "./pages/product/Products";
-import Cart from "./pages/cart/Cart";
-import Profile from "./pages/user/Profile";
-import VerifyAccount from "./pages/user/VerifyAccount";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { fetchProductsAction } from "./features/product/productAction";
+import "./App.css";
+
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import {
   fetchCategoriesAction,
   fetchSubCatAction,
 } from "./features/category/categoryAction";
-import "./App.css";
+import { useEffect, useState } from "react";
+
+import About from "./pages/about/About";
+import Cart from "./pages/cart/Cart";
 import Checkout from "./pages/checkout/Checkout";
-import { autoLoginAction } from "./features/user/userAction";
-import OrderConfirmation from "./pages/order/OrderConfirmation";
-import MyOrders from "./pages/order/MyOrders";
-import useScrollToTop from "./hooks/useScrollToTop";
-import Header from "./components/layout/Header";
-import { fetchReviewAction } from "./features/review/reviewAction";
+import Contact from "./pages/contact/Contact";
+import ErrorElement from "./components/layout/ErrorElement";
+import Footer from "./components/layout/Footer";
 import { ForgetPassword } from "./pages/user/ForgetPassword";
+import Header from "./components/layout/Header/Header";
+import Home from "./pages/home/Home";
 import LoadingScreen from "./components/layout/LoadingScreen";
+import Login from "./pages/user/Login";
+import MyOrders from "./pages/order/MyOrders";
+import OrderConfirmation from "./pages/order/OrderConfirmation";
+import ProductLanding from "./pages/product/ProductLanding";
+import Products from "./pages/product/Products";
+import Profile from "./pages/user/Profile";
+import Signup from "./pages/user/Signup";
+import { ToastContainer } from "react-toastify";
+import VerifyAccount from "./pages/user/VerifyAccount";
+import { autoLoginAction } from "./features/user/userAction";
+import { fetchProductsAction } from "./features/product/productAction";
+import { fetchReviewAction } from "./features/review/reviewAction";
+import { useDispatch } from "react-redux";
+import useScrollToTop from "./hooks/useScrollToTop";
 
 const appRouter = createBrowserRouter([
   {

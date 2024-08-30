@@ -1,5 +1,5 @@
-import { useRef } from "react";
 import { CustomInput } from "../custom/CustomInput";
+import { useRef } from "react";
 
 export const RequestOTP = ({ handleOnOTPRequest }) => {
   const emailRef = useRef("");

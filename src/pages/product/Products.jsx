@@ -1,18 +1,19 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import MobileFilter from "../../components/product/MobileFilter";
-import DesktopFilter from "../../components/product/DesktopFilter";
-import ProductList from "../../components/product/ProductList";
-import Pagination from "../../components/product/Pagination";
 import {
+  setActiveFilters,
   setFilteredProducts,
   setFilteredProductsWithSubCat,
-  setActiveFilters,
   setProducts,
 } from "../../features/product/ProductSlice";
-import { useSearchParams } from "react-router-dom";
-import SortProduct from "../../components/product/SortProduct";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
+import DesktopFilter from "../../components/product/DesktopFilter";
 import { FunnelIcon } from "@heroicons/react/24/outline";
+import MobileFilter from "../../components/product/MobileFilter";
+import Pagination from "../../components/product/Pagination";
+import ProductList from "../../components/product/ProductList";
+import SortProduct from "../../components/product/SortProduct";
+import { useSearchParams } from "react-router-dom";
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);

@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart, updateCart } from "../../features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const CustomCart = () => {
   const dispatch = useDispatch();

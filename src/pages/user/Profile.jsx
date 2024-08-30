@@ -1,11 +1,12 @@
-import { CustomInput } from "../../components/custom/CustomInput";
-import { useForm } from "../../hooks/useForm";
-import { useDispatch, useSelector } from "react-redux";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { editProfileDetail } from "../../features/user/userAction";
-import { useNavigate } from "react-router-dom";
+
+import { CustomInput } from "../../components/custom/CustomInput";
 import { CustomModal } from "../../components/custom/CustomModal";
+import { editProfileDetail } from "../../features/user/userAction";
+import { useForm } from "../../hooks/useForm";
+import { useNavigate } from "react-router-dom";
 
 const detailInput = [
   {
