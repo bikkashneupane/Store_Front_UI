@@ -85,7 +85,7 @@ const Header = () => {
             <div className="mx-auto flex flex-1 items-center justify-center md:justify-start">
               <Link
                 to={"/"}
-                className="flex items-baseline gap-1 text-gray-700 dark:text-gray-200 font-semibold text-xl"
+                className="flex items-center gap-1 text-gray-700 dark:text-gray-200 font-semibold text-xl"
               >
                 <img
                   alt="Vikiasmy"
