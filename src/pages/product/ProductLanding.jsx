@@ -38,6 +38,7 @@ const ProductLanding = () => {
 
     // Set itemCount based on the cart item if it exists
     const cartItem = cart?.find((item) => item._id === _id);
+
     setItemCount(cartItem?.quantity || 0);
   }, [selectedProduct?.thumbnail, cart, _id]);
 
@@ -52,11 +53,7 @@ const ProductLanding = () => {
 
   const handleOnBuyNow = (e) => {
     e.preventDefault();
-    if (cart?.find((item) => item._id === _id)) {
-      dispatch(updateCartAction({ ...selectedProduct, quantity: itemCount }));
-    } else {
-      dispatch(addToCartAction({ ...selectedProduct, quantity: itemCount }));
-    }
+    dispatch(addToCartAction({ ...selectedProduct, quantity: itemCount }));
     navigate("/checkout");
   };
 

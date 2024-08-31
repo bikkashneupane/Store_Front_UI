@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { CustomModal } from "../../components/custom/CustomModal";
 import ReviewForm from "../../components/product/ReviewForm";
 import { fetchAllOrdersAction } from "../../features/order/orderAction";
+import { addToCartAction } from "../../features/cart/cartAction";
 
 const MyOrders = () => {
   const [showModal, setShowModal] = useState(false);
@@ -38,6 +39,12 @@ const MyOrders = () => {
   const handleReview = (productId, orderId) => {
     setSelectedProduct({ productId, orderId });
     setShowModal(!showModal);
+  };
+
+  const handleBuyAgain = (_id) => {
+    const selectedItem = products?.find((item) => item?._id === _id);
+    dispatch(addToCartAction({ ...selectedItem, quantity: 1 }));
+    navigate("/checkout");
   };
 
   if (myOrders?.length === 0) {
@@ -89,7 +96,7 @@ const MyOrders = () => {
                   </span>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="font-semibold">Delivery Status</span>
+                  <span className="font-semibold">Order Status</span>
                   <h1
                     className={`text-xs ${
                       order?.orderStatus === "delivered"
@@ -141,7 +148,10 @@ const MyOrders = () => {
                               View Product
                             </Link>
 
-                            <button className="ml-1 px-9 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white text-sm">
+                            <button
+                              onClick={() => handleBuyAgain(item?._id)}
+                              className="ml-1 px-9 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white text-sm"
+                            >
                               Buy Again
                             </button>
                           </div>

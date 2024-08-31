@@ -13,6 +13,7 @@ const CustomCart = () => {
   const handleRemoveFromCart = (product) => {
     dispatch(removeFromCart(product));
   };
+
   return (
     <>
       <h1 className="text-2xl font-bold mb-5 dark:text-gray-100 text-center">
@@ -21,54 +22,72 @@ const CustomCart = () => {
       <hr className="border-gray-300 dark:border-gray-400" />
       <div>
         <ul className="space-y-4 mt-4">
-          {cart?.map((product) => (
-            <li
-              key={product?._id}
-              className="border-b border-gray-300 dark:border-gray-400 pb-4 mb-4"
-            >
-              <div className="flex items-end justify-between">
-                <div className="flex items-center">
-                  <img
-                    src={product?.thumbnail}
-                    alt={product?.name}
-                    className="h-20 w-20 object-cover rounded-md mr-4"
-                  />
-                  <div>
-                    <h3 className="font-semibold dark:text-gray-100">
-                      {product?.name}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      Price: $
-                      {(product?.salesPrice || product?.price) *
-                        product?.quantity || 0}
-                    </p>
-                    <div className="flex items-center mt-2">
-                      <label
-                        htmlFor={`quantity-${product?._id}`}
-                        className="mr-2 dark:text-gray-100"
-                      >
-                        Qty:
-                      </label>
-                      <input
-                        type="number"
-                        id={`quantity-${product?._id}`}
-                        min="1"
-                        value={product?.quantity}
-                        onChange={(e) => handleQuantityChange(e, product)}
-                        className="w-16 p-1 border rounded-md dark:bg-gray-700 dark:text-gray-100 text-center"
-                      />
+          {cart?.map(
+            ({ _id, thumbnail, name, salesPrice, price, quantity }) => (
+              <li
+                key={_id}
+                className="border-b border-gray-300 dark:border-gray-400 pb-4 mb-4"
+              >
+                <div className="flex items-end justify-between">
+                  <div className="flex items-center">
+                    <img
+                      src={thumbnail}
+                      alt={name}
+                      className="h-20 w-20 object-cover rounded-md mr-4"
+                    />
+                    <div>
+                      <h3 className="font-semibold dark:text-gray-100">
+                        {name}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        Price: ${(salesPrice || price) * quantity || 0}
+                      </p>
+                      <div className="flex items-center mt-2">
+                        <label
+                          htmlFor={`quantity-${_id}`}
+                          className="mr-2 dark:text-gray-100"
+                        >
+                          Qty:
+                        </label>
+                        <input
+                          type="number"
+                          id={`quantity-${_id}`}
+                          min="1"
+                          value={quantity}
+                          onChange={(e) =>
+                            handleQuantityChange(e, {
+                              _id,
+                              thumbnail,
+                              name,
+                              salesPrice,
+                              price,
+                              quantity,
+                            })
+                          }
+                          className="w-16 p-1 border rounded-md dark:bg-gray-700 dark:text-gray-100 text-center"
+                        />
+                      </div>
                     </div>
                   </div>
+                  <button
+                    onClick={() =>
+                      handleRemoveFromCart({
+                        _id,
+                        thumbnail,
+                        name,
+                        salesPrice,
+                        price,
+                        quantity,
+                      })
+                    }
+                    className="text-white hover:text-red-70 bg-red-500 px-4 py-2 text-sm rounded-md"
+                  >
+                    Remove
+                  </button>
                 </div>
-                <button
-                  onClick={() => handleRemoveFromCart(product)}
-                  className="text-white hover:text-red-70 bg-red-500 px-4 py-2 text-sm rounded-md"
-                >
-                  Remove
-                </button>
-              </div>
-            </li>
-          ))}
+              </li>
+            )
+          )}
         </ul>
       </div>
 
@@ -79,18 +98,13 @@ const CustomCart = () => {
           <hr className="mt-2 border-gray-300 dark:border-gray-400" />
         </h2>
         <ul className="space-y-2">
-          {cart.map((product) => (
-            <li
-              key={product?._id}
-              className="flex justify-between gap-4 text-sm"
-            >
+          {cart.map(({ _id, name, quantity, salesPrice, price }) => (
+            <li key={_id} className="flex justify-between gap-4 text-sm">
               <span className="dark:text-gray-100">
-                {product?.quantity} x {product?.name}
+                {quantity} x {name}
               </span>
               <span className="dark:text-gray-100">
-                $
-                {(product?.salesPrice || product?.price) * product?.quantity ||
-                  0}
+                ${(salesPrice || price) * quantity || 0}
               </span>
             </li>
           ))}
