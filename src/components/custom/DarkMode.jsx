@@ -33,7 +33,7 @@ const DarkMode = () => {
   };
 
   return (
-    <div onClick={handleToggle}>
+    <div onClick={handleToggle} className="cursor-pointer">
       {isDarkMode ? (
         <SunIcon aria-hidden="true" className="h-7 w-7 p-0.5" />
       ) : (

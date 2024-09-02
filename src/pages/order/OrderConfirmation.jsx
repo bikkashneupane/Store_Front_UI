@@ -73,7 +73,7 @@ const OrderConfirmation = () => {
           </h1>
           <p className="font-sm">
             Your Order <span className="font-bold">{orderId}</span> is in works.
-            We sent you an email to
+            We sent you an email to{" "}
             <span className="font-bold">{user?.email}</span> with your{" "}
             <span className="">order receipt</span>.
           </p>
