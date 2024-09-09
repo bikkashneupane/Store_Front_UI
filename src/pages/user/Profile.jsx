@@ -53,7 +53,6 @@ const passwordInput = [
 const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   const { user } = useSelector((state) => state.user);
-  console.log(user);
   const { form, setForm, handleOnChange } = useForm({ ...user } || {});
   const [profileImage, setProfileImage] = useState(null);
 
@@ -188,6 +187,7 @@ const Profile = () => {
               )}
             </div>
           </div>
+
           <div className="w-full md:max-w-3xl mx-auto px-4 py-2 border rounded-lg mb-10">
             <TabGroup as="div" className="py-2 px-6">
               <TabList className="flex gap-2 justify-center border-b border-gray-200 dark:border-gray-700 p-2 rounded-md text-sm font-semibold ">

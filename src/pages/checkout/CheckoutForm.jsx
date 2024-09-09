@@ -8,6 +8,7 @@ import {
 import { setShippingAddress } from "../../features/order/orderSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CheckoutForm = ({ clientSecret }) => {
   const stripe = useStripe();
@@ -36,6 +37,7 @@ const CheckoutForm = ({ clientSecret }) => {
       // Optionally, you can update the frontend with order confirmation details here
       dispatch(setShippingAddress(paymentIntent.shipping.address));
       navigate("/order-confirmation");
+      toast.success("Order Placed");
     } else {
       console.error(error.message);
     }

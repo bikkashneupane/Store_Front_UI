@@ -1,4 +1,31 @@
+import { useRef } from "react";
+
 const Contact = () => {
+  const nameRef = useRef("");
+  const emailRef = useRef("");
+  const subjectRef = useRef("");
+  const messageRef = useRef("");
+
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    const name = nameRef.current.value;
+    const email = emailRef.current.value;
+    const subject = subjectRef.current.value;
+    const message = messageRef.current.value;
+
+    const formattedBody = `Name: ${name}
+    Email: ${email}
+    Message: ${message}`
+      .trim()
+      .replace(/\n\s*\n/g, "\n\n"); // Removes extra new lines
+
+    const mailtoLink = `mailto:vikiasmy.watches@gmail.com?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(formattedBody)}`;
+
+    window.location.href = mailtoLink;
+  };
+
   return (
     <div className="text-gray-700 dark:text-gray-300 text-sm">
       <div className="mx-auto max-w-5xl px-10 py-10">
@@ -37,38 +64,43 @@ const Contact = () => {
         </section>
         <section className="mb-10">
           <h2 className="text-base font-semibold mb-3">Send Us a Message</h2>
-          <form className="space-y-6 text-sm">
+          <form className="space-y-6 text-sm" onSubmit={handleOnSubmit}>
             <div>
-              <label htmlFor="name" className="block font-medium">
-                Name
-              </label>
+              <label className="block font-medium">Name</label>
               <input
                 type="text"
-                id="name"
                 name="name"
+                ref={nameRef}
                 required
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 dark:text-gray-800"
               />
             </div>
             <div>
-              <label htmlFor="email" className="block font-medium">
-                Email
-              </label>
+              <label className="block font-medium">Email</label>
               <input
                 type="email"
-                id="email"
                 name="email"
+                ref={emailRef}
                 required
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 dark:text-gray-800"
               />
             </div>
             <div>
-              <label htmlFor="message" className="block font-medium">
-                Message
-              </label>
+              <label className="block font-medium">Subject</label>
+              <input
+                type="text"
+                name="email"
+                ref={subjectRef}
+                required
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 dark:text-gray-800"
+              />
+            </div>
+            <div>
+              <label className="block font-medium">Message</label>
               <textarea
                 id="message"
                 name="message"
+                ref={messageRef}
                 required
                 rows={7}
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 dark:text-gray-800"

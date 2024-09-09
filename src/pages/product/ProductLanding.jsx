@@ -232,6 +232,7 @@ const ProductLanding = () => {
           </div>
         </div>
       </div>
+
       {/* Product Description and Review  */}
       <div className="bg-black text-white py-4 flex justify-center gap-10 mt-16 cursor-pointer sticky top-0 px-4">
         <a href="#porduct-description">Description</a>
@@ -321,7 +322,7 @@ const ProductLanding = () => {
         {/* Review */}
         {totalReviews > 0 && (
           <div className="mt-10 py-4">
-            <h1 className="text-xl font-bold mb-8 tracking-wider font-mono underline">
+            <h1 className="text-xl font-bold mb-8 italic tracking-wider font-mono underline">
               Reviews
             </h1>
             <div

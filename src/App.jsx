@@ -102,12 +102,17 @@ const appRouter = createBrowserRouter([
 ]);
 
 function DefaultLayout() {
-  const [isLoading, setIsLoading] = useState(true);
+  const isHomeAnimation = localStorage.getItem("isHomeAnimation");
+  const [isLoading, setIsLoading] = useState(isHomeAnimation ?? true);
+
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, []);
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false);
+        localStorage.setItem("isHomeAnimation", false);
+      }, 2000);
+    }
+  }, [isLoading]);
 
   // custom hook, scroll to top when navigating
   useScrollToTop();
@@ -136,12 +141,17 @@ function App() {
     dispatch(fetchSubCatAction());
     dispatch(autoLoginAction());
     dispatch(fetchReviewAction());
+
+    return () => {
+      localStorage.setItem("isHomeAnimation", true);
+    };
   }, [dispatch]);
+
   return (
     <>
       <RouterProvider router={appRouter} />
       <ToastContainer
-        position="top-right"
+        position="bottom-right"
         stacked
         autoClose={3000}
         hideProgressBar={false}

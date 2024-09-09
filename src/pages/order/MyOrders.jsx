@@ -68,7 +68,7 @@ const MyOrders = () => {
         </CustomModal>
       )}
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 py-8">
         <h1 className="text-center mb-10 font-bold text-lg">My Orders</h1>
 
         {/* Order History */}
@@ -78,7 +78,7 @@ const MyOrders = () => {
               key={order?._id}
               className="border border-gray-300 dark:border-gray-700 rounded-md flex justify-center flex-col max-w-4xl mx-auto"
             >
-              <div className="bg-gray-100 dark:bg-gray-700 border-b dark:border-b-0 border-b-gray-300 py-4 rounded-t px-10 flex justify-between">
+              <div className="bg-gray-100 dark:bg-gray-700 border-b dark:border-b-0 border-b-gray-300 py-4 rounded-t px-3 lg:px-10 flex justify-between">
                 <div className="flex flex-col gap-1">
                   <span className="font-semibold">Order Number</span>
                   <span className="text-xs">{order?.orderId}</span>
@@ -98,7 +98,7 @@ const MyOrders = () => {
                 <div className="flex flex-col gap-1">
                   <span className="font-semibold">Order Status</span>
                   <h1
-                    className={`text-xs ${
+                    className={`text-xs font-semibold ${
                       order?.orderStatus === "delivered"
                         ? "text-green-500"
                         : "text-yellow-500"
@@ -113,60 +113,67 @@ const MyOrders = () => {
                 </div>
               </div>
 
-              <div className="px-2 sm:px-4 md:px-8 lg:px-10 w-full ">
-                <div className="">
-                  <div className="mt-4">
-                    {order?.items?.map((item) => (
-                      <div
-                        key={item?._id}
-                        className="pb-4 mb-4 flex justify-between items-start"
-                      >
-                        <div className="flex gap-4">
-                          <div className="relative">
-                            <span className="absolute bottom-0 right-0 bg-teal-600 text-white rounded-full border z-10 w-6 h-6 flex justify-center items-center">
-                              {item?.quantity}
-                            </span>
-                            <img
-                              src={
-                                products?.find((itm) => itm?._id === item?._id)
-                                  ?.thumbnail
-                              }
-                              alt={item?.name}
-                              className="relative h-24 w-24 object-cover rounded-md"
-                            />
-                          </div>
-                          <div className="space-y-1">
-                            <h3 className="text-teal-600">{item?.name}</h3>
-                            <p className="text-gray-600 dark:text-gray-400">
-                              Amount: ${item?.price}
-                            </p>
+              <div className="px-2 sm:px-4 md:px-8 lg:px-10 w-full">
+                <div className="mt-4">
+                  {order?.items?.map((item) => (
+                    <div
+                      key={item?._id}
+                      className="pb-4 mb-4 flex justify-between items-start"
+                    >
+                      <div className="flex gap-4">
+                        <div className="relative">
+                          <span className="absolute bottom-0 right-0 bg-teal-600 text-white rounded-full border z-10 w-6 h-6 flex justify-center items-center">
+                            {item?.quantity}
+                          </span>
+                          <img
+                            src={
+                              products?.find((itm) => itm?._id === item?._id)
+                                ?.thumbnail
+                            }
+                            alt={item?.name}
+                            className="relative h-24 w-24 object-cover rounded-md"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <h3 className="text-teal-600">{item?.name}</h3>
+                          <p className="text-gray-600 dark:text-gray-400">
+                            Amount: ${item?.price}
+                          </p>
 
+                          <div className="flex flex-col gap-1 md:flex-row">
                             <Link
                               to={`/product/${item?._id}`}
-                              className="px-6 py-2  rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white text-sm"
+                              className="px-6 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white text-sm text-center"
                             >
                               View Product
                             </Link>
 
                             <button
                               onClick={() => handleBuyAgain(item?._id)}
-                              className="ml-1 px-9 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white text-sm"
+                              className="px-9 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white text-sm"
                             >
                               Buy Again
                             </button>
+
+                            <button
+                              onClick={() =>
+                                handleReview(item?._id, order?.orderId)
+                              }
+                              className="md:hidden px-6 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white "
+                            >
+                              Leave Product Review
+                            </button>
                           </div>
                         </div>
-                        <button
-                          onClick={() =>
-                            handleReview(item?._id, order?.orderId)
-                          }
-                          className="self-start px-6 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white "
-                        >
-                          Leave Product Review
-                        </button>
                       </div>
-                    ))}
-                  </div>
+                      <button
+                        onClick={() => handleReview(item?._id, order?.orderId)}
+                        className="hidden md:inline self-start px-6 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-teal-500 hover:text-white "
+                      >
+                        Leave Product Review
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

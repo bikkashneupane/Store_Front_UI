@@ -11,6 +11,7 @@ import NavbarMenu from "./NavBarMenu";
 import PorfileMenu from "./PorfileMenu";
 import { setUser } from "../../../features/user/UserSlice";
 import watch_logo from "../../../assets/images/watch_logo.png";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -43,6 +44,7 @@ const Header = () => {
     localStorage.removeItem("refreshJWT");
     sessionStorage.removeItem("accessJWT");
     navigate("/");
+    toast.success("User Logged Out");
   };
 
   const navigation = [
@@ -72,7 +74,7 @@ const Header = () => {
           scrollY > 0 && "bg-gray-900 text-white"
         } transition-colors duration-300 dark:bg-gray-900 dark:border-b dark:border-b-gray-700`}
       >
-        <div className="mx-auto max-w-7xl pe-2 sm:px-4 md:px-8">
+        <div className="mx-auto max-w-7xl ps-2 pe-4 md:px-6">
           <div className="relative flex items-center justify-between py-6">
             <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
               <DisclosureButton

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setActiveFilters,
   setFilteredProducts,
   setFilteredProductsWithSubCat,
-  setActiveFilters,
-} from "../../features/product/ProductSlice";
+} from "../features/product/ProductSlice";
 
 const useProductFilters = (
   categoryId,
@@ -13,14 +13,13 @@ const useProductFilters = (
   genderQuery
 ) => {
   const dispatch = useDispatch();
+  const [productFound, setProductFound] = useState(true);
   const {
     products,
     filteredProducts,
     filteredProductsWithSubCat,
     activeFilters,
   } = useSelector((state) => state.products);
-
-  const [productFound, setProductFound] = useState(true);
 
   useEffect(() => {
     if (categoryId) {
@@ -58,9 +57,8 @@ const useProductFilters = (
 
       dispatch(setFilteredProductsWithSubCat(subCatProducts));
     }
-  }, [categoryId, dispatch, products, brandQuery, materialQuery, genderQuery]);
 
-  useEffect(() => {
+    // reset filter in redux store
     return () => {
       dispatch(setFilteredProducts([]));
       dispatch(setFilteredProductsWithSubCat([]));
@@ -72,10 +70,11 @@ const useProductFilters = (
         })
       );
     };
-  }, [dispatch]);
+  }, [categoryId, dispatch, products, brandQuery, materialQuery, genderQuery]);
 
   return {
     productFound,
+    products,
     filteredProducts,
     filteredProductsWithSubCat,
     activeFilters,

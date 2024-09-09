@@ -25,7 +25,7 @@ export const CustomCard = ({ product }) => {
           </div>
           <Link to={`/product/${_id}`}>
             <img
-              className="object-cover object-center h-[300px]"
+              className="object-cover object-center w-[296px] md:w-full h-[300px]"
               src={thumbnail}
               alt="Product-Image"
             />

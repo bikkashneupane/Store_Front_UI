@@ -2,10 +2,10 @@ export const CustomModal = ({ title, onHide, children }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
       {/* Background overlay */}
-      <div className="fixed inset-0 bg-black opacity-10" onClick={onHide} />
+      <div className="fixed inset-0 bg-black opacity-80" onClick={onHide} />
 
       {/* Modal container */}
-      <div className="relative w-full max-w-lg px-6 py-12 mx-auto bg-white dark:bg-gray-700 rounded-lg shadow-lg">
+      <div className="relative w-full max-w-lg px-6 py-12 mx-auto bg-white dark:bg-gray-900 rounded-lg shadow-lg">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold px-1">{title}</h3>
           <button

@@ -11,8 +11,9 @@ const DesktopFilter = ({ handleOnCategoryFilter, handleSubCatFilter }) => {
   const { categories, brands, materials } = useSelector(
     (state) => state.categories
   );
-  const { filteredProducts, filteredProductsWithSubCat, activeFilters } =
-    useSelector((state) => state.products);
+  const { filteredProducts, activeFilters } = useSelector(
+    (state) => state.products
+  );
 
   return (
     <div className="hidden lg:block">
@@ -69,8 +70,8 @@ const DesktopFilter = ({ handleOnCategoryFilter, handleSubCatFilter }) => {
                   id={item?._id}
                   name={item?.slug}
                   type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-teal-400"
                   onChange={handleOnCategoryFilter}
+                  className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-teal-400"
                 />
                 <label
                   htmlFor={item?._id}

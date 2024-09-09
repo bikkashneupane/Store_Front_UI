@@ -27,7 +27,7 @@ export const verifyAccountAction = (obj) => {
   return verifyAccountAxios(obj);
 };
 
-// verify account
+// login
 export const loginUserAction = (obj) => async (dispatch) => {
   const { status, tokens } = await loginUserAxios(obj);
 
@@ -54,8 +54,11 @@ export const autoLoginAction = () => async (dispatch) => {
   }
 
   const refreshJWT = localStorage.getItem("refreshJWT");
+
   if (refreshJWT) {
-    const { accessJWT } = await renewAccessJWTAxios();
-    accessJWT && dispatch(fetchUserAction());
+    const accessJWT = await renewAccessJWTAxios();
+    accessJWT
+      ? dispatch(fetchUserAction())
+      : localStorage.removeItem("refreshJWT");
   }
 };

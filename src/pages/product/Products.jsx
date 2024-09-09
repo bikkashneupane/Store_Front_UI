@@ -1,143 +1,59 @@
-import {
-  setActiveFilters,
-  setFilteredProducts,
-  setFilteredProductsWithSubCat,
-  setProducts,
-} from "../../features/product/ProductSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
 import DesktopFilter from "../../components/product/DesktopFilter";
 import { FunnelIcon } from "@heroicons/react/24/outline";
 import MobileFilter from "../../components/product/MobileFilter";
 import Pagination from "../../components/product/Pagination";
 import ProductList from "../../components/product/ProductList";
 import SortProduct from "../../components/product/SortProduct";
-import { useSearchParams } from "react-router-dom";
+import usePagination from "../../hooks/usePagination";
+import useQueryParams from "../../hooks/useQueryParams";
+import useProductFilters from "../../hooks/useProductFilter";
+import { useDispatch } from "react-redux";
+import {
+  setActiveFilters,
+  setFilteredProducts,
+  setFilteredProductsWithSubCat,
+  setProducts,
+} from "../../features/product/ProductSlice";
 
 const Products = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [productFound, setProductFound] = useState(true);
-
   const dispatch = useDispatch();
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const { categoryId, brandQuery, materialQuery, genderQuery } =
+    useQueryParams();
+
   const {
-    products,
+    productFound,
     filteredProducts,
     filteredProductsWithSubCat,
     activeFilters,
-  } = useSelector((state) => state.products);
+    products,
+  } = useProductFilters(categoryId, brandQuery, materialQuery, genderQuery);
 
-  const [query] = useSearchParams();
-  const categoryId = query.get("category");
-  const brandQuery = query.get("brand");
-  const materialQuery = query.get("material");
-  const genderQuery = query.get("gender");
-
-  useEffect(() => {
-    // category selected from navlink
-    if (categoryId) {
-      const catProducts = products?.filter(
-        (product) => product?.categoryId === categoryId
-      );
-
-      if (catProducts?.length === 0) {
-        setProductFound(false);
-        return;
-      }
-
-      dispatch(setFilteredProducts(catProducts));
-      setProductFound(true);
-
-      const updatedFilters = {
-        brandId: brandQuery ? [brandQuery] : [],
-        materialId: materialQuery ? [materialQuery] : [],
-        gender: genderQuery ? [genderQuery] : [],
-      };
-
-      dispatch(setActiveFilters(updatedFilters));
-
-      const filterConditions = [
-        { query: genderQuery, field: "gender" },
-        { query: brandQuery, field: "brandId" },
-        { query: materialQuery, field: "materialId" },
-      ];
-
-      const subCatProducts = filterConditions
-        .filter(({ query }) => query)
-        .reduce((filtered, { field, query }) => {
-          return filtered.filter((item) => item[field] === query);
-        }, catProducts);
-
-      dispatch(setFilteredProductsWithSubCat(subCatProducts));
-    }
-  }, [categoryId, dispatch, products, brandQuery, materialQuery, genderQuery]);
-
-  //reset redux filters products
-  useEffect(() => {
-    return () => {
-      dispatch(setFilteredProducts([]));
-      dispatch(setFilteredProductsWithSubCat([]));
-      dispatch(
-        setActiveFilters({
-          brandId: [],
-          materialId: [],
-          gender: [],
-        })
-      );
-    };
-  }, [dispatch]);
-
-  // total products per page
-  const productsPerPage = 6;
-
-  // total pages -> for pagination
-  const totalPages = Math.ceil(
-    (filteredProductsWithSubCat?.length > 0
-      ? filteredProductsWithSubCat
-      : filteredProducts?.length > 0
-      ? filteredProducts
-      : products
-    )?.length / productsPerPage
+  const {
+    currentPage,
+    totalPages,
+    pageProducts,
+    productsPerPage,
+    handlePreviousPage,
+    handleNextPage,
+    handlePageClick,
+    startIndex,
+    endIndex,
+    isFilterBool,
+  } = usePagination(
+    filteredProductsWithSubCat,
+    filteredProducts,
+    products,
+    activeFilters
   );
-  // pagination -> product 1 to 100
-  const startIndex = (currentPage - 1) * productsPerPage;
-  const endIndex = startIndex + productsPerPage;
 
-  // if selecedFilter is not empty, and  filteredwithSubCat === 0, setpageProduct to [] else send
-  let isFilterPresentArr = [];
-  for (let key in activeFilters) {
-    isFilterPresentArr.push(activeFilters[key]?.length);
-  }
-
-  const isFilterBool = isFilterPresentArr?.some((item) => item > 0);
-
-  // current page products
-  const pageProducts = (
+  const handleSortProduct = (products) => {
     isFilterBool
-      ? filteredProductsWithSubCat
+      ? dispatch(setFilteredProductsWithSubCat(products))
       : filteredProducts?.length > 0
-      ? filteredProducts
-      : products
-  ).slice(startIndex, endIndex);
-
-  // move back to previous page
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  // move forward to next page
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  // show products of nth page
-  const handlePageClick = (pageNumber) => {
-    setCurrentPage(pageNumber);
+      ? dispatch(setFilteredProducts(products))
+      : dispatch(setProducts(products));
   };
 
   // Filter Product with category logic
@@ -194,15 +110,6 @@ const Products = () => {
     dispatch(setActiveFilters(updatedFilters)); // Update Redux state with active filters
   };
 
-  // handle sort products
-  const handleSortProduct = (products) => {
-    isFilterBool
-      ? dispatch(setFilteredProductsWithSubCat(products))
-      : filteredProducts?.length > 0
-      ? dispatch(setFilteredProducts(products))
-      : dispatch(setProducts(products));
-  };
-
   return (
     <div className="min-h-screen">
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
@@ -213,7 +120,6 @@ const Products = () => {
         ) : (
           <div className="py-6 bg-white dark:bg-gray-900">
             {/* Mobile filter dialog */}
-
             <MobileFilter
               mobileFiltersOpen={mobileFiltersOpen}
               setMobileFiltersOpen={setMobileFiltersOpen}
@@ -223,14 +129,8 @@ const Products = () => {
 
             {/* Sort / Filter / Product List / Pagination */}
             <main className="mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-end border-b border-gray-200 dark:border-gray-700 pb-6 ">
-                {/* <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-300">
-                  Browse Store
-                </h1> */}
-
+              <div className="flex justify-end border-b border-gray-200 dark:border-gray-700 pb-6">
                 <div className="flex items-center">
-                  {/* Sort Products by price / best rated */}
-                  {}
                   <SortProduct
                     products={
                       isFilterBool
@@ -241,7 +141,6 @@ const Products = () => {
                     }
                     handleSortProduct={handleSortProduct}
                   />
-
                   <button
                     type="button"
                     onClick={() => setMobileFiltersOpen(true)}
@@ -255,20 +154,16 @@ const Products = () => {
 
               <section className="pb-24 pt-6">
                 <div className="grid grid-cols-1 gap-y-10 lg:grid-cols-5">
-                  {/* Filters */}
                   <DesktopFilter
                     handleOnCategoryFilter={handleOnCategoryFilter}
                     handleSubCatFilter={handleSubCatFilter}
                   />
-
-                  {/* Product grid */}
                   <div className="lg:col-span-4">
                     <ProductList products={pageProducts} />
                   </div>
                 </div>
               </section>
 
-              {/* Pagination */}
               <Pagination
                 productLength={
                   filteredProductsWithSubCat?.length > 0

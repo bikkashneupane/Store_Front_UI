@@ -80,6 +80,11 @@ const OrderConfirmation = () => {
           <CheckCircleIcon className="w-24 h-24 rounded-full text-green-500 object-cover object-center my-6" />
         </div>
 
+        <div className="flex justify-end max-w-3xl mx-auto mb-2">
+          <Link to={"/my-orders"} className="px-6 py-1 bg-teal-600 rounded-md">
+            Previous Orders...
+          </Link>
+        </div>
         {/* Order Summary */}
         <div className="border border-gray-500 rounded-md pb-20 flex justify-center flex-col max-w-3xl mx-auto">
           <div className="bg-gray-800 text-white py-4 rounded-t px-4 text-end">

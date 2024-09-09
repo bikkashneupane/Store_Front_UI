@@ -7,14 +7,28 @@ const classNames = (...classes) => {
 };
 
 const SortProduct = ({ products, handleSortProduct }) => {
-  const sortAscending = () => {
+  const sortNameAscending = () => {
+    const nameAscending = [...products]?.sort((a, b) =>
+      a?.name?.localeCompare(b?.name)
+    );
+    handleSortProduct(nameAscending);
+  };
+
+  const sortNameDecending = () => {
+    const nameAscending = [...products]?.sort((a, b) =>
+      b?.name?.localeCompare(a?.name)
+    );
+    handleSortProduct(nameAscending);
+  };
+
+  const sortPriceAscending = () => {
     const ascending = [...products]?.sort(
       (a, b) => (a?.salesPrice || a?.price) - (b?.salesPrice || b?.price)
     );
     handleSortProduct(ascending);
   };
 
-  const sortDescending = () => {
+  const sortPriceDescending = () => {
     const descending = [...products]?.sort(
       (a, b) => (b?.salesPrice || b?.price) - (a?.salesPrice || a?.price)
     );
@@ -22,17 +36,25 @@ const SortProduct = ({ products, handleSortProduct }) => {
   };
 
   const sortOptions = [
-    // { name: "Most Popular", current: false },
-    // { name: "Best Rating", current: false },
+    {
+      name: "Name Ascending",
+      current: false,
+      handleSort: () => sortNameAscending(),
+    },
+    {
+      name: "Name Decending",
+      current: false,
+      handleSort: () => sortNameDecending(),
+    },
     {
       name: "Price: Low to High",
       current: false,
-      handleSort: () => sortAscending(),
+      handleSort: () => sortPriceAscending(),
     },
     {
       name: "Price: High to Low",
       current: false,
-      handleSort: () => sortDescending(),
+      handleSort: () => sortPriceDescending(),
     },
   ];
   return (

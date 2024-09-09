@@ -102,6 +102,11 @@ const Login = () => {
             </div>
           </form>
         </div>
+        <div className="mt-4 font-semibold">
+          <h1 className="underline">Sample User</h1>
+          <h2>Email : user2@gmail.com</h2>
+          <h2>Password : 22</h2>
+        </div>
       </div>
     </div>
   );

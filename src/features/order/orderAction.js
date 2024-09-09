@@ -8,6 +8,6 @@ export const fetchClientSecretAction = (obj) => {
 
 // fetch all products
 export const fetchAllOrdersAction = () => async (dispatch) => {
-  const { status, orders } = await fetchAllOrders();
-  dispatch(setMyOrders(orders ?? []));
+  const { orders } = await fetchAllOrders();
+  dispatch(setMyOrders(orders.length > 0 ? orders : []));
 };
