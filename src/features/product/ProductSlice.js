@@ -9,6 +9,7 @@ const initialState = {
     materialId: [],
     gender: [],
   },
+  searchBound: [],
 };
 
 //create slice
@@ -28,6 +29,9 @@ const slice = createSlice({
     setActiveFilters: (state, action) => {
       state.activeFilters = action.payload;
     },
+    setSearchBound: (state, action) => {
+      state.searchBound = action.payload;
+    },
   },
 });
 
@@ -37,5 +41,6 @@ export const {
   setFilteredProducts,
   setFilteredProductsWithSubCat,
   setActiveFilters,
+  setSearchBound,
 } = actions;
 export default reducer;

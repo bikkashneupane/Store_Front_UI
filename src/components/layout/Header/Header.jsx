@@ -1,25 +1,26 @@
-import { Bars3Icon, ShoppingBagIcon } from "@heroicons/react/24/outline";
-import { Disclosure, DisclosureButton } from "@headlessui/react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-
-import CategoriesDropDown from "./CategoriesDropDown";
-import DarkMode from "../../custom/DarkMode";
 import MobileMenu from "./MobileMenu";
 import NavbarMenu from "./NavBarMenu";
 import PorfileMenu from "./PorfileMenu";
-import { setUser } from "../../../features/user/UserSlice";
+import { Bars3Icon, ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { Disclosure, DisclosureButton } from "@headlessui/react";
+import CategoriesDropDown from "./CategoriesDropDown";
+import DarkMode from "../../custom/DarkMode";
+import useScrollY from "../../../hooks/useScrollY";
+import { logoutAction } from "../../../features/user/userAction";
 import watch_logo from "../../../assets/images/watch_logo.png";
-import { toast } from "react-toastify";
+import { useTimeout } from "react-use";
 
 const Header = () => {
-  const [scrollY, setScrollY] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showCat, setShowCat] = useState(false);
   const [currentBrand, setCurrentBrand] = useState([]);
   const [currentMaterial, setCurrentMaterial] = useState([]);
   const [currentCatId, setCurrentCatId] = useState("");
+  const [searchProducts, setSearchProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,25 +28,57 @@ const Header = () => {
   const { categories, brands, materials } = useSelector(
     (state) => state.categories
   );
+  const { products } = useSelector((state) => state.products);
 
-  const handleScroll = () => {
-    setScrollY(window.scrollY);
-  };
+  // custom hook to check if scrolled
+  const { scrollY } = useScrollY();
 
+  // debounce the search result
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+    const debounceFunction = setTimeout(() => {
+      handleSearch(searchQuery);
+    }, 3000);
+
+    return () => clearTimeout(debounceFunction);
+  }, [searchQuery]);
 
   const handleOnLogout = () => {
-    dispatch(setUser({}));
-    localStorage.removeItem("refreshJWT");
-    sessionStorage.removeItem("accessJWT");
-    navigate("/");
-    toast.success("User Logged Out");
+    dispatch(logoutAction(navigate));
   };
+
+  const handleOnInputChange = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
+  };
+
+  const handleSearch = useCallback(
+    (userSearch) => {
+      let searchArray = [];
+
+      if (!userSearch) {
+        return setSearchProducts([]);
+      }
+
+      if (userSearch.length > 2) {
+        products?.forEach((item) => {
+          const searchBounds = [
+            ...Object.values(item),
+            ...categories.map((category) => category?.slug),
+            ...brands.map((brand) => brand?.slug),
+            ...materials.map((material) => material?.slug),
+          ].map((item) => item?.toString()?.toLowerCase());
+
+          console.log(searchBounds);
+          if (searchBounds.some((element) => element?.includes(userSearch))) {
+            searchArray.push(item);
+          }
+        });
+        searchArray?.length > 0 && setSearchProducts([...searchArray]);
+      }
+    },
+    [categories, brands, materials, products]
+  );
+
+  console.log(searchProducts);
 
   const navigation = [
     ...(categories || []).map((cat) => ({
@@ -111,10 +144,21 @@ const Header = () => {
             </div>
 
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              {/* Search Section */}
+              <input
+                type="text"
+                className="rounded-md py-1 px-2 bg-gray-200 text-black focus:ring-2 focus:ring-purple-500"
+                placeholder="Search..."
+                onChange={handleOnInputChange}
+              />
+
+              {/* Profile Menu Dropdown */}
               <PorfileMenu handleOnLogout={handleOnLogout} />
 
+              {/* Dark Mode */}
               <DarkMode />
 
+              {/* Cart Section */}
               <Link to={"/cart"}>
                 <div className="relative flex">
                   <ShoppingBagIcon
@@ -148,6 +192,13 @@ const Header = () => {
           currentCatId={currentCatId}
           currentMaterial={currentMaterial}
         />
+        {searchProducts?.length > 0 && (
+          <div className="bg-green-500 w-1/3 mx-auto p-4">
+            {searchProducts?.map((item) => (
+              <div key={item?._id}>{item?._id}</div>
+            ))}
+          </div>
+        )}
       </Disclosure>
     </div>
   );
