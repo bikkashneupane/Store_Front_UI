@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import {
   editProfileDetailAxios,
   fetchUserAxios,
@@ -61,4 +62,14 @@ export const autoLoginAction = () => async (dispatch) => {
       ? dispatch(fetchUserAction())
       : localStorage.removeItem("refreshJWT");
   }
+};
+
+export const logoutAction = (navigate) => (dispatch) => {
+  dispatch(setUser({}));
+
+  localStorage.removeItem("refreshJWT");
+  sessionStorage.removeItem("accessJWT");
+
+  navigate("/");
+  toast.success("User Logged Out");
 };

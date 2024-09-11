@@ -1,25 +1,32 @@
-import { Bars3Icon, ShoppingBagIcon } from "@heroicons/react/24/outline";
-import { Disclosure, DisclosureButton } from "@headlessui/react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-
-import CategoriesDropDown from "./CategoriesDropDown";
-import DarkMode from "../../custom/DarkMode";
 import MobileMenu from "./MobileMenu";
 import NavbarMenu from "./NavBarMenu";
 import PorfileMenu from "./PorfileMenu";
-import { setUser } from "../../../features/user/UserSlice";
+import {
+  Bars3Icon,
+  MagnifyingGlassIcon,
+  ShoppingBagIcon,
+} from "@heroicons/react/24/outline";
+import { Disclosure, DisclosureButton } from "@headlessui/react";
+import CategoriesDropDown from "./CategoriesDropDown";
+import DarkMode from "../../custom/DarkMode";
+import useScrollY from "../../../hooks/useScrollY";
+import { logoutAction } from "../../../features/user/userAction";
 import watch_logo from "../../../assets/images/watch_logo.png";
-import { toast } from "react-toastify";
+import SearchProduct from "./SearchProduct";
 
 const Header = () => {
-  const [scrollY, setScrollY] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showCat, setShowCat] = useState(false);
   const [currentBrand, setCurrentBrand] = useState([]);
   const [currentMaterial, setCurrentMaterial] = useState([]);
   const [currentCatId, setCurrentCatId] = useState("");
+  const [searchProducts, setSearchProducts] = useState([]);
+  const [showSearchInput, setShowSearchInput] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchRef = useRef(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,25 +34,75 @@ const Header = () => {
   const { categories, brands, materials } = useSelector(
     (state) => state.categories
   );
+  const { products } = useSelector((state) => state.products);
 
-  const handleScroll = () => {
-    setScrollY(window.scrollY);
-  };
+  // custom hook to check if scrolled
+  const { scrollY } = useScrollY();
 
+  const handleSearch = useCallback(
+    (userSearch) => {
+      let searchArray = [];
+
+      if (!userSearch) {
+        return setSearchProducts([]);
+      }
+
+      if (userSearch.length > 2) {
+        products?.forEach((item) => {
+          const searchBounds = [
+            item.name,
+            item.sku,
+            categories.find((category) => category._id === item?.categoryId)
+              ?.slug,
+            brands.find((brand) => brand._id === item?.brandId)?.slug,
+            materials.find((material) => material._id === item?.materialId)
+              ?.slug,
+          ].map((item) => item?.toString()?.toLowerCase());
+
+          if (searchBounds.some((element) => element?.includes(userSearch))) {
+            searchArray.push(item);
+          }
+        });
+        searchArray?.length > 0 && setSearchProducts([...searchArray]);
+      }
+    },
+    [brands, categories, materials, products]
+  );
+
+  // debounce the search result
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+    handleSearch(searchQuery);
+  }, [handleSearch, searchQuery]);
 
   const handleOnLogout = () => {
-    dispatch(setUser({}));
-    localStorage.removeItem("refreshJWT");
-    sessionStorage.removeItem("accessJWT");
-    navigate("/");
-    toast.success("User Logged Out");
+    dispatch(logoutAction(navigate));
   };
+
+  const handleOnInputChange = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
+  };
+
+  const handleClearSearch = useCallback(() => {
+    setShowSearchInput(!showSearchInput);
+    setSearchProducts([]);
+  }, [showSearchInput]);
+
+  const handleClickOutside = useCallback(
+    (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        handleClearSearch();
+      }
+    },
+    [handleClearSearch]
+  );
+
+  useEffect(() => {
+    showSearchInput
+      ? document.addEventListener("mousedown", handleClickOutside)
+      : document.removeEventListener("mousedown", handleClickOutside);
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [handleClickOutside, showSearchInput]);
 
   const navigation = [
     ...(categories || []).map((cat) => ({
@@ -110,11 +167,20 @@ const Header = () => {
               />
             </div>
 
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <div className="inset-y-0 right-0 flex items-center pr-2 gap-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              {/* Search Section */}
+              <MagnifyingGlassIcon
+                className="w-7 h-7 cursor-pointer"
+                onClick={handleClearSearch}
+              />
+
+              {/* Profile Menu Dropdown */}
               <PorfileMenu handleOnLogout={handleOnLogout} />
 
+              {/* Dark Mode */}
               <DarkMode />
 
+              {/* Cart Section */}
               <Link to={"/cart"}>
                 <div className="relative flex">
                   <ShoppingBagIcon
@@ -149,6 +215,14 @@ const Header = () => {
           currentMaterial={currentMaterial}
         />
       </Disclosure>
+
+      <SearchProduct
+        showSearchInput={showSearchInput}
+        searchRef={searchRef}
+        searchProducts={searchProducts}
+        handleOnInputChange={handleOnInputChange}
+        handleClearSearch={handleClearSearch}
+      />
     </div>
   );
 };

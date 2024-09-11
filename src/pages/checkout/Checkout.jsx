@@ -1,19 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-
 import CheckoutForm from "./CheckoutForm";
 import CustomCart from "../../components/custom/CustomCart";
 import { Elements } from "@stripe/react-stripe-js";
 import { fetchClientSecretAction } from "../../features/order/orderAction";
 import { loadStripe } from "@stripe/stripe-js";
-// import { axiosProcessor } from "../../axios/axiosHelper";
 import { setOrderIdInStore } from "../../features/order/orderSlice";
 import { v4 as uuidv4 } from "uuid";
 
 const stripePromise = loadStripe(`${import.meta.env.VITE_STRIPE_PK}`);
-// const orderEP =
-//   import.meta.env.VITE_SERVER_API + "/v1/orders/create-payment-intent";
 
 const Checkout = () => {
   const [clientSecret, setClientSecret] = useState("");
