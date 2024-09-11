@@ -163,6 +163,16 @@ const MobileMenu = (props) => {
                         WOMENS
                       </Link>
                     </DisclosureButton>
+
+                    <DisclosureButton className="ps-4 mb-3 flex w-full items-center justify-between py-3 text-gray-300 hover:text-white">
+                      <Link
+                        to={`/products?category=${currentCatId}&gender=unisex`}
+                        onClick={() => setMobileOpen(false)}
+                        className="font-semibold text-[13px] text-gray-400 hover:text-gray-200"
+                      >
+                        UNISEX
+                      </Link>
+                    </DisclosureButton>
                   </DisclosurePanel>
                 )}
                 <hr className="border-gray-500" />

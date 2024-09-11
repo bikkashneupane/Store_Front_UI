@@ -65,6 +65,10 @@ const CategoriesDropDown = ({
                     name: "Women",
                     value: "women",
                   },
+                  {
+                    name: "Unisex",
+                    value: "unisex",
+                  },
                 ].map((item) => (
                   <Link
                     to={`/products?category=${currentCatId}&gender=${item?.value}`}

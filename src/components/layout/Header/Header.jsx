@@ -144,7 +144,7 @@ const Header = () => {
             <div className="mx-auto flex flex-1 items-center justify-center md:justify-start">
               <Link
                 to={"/"}
-                className="flex items-center gap-1 text-gray-700 dark:text-gray-200 font-semibold text-xl"
+                className="flex items-center gap-1 text-gray-700 dark:text-gray-200 font-semibold text-xl ml-20 md:ml-0"
               >
                 <img
                   alt="Vikiasmy"
@@ -167,18 +167,18 @@ const Header = () => {
               />
             </div>
 
-            <div className="inset-y-0 right-0 flex items-center pr-2 gap-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              {/* Search Section */}
-              <MagnifyingGlassIcon
-                className="w-7 h-7 cursor-pointer"
-                onClick={handleClearSearch}
-              />
-
+            <div className="flex items-center pe-2 gap-2 sm:ml-6">
               {/* Profile Menu Dropdown */}
               <PorfileMenu handleOnLogout={handleOnLogout} />
 
               {/* Dark Mode */}
               <DarkMode />
+
+              {/* Search Section */}
+              <MagnifyingGlassIcon
+                className="w-6 h-6 cursor-pointer"
+                onClick={handleClearSearch}
+              />
 
               {/* Cart Section */}
               <Link to={"/cart"}>
