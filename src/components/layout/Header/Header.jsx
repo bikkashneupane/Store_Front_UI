@@ -1,17 +1,21 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import MobileMenu from "./MobileMenu";
 import NavbarMenu from "./NavBarMenu";
 import PorfileMenu from "./PorfileMenu";
-import { Bars3Icon, ShoppingBagIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  MagnifyingGlassIcon,
+  ShoppingBagIcon,
+} from "@heroicons/react/24/outline";
 import { Disclosure, DisclosureButton } from "@headlessui/react";
 import CategoriesDropDown from "./CategoriesDropDown";
 import DarkMode from "../../custom/DarkMode";
 import useScrollY from "../../../hooks/useScrollY";
 import { logoutAction } from "../../../features/user/userAction";
 import watch_logo from "../../../assets/images/watch_logo.png";
-import { useTimeout } from "react-use";
+import SearchProduct from "./SearchProduct";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -20,7 +24,9 @@ const Header = () => {
   const [currentMaterial, setCurrentMaterial] = useState([]);
   const [currentCatId, setCurrentCatId] = useState("");
   const [searchProducts, setSearchProducts] = useState([]);
+  const [showSearchInput, setShowSearchInput] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const searchRef = useRef(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,23 +39,6 @@ const Header = () => {
   // custom hook to check if scrolled
   const { scrollY } = useScrollY();
 
-  // debounce the search result
-  useEffect(() => {
-    const debounceFunction = setTimeout(() => {
-      handleSearch(searchQuery);
-    }, 3000);
-
-    return () => clearTimeout(debounceFunction);
-  }, [searchQuery]);
-
-  const handleOnLogout = () => {
-    dispatch(logoutAction(navigate));
-  };
-
-  const handleOnInputChange = (e) => {
-    setSearchQuery(e.target.value.toLowerCase());
-  };
-
   const handleSearch = useCallback(
     (userSearch) => {
       let searchArray = [];
@@ -61,13 +50,15 @@ const Header = () => {
       if (userSearch.length > 2) {
         products?.forEach((item) => {
           const searchBounds = [
-            ...Object.values(item),
-            ...categories.map((category) => category?.slug),
-            ...brands.map((brand) => brand?.slug),
-            ...materials.map((material) => material?.slug),
+            item.name,
+            item.sku,
+            categories.find((category) => category._id === item?.categoryId)
+              ?.slug,
+            brands.find((brand) => brand._id === item?.brandId)?.slug,
+            materials.find((material) => material._id === item?.materialId)
+              ?.slug,
           ].map((item) => item?.toString()?.toLowerCase());
 
-          console.log(searchBounds);
           if (searchBounds.some((element) => element?.includes(userSearch))) {
             searchArray.push(item);
           }
@@ -75,10 +66,43 @@ const Header = () => {
         searchArray?.length > 0 && setSearchProducts([...searchArray]);
       }
     },
-    [categories, brands, materials, products]
+    [brands, categories, materials, products]
   );
 
-  console.log(searchProducts);
+  // debounce the search result
+  useEffect(() => {
+    handleSearch(searchQuery);
+  }, [handleSearch, searchQuery]);
+
+  const handleOnLogout = () => {
+    dispatch(logoutAction(navigate));
+  };
+
+  const handleOnInputChange = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
+  };
+
+  const handleClearSearch = useCallback(() => {
+    setShowSearchInput(!showSearchInput);
+    setSearchProducts([]);
+  }, [showSearchInput]);
+
+  const handleClickOutside = useCallback(
+    (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        handleClearSearch();
+      }
+    },
+    [handleClearSearch]
+  );
+
+  useEffect(() => {
+    showSearchInput
+      ? document.addEventListener("mousedown", handleClickOutside)
+      : document.removeEventListener("mousedown", handleClickOutside);
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [handleClickOutside, showSearchInput]);
 
   const navigation = [
     ...(categories || []).map((cat) => ({
@@ -143,13 +167,11 @@ const Header = () => {
               />
             </div>
 
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <div className="inset-y-0 right-0 flex items-center pr-2 gap-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               {/* Search Section */}
-              <input
-                type="text"
-                className="rounded-md py-1 px-2 bg-gray-200 text-black focus:ring-2 focus:ring-purple-500"
-                placeholder="Search..."
-                onChange={handleOnInputChange}
+              <MagnifyingGlassIcon
+                className="w-7 h-7 cursor-pointer"
+                onClick={handleClearSearch}
               />
 
               {/* Profile Menu Dropdown */}
@@ -192,14 +214,15 @@ const Header = () => {
           currentCatId={currentCatId}
           currentMaterial={currentMaterial}
         />
-        {searchProducts?.length > 0 && (
-          <div className="bg-green-500 w-1/3 mx-auto p-4">
-            {searchProducts?.map((item) => (
-              <div key={item?._id}>{item?._id}</div>
-            ))}
-          </div>
-        )}
       </Disclosure>
+
+      <SearchProduct
+        showSearchInput={showSearchInput}
+        searchRef={searchRef}
+        searchProducts={searchProducts}
+        handleOnInputChange={handleOnInputChange}
+        handleClearSearch={handleClearSearch}
+      />
     </div>
   );
 };
