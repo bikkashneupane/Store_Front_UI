@@ -3,7 +3,5 @@
 @tailwind utilities;
 
 body {
-  @apply text-gray-700 bg-white dark:bg-gray-900 dark:text-gray-200;
-
-  font-family: "sans-serif", "Helvetica", "Arial";
+  @apply text-gray-700 bg-white dark:bg-gray-900 dark:text-gray-200 font-sans;
 }

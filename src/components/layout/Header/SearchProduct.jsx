@@ -55,7 +55,9 @@ const SearchProduct = ({
                           {item?.name?.slice(0, 40)}...
                         </p>
                         <p>{item.sku}</p>
-                        <p>${item.salesPrice || item.price}</p>
+                        <p>
+                          ${(item.salesPrice || item.price)?.toLocaleString()}
+                        </p>
                       </div>
                     </Link>
                   </div>

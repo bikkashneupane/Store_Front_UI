@@ -35,7 +35,6 @@ const ProductLanding = () => {
 
   useEffect(() => {
     setCurrentImage(selectedProduct?.thumbnail);
-
     // Set itemCount based on the cart item if it exists
     const cartItem = cart?.find((item) => item._id === _id);
 
@@ -215,14 +214,14 @@ const ProductLanding = () => {
               <div className="relative grid grid-cols-1 gap-3">
                 <button
                   type="submit"
-                  className="w-full rounded-md border border-transparent bg-purple-600 px-8 py-2 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                  className="w-full rounded-md border border-transparent bg-purple-600 px-8 py-2 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 cursor-pointer"
                   disabled={itemCount < 1}
                 >
                   Add to Cart
                 </button>
                 <button
                   onClick={handleOnBuyNow}
-                  className="w-full rounded-md flex justify-center border border-transparent bg-teal-600 px-8 py-2 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                  className="w-full rounded-md flex justify-center border border-transparent bg-teal-600 px-8 py-2 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 cursor-pointer"
                   disabled={itemCount < 1}
                 >
                   Buy Now
