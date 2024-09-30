@@ -23,14 +23,18 @@
 
    ```bash
    git clone https://github.com/bikkashneupane/Store_Front_UI
-
    ```
 
 2. Navigate to the project:
+
+   ```bash
    cd Store_Front_UI
+   ```
 
 3. Install dependencies:
+   ```bash
    yarn dev
+   ```
 
 ## Linked Showcase
 
