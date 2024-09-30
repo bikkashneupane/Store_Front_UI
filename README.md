@@ -52,6 +52,6 @@
    npm run dev
    ```
 
-## Linked Showcase
+## LinkedIn Showcase
 
-    https://www.linkedin.com/posts/bikkashneupane_mern-react-node-activity-7233743990376820736-82qa?utm_source=share&utm_medium=member_desktop
+    [Vikiasmy's Watch Haven]( https://www.linkedin.com/posts/bikkashneupane_mern-react-node-activity-7233743990376820736-82qa?utm_source=share&utm_medium=member_desktop)
