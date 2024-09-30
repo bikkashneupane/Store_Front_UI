@@ -32,8 +32,24 @@
    ```
 
 3. Install dependencies:
+
    ```bash
    yarn dev
+   ```
+
+   or
+
+   ```bash
+   npm install
+   ```
+
+4. Run the project
+   ```bash
+   yarn run dev
+   ```
+   or
+   ```bash
+   npm run dev
    ```
 
 ## Linked Showcase
