@@ -5,6 +5,7 @@ USER app
 WORKDIR /app
 COPY package*.json .
 RUN npm install
+ENV VITE_SERVER_API=https://api-vikiasmy.bikashneupane.com
 COPY . .
 EXPOSE 5173
 CMD ["npm","run", "dev"]
