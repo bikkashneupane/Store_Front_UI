@@ -2,6 +2,8 @@
 
 [Vikiasmy's Watch Haven](https://vikiasmy.bikashneupane.com) is the frontend of a full-stack e-commerce platform specializing in luxury watches. The user interface is designed for a seamless shopping experience, offering dynamic product listings, filters, and secure payments through Stripe.
 
+[Docker Image](https://hub.docker.com/repository/docker/bikashneupane/vikiasmy/general) Pull the docker image from my official dockerhub, add .env files with required variables mentioned at the end of the project.
+
 ## Features:
 
 - **Responsive Design:** Tailwind CSS for a modern, mobile-friendly UI.
@@ -53,3 +55,16 @@
    ```
 
 ## [LinkedIn Post - Vikiasmy's Watch Haven](https://www.linkedin.com/posts/bikkashneupane_mern-react-node-activity-7233743990376820736-82qa?utm_source=share&utm_medium=member_desktop)
+
+## Add .env file
+
+- VITE_SERVER_API = http://localhost:8010
+
+# VITE_SERVER_API = https://store-front-api.onrender.com
+
+# VITE_SERVER_API = https://api-vikiasmy.bikashneupane.com
+
+# STRIPE
+
+- VITE_SERVER_API
+- VITE_STRIPE_PK
