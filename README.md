@@ -1,6 +1,6 @@
 # Vikiasmy's Watch Haven - Frontend
 
-[Vikiasmy's Watch Haven](https://vikiasmy.bikashneupane.com) is the frontend of a full-stack e-commerce platform specializing in luxury watches. The user interface is designed for a seamless shopping experience, offering dynamic product listings, filters, and secure payments through Stripe.
+[Vikiasmy's Watch Haven](https://vikiasmy-watches.vercel.app) is the frontend of a full-stack e-commerce platform specializing in luxury watches. The user interface is designed for a seamless shopping experience, offering dynamic product listings, filters, and secure payments through Stripe.
 
 [Docker Image](https://hub.docker.com/repository/docker/bikashneupane/vikiasmy/general) Pull the docker image from my official dockerhub, add .env files with required variables mentioned at the end of the project.
 
